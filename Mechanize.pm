@@ -124,6 +124,47 @@ sub get_ok {
     return $ok;
 }
 
+=head2 html_ok( [$msg] )
+
+Checks the validity of the HTML on the current page.  If the page is not
+HTML, then it fails.
+
+The URI is automatically appended to the I<$msg>.
+
+=cut
+
+sub html_ok {
+    my $self = shift;
+    my $msg = shift;
+
+    my $ok;
+
+    if ( $self->is_html ) {
+        require HTML::Lint;
+
+        local $Test::Builder::Level = $Test::Builder::Level + 1;
+        my $lint = HTML::Lint->new;
+        $lint->parse_file( $self->uri );
+        $lint->parse( $self->content );
+
+        my @errors = $lint->errors;
+        if ( @errors ) {
+            $ok = $Test->ok( 0, $msg );
+            $Test->diag( $_ ) for @errors;
+        }
+        else {
+            $ok = $Test->ok( 1, $msg );
+        }
+    }
+    else {
+        $ok = $Test->ok( 0, $msg );
+        diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
+    }
+
+    return $ok;
+}
+
+
 =head2 $mech->title_is( $str [, $desc ] )
 
 Tells if the title of the page is the given string.
