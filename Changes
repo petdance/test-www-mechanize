@@ -1,0 +1,120 @@
+Revision history for Test-WWW-Mechanize
+
+1.14    Fri May 11 16:22:02 CDT 2007
+
+        [FIXES]
+        * Fixes test failures.  Thanks to Mark Blackman for RT #26602:
+
+            The module tests currently spawn a server (based on
+            HTTP::Server::Simple::CGI) which is killed when a __DIE__
+            signal is received, normally only when the invoking
+            perl dies. However, as perlvar makes clear, the __DIE__
+            signal is received when eval blocks die as well. The
+            new version (1.22) of WWW::Mechanize now calles
+            HTTP::Message::decoded_content which calls Encode.pm
+            which has a eval block that require's Encode::ConfigLocal
+            which is usually not present, so the eval dies and the
+            HTTP server is killed as soon as the $mech object tries
+            to do a 'get'. It's simple to use a system variable,
+            $^S to find out if the __DIE__ signal is being called
+            for an eval so we ignore that case with the patch
+            attached.
+
+        * The stuff_inputs() function now actually works.
+
+        [DOCUMENTATION]
+        * Made the synopsis show that T:W:M doesn't take the tests=>$x
+          like other Test::* modules.  It'd be nice if it did, though.
+
+
+1.12    Thu Jul  6 23:47:59 CDT 2006
+        [ENHANCEMENTS]
+        * Added followable_links() method to return only those links
+          that your mech can actually follow.
+
+
+1.10    Sun Jun 18 22:58:41 CDT 2006
+        [FIXES]
+        * RT #19147: Tests turn off the http_proxy environment variable
+          before starting.  Thanks to Matt Trout.
+        * RT #18779: makes stuff_inputs() conform to the documentation,
+          changing the implementation to expect an arrayref for
+          $options->{ ignore }, as opposed to a hashref.  Thanks to
+          Mike O'Regan.
+
+        [ENHANCEMENTS]
+        * Added base_is, base_like and base_unlike.  Thanks to MATSUNO
+          Tokuhiro.
+
+
+1.08    Mon Nov 21 10:35:23 CST 2005
+        [FIXES]
+        * has_tag_like()'s regex was reversed, so would match when
+          it shouldn't.  Thanks to Chris Dolan.
+
+        [DOCUMENTATION]
+        * Added links to support sites.
+
+1.06    Jun 29 2005
+        [INTERNALS]
+        * Updated test suite to use HTTP::Server::Simple.
+          Thanks to Shawn Sorichetti for it.
+
+1.05_02 Sun Apr  3 12:19:05 CDT 2005
+        [ENHANCEMENTS]
+        * Added has_tag() and has_tag_like().  Thanks RJBS.
+
+1.05_01 Tue Mar  8 16:24:36 CST 2005
+        [ENHANCEMENTS]
+        * get_ok() now shows the status line for the mech if the test
+          fails.
+        * get_ok() now returns true/false, not an HTTP::Response.
+
+1.04    Fri Mar  4 00:08:42 CST 2005
+        [ENHANCEMENTS]
+        * Added follow_link_ok().  Thanks to Mike O'Regan.
+        * Added get_ok().  Thanks to Dan Friedman.
+
+1.02    Wed Dec 15 17:35:23 CST 2004
+        [ENHANCEMENTS]
+        * Added content_lacks()
+
+        [DOCUMENTATION]
+        * Fixed some documentation bugs.  Thanks to Drew Taylor.
+
+1.00    Thu Dec  9 11:41:50 CST 2004
+        [ENHANCEMENTS]
+        * Added content_contains()
+        * Fixed diagnostic errors to work the same way regardless of
+          which version of Test::Builder you have.
+
+0.99    Sun Oct 24 11:17:59 CDT 2004
+        [ENHANCEMENTS]
+        * Added $mech->content_unlike and $mech->title_unlike
+        * Made the reporting of where the error happened reflect the
+          caller's code.
+
+0.06    Thu Sep 30 21:49:08 CDT 2004
+        [ENHANCEMENTS]
+        * New funcs
+             - page_links_content_like()
+             - page_links_content_unlike()
+             - link_content_like()
+             - link_content_unlike()
+             - link_status_isnt()
+
+0.04    Mon Jul 12 22:16:10 CDT 2004
+        [THINGS THAT MAY BREAK YOUR CODE]
+        * Renamed link_status() to link_status_is().
+
+        [FIXES]
+        * Fixed a bug in link_status_is().
+
+0.02    July 4 2004
+        [ENHANCEMENTS]
+        * Added links_ok() and page_links_ok() methods.  Thanks to
+          Shawn Sorichetti.
+
+0.01    Mon Jun 28 16:38:45 CDT 2004
+        First version, released on an unsuspecting world.
+
