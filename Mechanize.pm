@@ -142,7 +142,6 @@ sub html_lint_ok {
 
     my $ok;
 
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( $self->is_html ) {
         require HTML::Lint;
 

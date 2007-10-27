@@ -2,8 +2,8 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
-use Test::Builder::Tester;
+use Test::Builder::Tester tests => 4;
+use Test::More;
 
 use URI::file;
 
