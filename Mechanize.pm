@@ -124,7 +124,7 @@ sub get_ok {
     return $ok;
 }
 
-=head2 html_ok( [$msg] )
+=head2 html_lint_ok( [$msg] )
 
 Checks the validity of the HTML on the current page.  If the page is not
 HTML, then it fails.
@@ -133,7 +133,7 @@ The URI is automatically appended to the I<$msg>.
 
 =cut
 
-sub html_ok {
+sub html_lint_ok {
     my $self = shift;
     my $msg = shift;
 

@@ -13,7 +13,7 @@ t/followable_links.t
 t/get_ok.t
 t/get_ok-parms.t
 t/has_tag.t
-t/html_ok.t
+t/html_lint_ok.t
 t/link_content.t
 t/links_ok.t
 t/link_status.t
