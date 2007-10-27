@@ -11,7 +11,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Carp::Assert::More'    => 0,
         'HTTP::Server::Simple'  => '0.07',
-        'Test::Builder::Tester' => 0,
+        'Test::Builder::Tester' => '1.09',
         'Test::LongString'      => '0.07',
         'Test::More'            => 0,
         'URI::file'             => 0,
