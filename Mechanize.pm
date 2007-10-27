@@ -137,20 +137,23 @@ sub html_lint_ok {
     my $self = shift;
     my $msg = shift;
 
+    my $uri = $self->uri;
+    $msg = $msg ? "$msg ($uri)" : $uri;
+
     my $ok;
 
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( $self->is_html ) {
         require HTML::Lint;
 
-        local $Test::Builder::Level = $Test::Builder::Level + 1;
         my $lint = HTML::Lint->new;
-        $lint->parse_file( $self->uri );
+        $lint->newfile( $uri );
         $lint->parse( $self->content );
 
         my @errors = $lint->errors;
         if ( @errors ) {
             $ok = $Test->ok( 0, $msg );
-            $Test->diag( $_ ) for @errors;
+            $Test->diag( $_->as_string ) for @errors;
         }
         else {
             $ok = $Test->ok( 1, $msg );
