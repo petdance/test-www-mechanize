@@ -160,7 +160,7 @@ sub html_lint_ok {
     }
     else {
         $ok = $Test->ok( 0, $msg );
-        diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
+        $Test->diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
     }
 
     return $ok;
