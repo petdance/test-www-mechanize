@@ -2,8 +2,14 @@
 
 use strict;
 use warnings;
-use Test::Builder::Tester tests => 4;
+use Test::Builder::Tester;
 use Test::More;
+
+BEGIN {
+    eval 'use HTML::Lint';
+    plan skip_all => 'HTML::Lint is not installed, cannot test html_lint_ok' if $@;
+    plan tests => 4;
+}
 
 use URI::file;
 

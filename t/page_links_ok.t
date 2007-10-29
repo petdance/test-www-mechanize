@@ -17,6 +17,8 @@ BEGIN {
 my $server=TWMServer->new(PORT);
 my $pid=$server->background;
 ok($pid,'HTTP Server started') or die "Can't start the server";
+# Pause a second in case $server->background() came back too fast
+sleep 1;
 
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;

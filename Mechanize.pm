@@ -290,9 +290,10 @@ sub follow_link_ok {
 =head2 html_lint_ok( [$msg] )
 
 Checks the validity of the HTML on the current page.  If the page is not
-HTML, then it fails.
+HTML, then it fails.  The URI is automatically appended to the I<$msg>.
 
-The URI is automatically appended to the I<$msg>.
+Note that HTML::Lint must be installed for this to work.  Otherwise,
+it will blow up.
 
 =cut
 
@@ -300,13 +301,15 @@ sub html_lint_ok {
     my $self = shift;
     my $msg = shift;
 
+    eval 'require HTML::Lint';
+    $@ and die 'html_lint_ok cannot run without HTML::Lint';
+
     my $uri = $self->uri;
     $msg = $msg ? "$msg ($uri)" : $uri;
 
     my $ok;
 
     if ( $self->is_html ) {
-        require HTML::Lint;
 
         my $lint = HTML::Lint->new;
         $lint->parse( $self->content );
