@@ -176,6 +176,57 @@ sub post_ok {
     return $ok;
 }
 
+
+=head2 submit_form_ok( \%parms [, $comment] )
+
+Makes a C<submit_form()> call and executes tests on the results.
+The form must be found, and then submitted successfully.  Otherwise,
+this test fails.
+
+I<%parms> is a hashref containing the parms to pass to C<submit_form()>.
+Note that the parms to C<submit_form()> are a hash whereas the parms to
+this function are a hashref.  You have to call this function like:
+
+    $agent->submit_form_ok( {n=>3}, "looking for 3rd link" );
+
+As with other test functions, C<$comment> is optional.  If it is supplied
+then it will display when running the test harness in verbose mode.
+
+Returns true value if the specified link was found and followed
+successfully.  The L<HTTP::Response> object returned by submit_form()
+is not available.
+
+=cut
+
+sub submit_form_ok {
+    my $self = shift;
+    my $parms = shift || {};
+    my $comment = shift;
+
+    # return from submit_form() is an HTTP::Response or undef
+    my $response = $self->submit_form( %$parms );
+
+    my $ok;
+    my $error;
+    if ( !$response ) {
+        $error = "No matching form found";
+    }
+    else {
+        if ( $response->is_success ) {
+            $ok = 1;
+        }
+        else {
+            $error = $response->as_string;
+        }
+    }
+
+    $Test->ok( $ok, $comment );
+    $Test->diag( $error ) if $error;
+
+    return $ok;
+}
+
+
 =head2 $mech->follow_link_ok( \%parms [, $comment] )
 
 Makes a C<follow_link()> call and executes tests on the results.

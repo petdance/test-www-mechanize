@@ -23,6 +23,7 @@ t/page_links_ok.t
 t/pod-coverage.t
 t/pod.t
 t/stuff_inputs.t
+t/submit_form_ok.t
 
 t/html/bad.html
 t/html/badlinks.html
