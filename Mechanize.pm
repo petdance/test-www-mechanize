@@ -50,6 +50,7 @@ use strict;
 use WWW::Mechanize ();
 use Test::LongString;
 use Test::Builder ();
+use Carp ();
 use Carp::Assert::More;
 
 use base 'WWW::Mechanize';
@@ -203,6 +204,10 @@ sub submit_form_ok {
     my $parms = shift || {};
     my $comment = shift;
 
+    if ( ref $parms ne 'HASH' ) {
+       Carp::croak "FATAL: parameters must be given as a hashref";
+    }
+
     # return from submit_form() is an HTTP::Response or undef
     my $response = $self->submit_form( %$parms );
 
@@ -242,8 +247,8 @@ this function are a hashref.  You have to call this function like:
 As with other test functions, C<$comment> is optional.  If it is supplied
 then it will display when running the test harness in verbose mode.
 
-Returns true value if the specified link was found and followed
-successfully.  The HTTP::Response object returned by follow_link()
+Returns a true value if the specified link was found and followed
+successfully.  The L<HTTP::Response> object returned by follow_link()
 is not available.
 
 =cut
@@ -252,6 +257,10 @@ sub follow_link_ok {
     my $self = shift;
     my $parms = shift || {};
     my $comment = shift;
+
+    if ( ref $parms ne 'HASH' ) {
+       Carp::croak "FATAL: parameters must be given as a hashref";
+    }
 
     # return from follow_link() is an HTTP::Response or undef
     my $response = $self->follow_link( %$parms );
@@ -262,11 +271,11 @@ sub follow_link_ok {
         $error = "No matching link found";
     }
     else {
-        if ( !$response->is_success ) {
-            $error = $response->as_string;
+        if ( $response->is_success ) {
+            $ok = 1;
         }
         else {
-            $ok = 1;
+            $error = $response->as_string;
         }
     }
 
