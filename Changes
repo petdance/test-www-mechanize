@@ -5,6 +5,8 @@ NEXT
 [ENHANCEMENTS]
 Added $mech->html_lint_ok()
 
+Added $mech->post_ok().  Thanks, Greg Sheard.
+
 
 1.14    Fri May 11 16:22:02 CDT 2007
 ------------------------------------

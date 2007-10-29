@@ -75,7 +75,7 @@ sub new {
     return $self;
 }
 
-=head1 METHODS
+=head1 METHODS: GETTING & POSTING
 
 =head2 $mech->get_ok($url, [ \%LWP_options ,] $desc)
 
@@ -123,6 +123,103 @@ sub get_ok {
 
     return $ok;
 }
+
+=head2 $mech->post_ok($url, [ \%LWP_options ,] $desc)
+
+A wrapper around WWW::Mechanize's post(), with similar options, except
+the second argument needs to be a hash reference, not a hash. Like
+well-behaved C<*_ok()> functions, it returns true if the test passed,
+or false if not.
+
+=cut
+
+sub post_ok {
+    my $self = shift;
+    my $url = shift;
+
+    my $desc;
+    my %opts;
+
+    if ( @_ ) {
+        my $flex = shift; # The flexible argument
+
+        if ( !defined( $flex ) ) {
+            $desc = shift;
+        }
+        elsif ( ref $flex eq 'HASH' ) {
+            %opts = %$flex;
+            $desc = shift;
+        }
+        elsif ( ref $flex eq 'ARRAY' ) {
+            %opts = @$flex;
+            $desc = shift;
+        }
+        else {
+            $desc = $flex;
+        }
+    } # parms left
+
+    $self->post( $url, \%opts );
+    my $ok = $self->success;
+    $Test->ok( $ok, $desc );
+    if ( !$ok ) {
+        $Test->diag( $self->status );
+        $Test->diag( $self->response->message ) if $self->response;
+    }
+
+    return $ok;
+}
+
+=head2 $mech->follow_link_ok( \%parms [, $comment] )
+
+Makes a C<follow_link()> call and executes tests on the results.
+The link must be found, and then followed successfully.  Otherwise,
+this test fails.
+
+I<%parms> is a hashref containing the parms to pass to C<follow_link()>.
+Note that the parms to C<follow_link()> are a hash whereas the parms to
+this function are a hashref.  You have to call this function like:
+
+    $mech->follow_link_ok( {n=>3}, "looking for 3rd link" );
+
+As with other test functions, C<$comment> is optional.  If it is supplied
+then it will display when running the test harness in verbose mode.
+
+Returns true value if the specified link was found and followed
+successfully.  The HTTP::Response object returned by follow_link()
+is not available.
+
+=cut
+
+sub follow_link_ok {
+    my $self = shift;
+    my $parms = shift || {};
+    my $comment = shift;
+
+    # return from follow_link() is an HTTP::Response or undef
+    my $response = $self->follow_link( %$parms );
+
+    my $ok;
+    my $error;
+    if ( !$response ) {
+        $error = "No matching link found";
+    }
+    else {
+        if ( !$response->is_success ) {
+            $error = $response->as_string;
+        }
+        else {
+            $ok = 1;
+        }
+    }
+
+    $Test->ok( $ok, $comment );
+    $Test->diag( $error ) if $error;
+
+    return $ok;
+}
+
+=head1 METHODS: CONTENT CHECKING
 
 =head2 html_lint_ok( [$msg] )
 
@@ -744,55 +841,6 @@ sub _format_links {
     return @urls;
 }
 
-=head2 $mech->follow_link_ok( \%parms [, $comment] )
-
-Makes a C<follow_link()> call and executes tests on the results.
-The link must be found, and then followed successfully.  Otherwise,
-this test fails.
-
-I<%parms> is a hashref containing the parms to pass to C<follow_link()>.
-Note that the parms to C<follow_link()> are a hash whereas the parms to
-this function are a hashref.  You have to call this function like:
-
-    $mech->follow_link_ok( {n=>3}, "looking for 3rd link" );
-
-As with other test functions, C<$comment> is optional.  If it is supplied
-then it will display when running the test harness in verbose mode.
-
-Returns true value if the specified link was found and followed
-successfully.  The HTTP::Response object returned by follow_link()
-is not available.
-
-=cut
-
-sub follow_link_ok {
-    my $self = shift;
-    my $parms = shift || {};
-    my $comment = shift;
-
-    # return from follow_link() is an HTTP::Response or undef
-    my $response = $self->follow_link( %$parms );
-
-    my $ok;
-    my $error;
-    if ( !$response ) {
-        $error = "No matching link found";
-    }
-    else {
-        if ( !$response->is_success ) {
-            $error = $response->as_string;
-        }
-        else {
-            $ok = 1;
-        }
-    }
-
-    $Test->ok( $ok, $comment );
-    $Test->diag( $error ) if $error;
-
-    return $ok;
-}
-
 =head2 $mech->stuff_inputs( [\%options] )
 
 Finds all free-text input fields (text, textarea, and password) in the
@@ -932,7 +980,7 @@ sub stuff_inputs {
 
 =head1 TODO
 
-Add HTML::Lint and HTML::Tidy capabilities.
+Add HTML::Tidy capabilities.
 
 =head1 AUTHOR
 
@@ -977,6 +1025,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Greg Sheard,
 Michael Schwern,
 Mark Blackman,
 Mike O'Regan,
