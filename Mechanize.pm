@@ -995,9 +995,8 @@ Andy Lester, C<< <andy at petdance.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-test-www-mechanize at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-WWW-Mechanize>.
-I will be notified, and then you'll automatically be notified of progress on
+<http://code.google.com/p/www-mechanize/issues/list>.  I will be
+notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
 =head1 SUPPORT
@@ -1010,6 +1009,14 @@ You can also look for information at:
 
 =over 4
 
+=item * Google Code bug tracker
+
+L<http://code.google.com/p/www-mechanize/issues/list>
+
+Please note that WWW::Mechanize and Test::WWW::Mechanize do NOT use
+rt.cpan.org at
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-WWW-Mechanize>
+
 =item * AnnoCPAN: Annotated CPAN documentation
 
 L<http://annocpan.org/dist/Test-WWW-Mechanize>
@@ -1017,10 +1024,6 @@ L<http://annocpan.org/dist/Test-WWW-Mechanize>
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/Test-WWW-Mechanize>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-WWW-Mechanize>
 
 =item * Search CPAN
 

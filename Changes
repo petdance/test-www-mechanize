@@ -2,6 +2,11 @@ Revision history for Test-WWW-Mechanize
 
 NEXT
 ------------------------------------
+Please note that WWW::Mechanize and Test::WWW::Mechanize are no
+longer using rt.cpan.org for bug tracking.  They are now being
+tracked via Google Code at
+http://code.google.com/p/www-mechanize/issues/list
+
 [ENHANCEMENTS]
 Added $mech->html_lint_ok()
 
