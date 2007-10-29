@@ -6,10 +6,12 @@
 !_TAG_PROGRAM_VERSION	5.7	//
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
 CONSTRUCTOR_PARMS	t/new.t	/^CONSTRUCTOR_PARMS: {$/;"	l
+FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
+GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
 NEW	t/new.t	/^NEW: {$/;"	l
+NONEXISTENT	t/get_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 PORT	t/content_contains.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/content_lacks.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/follow_link_ok.t	/^use constant PORT => 13432;$/;"	c
@@ -22,19 +24,21 @@ PORT	t/links_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/page_links_content.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/page_links_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/stuff_inputs.t	/^use constant PORT => 13432;$/;"	c
-TODO	t/follow_link_ok.t	/^TODO: {$/;"	l
+PORT	t/submit_form_ok.t	/^use constant PORT => 13432;$/;"	c
+SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 TWMServer	t/content_contains.t	/^  package TWMServer;$/;"	p
 TWMServer	t/content_lacks.t	/^  package TWMServer;$/;"	p
 TWMServer	t/follow_link_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/followable_links.t	/^  package TWMServer;$/;"	p
 TWMServer	t/get_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/has_tag.t	/^  package TWMServer;$/;"	p
-TWMServer	t/link_content.t	/^  package TWMServer;$/;"	p
+TWMServer	t/link_content.t	/^package TWMServer;$/;"	p
 TWMServer	t/link_status.t	/^  package TWMServer;$/;"	p
 TWMServer	t/links_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_content.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/stuff_inputs.t	/^  package TWMServer;$/;"	p
+TWMServer	t/submit_form_ok.t	/^  package TWMServer;$/;"	p
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::get {$/;"	s
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test::WWW::Mechanize	Mechanize.pm	/^package Test::WWW::Mechanize;$/;"	p
@@ -57,12 +61,12 @@ cleanup	t/links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/page_links_content.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/page_links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/stuff_inputs.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
+cleanup	t/submit_form_ok.t	/^sub cleanup { kill(9,$pid) };$/;"	s
 content_contains	Mechanize.pm	/^sub content_contains {$/;"	s
 content_is	Mechanize.pm	/^sub content_is {$/;"	s
 content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
 content_like	Mechanize.pm	/^sub content_like {$/;"	s
 content_unlike	Mechanize.pm	/^sub content_unlike {$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
@@ -72,14 +76,16 @@ handle_request	t/follow_link_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/followable_links.t	/^  sub handle_request {$/;"	s
 handle_request	t/get_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/has_tag.t	/^  sub handle_request {$/;"	s
-handle_request	t/link_content.t	/^  sub handle_request {$/;"	s
+handle_request	t/link_content.t	/^sub handle_request {$/;"	s
 handle_request	t/link_status.t	/^  sub handle_request {$/;"	s
 handle_request	t/links_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_content.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/stuff_inputs.t	/^  sub handle_request {$/;"	s
+handle_request	t/submit_form_ok.t	/^  sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
+html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
 link_content_like	Mechanize.pm	/^sub link_content_like {$/;"	s
 link_content_unlike	Mechanize.pm	/^sub link_content_unlike {$/;"	s
 link_status_is	Mechanize.pm	/^sub link_status_is {$/;"	s
@@ -89,8 +95,9 @@ new	Mechanize.pm	/^sub new {$/;"	s
 page_links_content_like	Mechanize.pm	/^sub page_links_content_like {$/;"	s
 page_links_content_unlike	Mechanize.pm	/^sub page_links_content_unlike {$/;"	s
 page_links_ok	Mechanize.pm	/^sub page_links_ok {$/;"	s
+post_ok	Mechanize.pm	/^sub post_ok {$/;"	s
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s
-tags	Makefile.PL	/^tags:$/;"	l
+submit_form_ok	Mechanize.pm	/^sub submit_form_ok {$/;"	s
 title_is	Mechanize.pm	/^sub title_is {$/;"	s
 title_like	Mechanize.pm	/^sub title_like {$/;"	s
 title_unlike	Mechanize.pm	/^sub title_unlike {$/;"	s

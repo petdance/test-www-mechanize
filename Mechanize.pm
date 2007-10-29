@@ -309,12 +309,12 @@ sub html_lint_ok {
         require HTML::Lint;
 
         my $lint = HTML::Lint->new;
-        $lint->newfile( $uri );
         $lint->parse( $self->content );
 
         my @errors = $lint->errors;
         if ( @errors ) {
             $ok = $Test->ok( 0, $msg );
+            $Test->diag( "HTML::Lint errors for $uri" );
             $Test->diag( $_->as_string ) for @errors;
         }
         else {
