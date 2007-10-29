@@ -534,7 +534,7 @@ sub page_links_ok {
     return $ok;
 }
 
-=head2 $mech->page_links_content_like( $regex,[ $desc ] )
+=head2 $mech->page_links_content_like( $regex [, $desc ] )
 
 Follow all links on the current page and test their contents for I<$regex>.
 
@@ -567,7 +567,7 @@ sub page_links_content_like {
     return $ok;
 }
 
-=head2 $mech->page_links_content_unlike( $regex,[ $desc ] )
+=head2 $mech->page_links_content_unlike( $regex [, $desc ] )
 
 Follow all links on the current page and test their contents do not
 contain the specified regex.
