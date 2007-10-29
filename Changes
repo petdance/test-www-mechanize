@@ -1,5 +1,14 @@
 Revision history for Test-WWW-Mechanize
 
+NEXT
+------------------------------------
+[FIXES]
+HTML::Lint is now properly optional.
+
+Added delays in all the tests that use HTTP::Server::Simple to give it
+time to correctly fire up.
+
+
 1.16    Mon Oct 29 15:34:21 CDT 2007
 ------------------------------------
 Please note that WWW::Mechanize and Test::WWW::Mechanize are no
