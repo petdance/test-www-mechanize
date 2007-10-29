@@ -2,21 +2,29 @@
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More;
 use Test::Builder::Tester;
 use URI::file;
 
 use constant PORT => 13432;
 
-$ENV{http_proxy} = ''; # All our tests are running on localhost
+use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
+BEGIN {
+    if ( gethostbyname( 'blahblahblah.xx-nonexistent.' ) ) {
+        plan skip_all => 'Found an A record for the non-existent domain';
+    }
+}
 
 BEGIN {
+    $ENV{http_proxy} = ''; # All our tests are running on localhost
+    plan tests => 11;
     use_ok( 'Test::WWW::Mechanize' );
 }
 
+
 my $server=TWMServer->new(PORT);
 my $pid=$server->background;
-ok($pid,'HTTP Server started') or die "Can't start the server";
+ok( $pid,'HTTP Server started' ) or die "Can't start the server";
 
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;
