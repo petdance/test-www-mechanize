@@ -84,6 +84,8 @@ the second argument needs to be a hash reference, not a hash. Like
 well-behaved C<*_ok()> functions, it returns true if the test passed,
 or false if not.
 
+A default description of "GET $url" is used if none if provided.
+
 =cut
 
 sub get_ok {
@@ -115,6 +117,7 @@ sub get_ok {
     $self->get( $url, %opts );
     my $ok = $self->success;
 
+    $desc = "GET $url" unless defined $desc;
     $Test->ok( $ok, $desc );
     if ( !$ok ) {
         $Test->diag( $self->status );
@@ -124,12 +127,14 @@ sub get_ok {
     return $ok;
 }
 
-=head2 $mech->post_ok($url, [ \%LWP_options ,] $desc)
+=head2 $mech->post_ok( $url, [ \%LWP_options ,] $desc )
 
 A wrapper around WWW::Mechanize's post(), with similar options, except
 the second argument needs to be a hash reference, not a hash. Like
 well-behaved C<*_ok()> functions, it returns true if the test passed,
 or false if not.
+
+A default description of "POST to $url" is used if none if provided.
 
 =cut
 
@@ -159,6 +164,7 @@ sub post_ok {
         }
     } # parms left
 
+    $desc = "POST to $url" unless defined $desc;
     $self->post( $url, \%opts );
     my $ok = $self->success;
     $Test->ok( $ok, $desc );
