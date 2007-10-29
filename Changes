@@ -1,6 +1,6 @@
 Revision history for Test-WWW-Mechanize
 
-NEXT
+1.16    Mon Oct 29 15:34:21 CDT 2007
 ------------------------------------
 Please note that WWW::Mechanize and Test::WWW::Mechanize are no
 longer using rt.cpan.org for bug tracking.  They are now being
@@ -13,6 +13,9 @@ Added $mech->post_ok().  Thanks, Greg Sheard.
 Added $mech->submit_form_ok().  Thanks, Mark Stosberg.
 
 Added $mech->html_lint_ok()
+
+[FIXES]
+Fixed some bugs that were causing test failures.
 
 
 1.14    Fri May 11 16:22:02 CDT 2007
