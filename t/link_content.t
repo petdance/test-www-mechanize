@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -14,9 +14,9 @@ BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-my $server=TWMServer->new(PORT);
-my $pid=$server->background;
-ok($pid,'HTTP Server started') or die "Can't start the server";
+my $server = TWMServer->new(PORT);
+my $pid = $server->background;
+ok( $pid, 'HTTP Server started' ) or die "Can't start the server";
 
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;
@@ -24,11 +24,14 @@ $SIG{__DIE__}=\&cleanup;
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
+# HTTP::Server::Simple->background() may return prematurely.
+sleep 1;
 $mech->get('http://localhost:'.PORT.'/goodlinks.html');
 my @urls=$mech->links();
+ok(@urls, 'Got links from the HTTP server');
 
 # test regex
-test_out('not ok 1 - link_content_like'); 
+test_out('not ok 1 - link_content_like');
 test_fail(+2);
 test_diag("     'blah' doesn't look much like a regex to me.");
 $mech->link_content_like(\@urls,'blah','Testing the regex');
@@ -70,11 +73,11 @@ test_test('Handles link unlike content found');
 
 cleanup();
 
-{
-  package TWMServer;
-  use base 'HTTP::Server::Simple::CGI';
 
-  sub handle_request {
+package TWMServer;
+use base 'HTTP::Server::Simple::CGI';
+
+sub handle_request {
     my $self=shift;
     my $cgi=shift;
 
@@ -82,14 +85,13 @@ cleanup();
     $file=~s/\s+//g;
 
     if(-r "t/html/$file") {
-      if(my $response=do { local (@ARGV, $/) = "t/html/$file"; <> }) {
-        print "HTTP/1.0 200 OK\r\n";
-        print "Content-Type: text/html\r\nContent-Length: ",
-          length($response), "\r\n\r\n", $response;
-        return;
-      }
+        if(my $response=do { local (@ARGV, $/) = "t/html/$file"; <> }) {
+            print "HTTP/1.0 200 OK\r\n";
+            print "Content-Type: text/html\r\nContent-Length: ",
+                    length($response), "\r\n\r\n", $response;
+            return;
+        }
     }
 
     print "HTTP/1.0 404 Not Found\r\n\r\n";
-  }
 }
