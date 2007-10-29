@@ -988,6 +988,8 @@ sub stuff_inputs {
 
 Add HTML::Tidy capabilities.
 
+Add a broken image check.
+
 =head1 AUTHOR
 
 Andy Lester, C<< <andy at petdance.com> >>
