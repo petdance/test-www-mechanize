@@ -479,9 +479,10 @@ sub content_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
-    $desc = "Content is '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
+    $desc = qq{Content is "$str"} if !defined($desc);
+
     return is_string( $self->content, $str, $desc );
 }
 
@@ -495,9 +496,13 @@ sub content_contains {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
-    $desc = "Content contains '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
+    if ( ref($str) eq 'REGEX' ) {
+        diag( "content_contains takes a string, not a regex" );
+    }
+    $desc = qq{Content contains "$str"} if !defined($desc);
+
     return contains_string( $self->content, $str, $desc );
 }
 
@@ -511,9 +516,13 @@ sub content_lacks {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
-    $desc = "Content lacks '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
+    if ( ref($str) eq 'REGEX' ) {
+        diag( 'content_lacks takes a string, not a regex' );
+    }
+    $desc = qq{Content lacks "$str"} if !defined($desc);
+
     return lacks_string( $self->content, $str, $desc );
 }
 

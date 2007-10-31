@@ -32,7 +32,7 @@ $mech->content_contains( 'Test Page', "Does it say test page?" );
 test_test( "Finds the contains" );
 
 # default desc
-test_out( 'ok 1 - Content contains \'Test Page\'' );
+test_out( 'ok 1 - Content contains "Test Page"' );
 $mech->content_contains( 'Test Page');
 test_test( "Finds the contains - default desc" );
 
