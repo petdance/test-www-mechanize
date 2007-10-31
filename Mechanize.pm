@@ -136,7 +136,7 @@ sub get_ok {
     my $ok = $self->success;
 
     if ( not defined $desc ) {
-        $url = $url->as_string if ref($url) eq 'WWW::Mechanize::Link';
+        $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
         $desc = "GET $url";
     }
     $Test->ok( $ok, $desc );
@@ -186,7 +186,7 @@ sub post_ok {
     } # parms left
 
     if ( not defined $desc ) {
-        $url = $url->as_string if ref($url) eq 'WWW::Mechanize::Link';
+        $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
         $desc = "POST $url";
     }
     $self->post( $url, \%opts );
