@@ -46,7 +46,7 @@ GOOD_GET: {
     ok( $ok, "And the result should be true" );
 
     # default desc
-    test_out("ok 1 - Got '$goodlinks' ok");
+    test_out("ok 1 - GET $goodlinks");
     $mech->get_ok($goodlinks);
     test_test('Gets existing URI and reports success - default desc');
 }
