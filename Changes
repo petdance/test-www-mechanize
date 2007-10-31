@@ -2,6 +2,9 @@ Revision history for Test-WWW-Mechanize
 
 NEXT
 ------------------------------------
+[ENHANCEMENTS]
+Added default descriptions for most test assertions.
+
 [FIXES]
 HTML::Lint is now properly optional.
 
