@@ -42,6 +42,23 @@ This is equivalent to:
 
 but has nicer diagnostics if they fail.
 
+Default descriptions will be supplied for most methods if you omit them. e.g.
+
+    my $mech = Test::WWW::Mechanize->new;
+    $mech->get_ok( 'http://petdance.com/' );
+    $mech->base_is( 'http://petdance.com/' );
+    $mech->title_is( "Invoice Status" );
+    $mech->content_contains( "Andy Lester" );
+    $mech->content_like( qr/(cpan|perl)\.org/ );
+
+results in
+
+    ok - Got 'http://petdance.com/' ok
+    ok - Base is 'http://petdance.com/'
+    ok - Title is 'Invoice Status'
+    ok - Content contains 'Andy Lester'
+    ok - Content is like '(?-xism:(cpan|perl)\.org)'
+
 =cut
 
 use warnings;
@@ -118,7 +135,7 @@ sub get_ok {
     $self->get( $url, %opts );
     my $ok = $self->success;
 
-    $desc = "GET $url" unless defined $desc;
+    $desc = "Got '$url' ok" unless defined $desc;
     $Test->ok( $ok, $desc );
     if ( !$ok ) {
         $Test->diag( $self->status );
@@ -165,7 +182,7 @@ sub post_ok {
         }
     } # parms left
 
-    $desc = "POST to $url" unless defined $desc;
+    $desc = "Posted to '$url' ok" unless defined $desc;
     $self->post( $url, \%opts );
     my $ok = $self->success;
     $Test->ok( $ok, $desc );
@@ -178,7 +195,7 @@ sub post_ok {
 }
 
 
-=head2 submit_form_ok( \%parms [, $comment] )
+=head2 submit_form_ok( \%parms [, $desc] )
 
 Makes a C<submit_form()> call and executes tests on the results.
 The form must be found, and then submitted successfully.  Otherwise,
@@ -190,7 +207,7 @@ this function are a hashref.  You have to call this function like:
 
     $agent->submit_form_ok( {n=>3}, "looking for 3rd link" );
 
-As with other test functions, C<$comment> is optional.  If it is supplied
+As with other test functions, C<$desc> is optional.  If it is supplied
 then it will display when running the test harness in verbose mode.
 
 Returns true value if the specified link was found and followed
@@ -202,7 +219,7 @@ is not available.
 sub submit_form_ok {
     my $self = shift;
     my $parms = shift || {};
-    my $comment = shift;
+    my $desc = shift;
 
     if ( ref $parms ne 'HASH' ) {
        Carp::croak "FATAL: parameters must be given as a hashref";
@@ -225,14 +242,14 @@ sub submit_form_ok {
         }
     }
 
-    $Test->ok( $ok, $comment );
+    $Test->ok( $ok, $desc );
     $Test->diag( $error ) if $error;
 
     return $ok;
 }
 
 
-=head2 $mech->follow_link_ok( \%parms [, $comment] )
+=head2 $mech->follow_link_ok( \%parms [, $desc] )
 
 Makes a C<follow_link()> call and executes tests on the results.
 The link must be found, and then followed successfully.  Otherwise,
@@ -244,7 +261,7 @@ this function are a hashref.  You have to call this function like:
 
     $mech->follow_link_ok( {n=>3}, "looking for 3rd link" );
 
-As with other test functions, C<$comment> is optional.  If it is supplied
+As with other test functions, C<$desc> is optional.  If it is supplied
 then it will display when running the test harness in verbose mode.
 
 Returns a true value if the specified link was found and followed
@@ -256,7 +273,12 @@ is not available.
 sub follow_link_ok {
     my $self = shift;
     my $parms = shift || {};
-    my $comment = shift;
+    my $desc = shift;
+
+    if (!defined($desc)) {
+        my $parms_str = join(", ", map { join("=", $_, $parms->{$_}) } keys(%$parms));
+        $desc = "Followed link with '$parms_str'" if !defined($desc);
+    }
 
     if ( ref $parms ne 'HASH' ) {
        Carp::croak "FATAL: parameters must be given as a hashref";
@@ -279,7 +301,7 @@ sub follow_link_ok {
         }
     }
 
-    $Test->ok( $ok, $comment );
+    $Test->ok( $ok, $desc );
     $Test->diag( $error ) if $error;
 
     return $ok;
@@ -345,6 +367,7 @@ sub title_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
+    $desc = "Title is '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return is_string( $self->title, $str, $desc );
@@ -362,6 +385,7 @@ sub title_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Title is like '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->title, $regex, $desc );
@@ -379,6 +403,7 @@ sub title_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Title unlike '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->title, $regex, $desc );
@@ -396,6 +421,7 @@ sub base_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
+    $desc = "Base is '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return is_string( $self->base, $str, $desc );
@@ -413,6 +439,7 @@ sub base_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Base is like '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->base, $regex, $desc );
@@ -430,6 +457,7 @@ sub base_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Base unlike '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->base, $regex, $desc );
@@ -445,6 +473,7 @@ sub content_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
+    $desc = "Content is '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return is_string( $self->content, $str, $desc );
@@ -460,6 +489,7 @@ sub content_contains {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
+    $desc = "Content contains '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return contains_string( $self->content, $str, $desc );
@@ -475,6 +505,7 @@ sub content_lacks {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
+    $desc = "Content lacks '$str'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return lacks_string( $self->content, $str, $desc );
@@ -490,6 +521,7 @@ sub content_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Content is like '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->content, $regex, $desc );
@@ -505,6 +537,7 @@ sub content_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Content unlike '$regex'" if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->content, $regex, $desc );
@@ -521,6 +554,7 @@ sub has_tag {
     my $tag  = shift;
     my $text = shift;
     my $desc = shift;
+    $desc = "Page has $tag tag with '$text'" if !defined($desc);
 
     my $found = $self->_tag_walk( $tag, sub { $text eq $_[0] } );
 
@@ -539,6 +573,7 @@ sub has_tag_like {
     my $tag  = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "Page has $tag tag like '$regex'" if !defined($desc);
 
     my $found = $self->_tag_walk( $tag, sub { $_[0] =~ $regex } );
 
@@ -584,6 +619,7 @@ Follow all links on the current page and test for HTTP status 200
 sub page_links_ok {
     my $self = shift;
     my $desc = shift;
+    $desc = "All links ok" if !defined($desc);
 
     my @links = $self->followable_links();
     my @urls = _format_links(\@links);
@@ -610,6 +646,7 @@ sub page_links_content_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "All links are like '$regex'" if !defined($desc);
 
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
@@ -644,6 +681,7 @@ sub page_links_content_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
+    $desc = "All links are unlike '$regex'" if !defined($desc);
 
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
@@ -687,6 +725,7 @@ sub links_ok {
     my $desc = shift;
 
     my @urls = _format_links( $links );
+    $desc = _default_links_desc(\@urls, "are ok") if !defined($desc);
     my @failures = $self->_check_links_status( \@urls );
     my $ok = (@failures == 0);
 
@@ -716,6 +755,7 @@ sub link_status_is {
     my $desc = shift;
 
     my @urls = _format_links( $links );
+    $desc = _default_links_desc(\@urls, "have status $status") if !defined($desc);
     my @failures = $self->_check_links_status( \@urls, $status );
     my $ok = (@failures == 0);
 
@@ -745,6 +785,7 @@ sub link_status_isnt {
     my $desc = shift;
 
     my @urls = _format_links( $links );
+    $desc = _default_links_desc(\@urls, "do not have status $status") if !defined($desc);
     my @failures = $self->_check_links_status( \@urls, $status, 'isnt' );
     my $ok = (@failures == 0);
 
@@ -782,6 +823,7 @@ sub link_content_like {
     }
 
     my @urls = _format_links( $links );
+    $desc = _default_links_desc(\@urls, "are like '$regex'") if !defined($desc);
     my @failures = $self->_check_links_content( \@urls, $regex );
     my $ok = (@failures == 0);
 
@@ -818,6 +860,7 @@ sub link_content_unlike {
     }
 
     my @urls = _format_links( $links );
+    $desc = _default_links_desc(\@urls, "are not like '$regex'") if !defined($desc);
     my @failures = $self->_check_links_content( \@urls, $regex, 'unlike' );
     my $ok = (@failures == 0);
 
@@ -825,6 +868,13 @@ sub link_content_unlike {
     $Test->diag( $_ ) for @failures;
 
     return $ok;
+}
+
+# Create a default description for the link_* methods, including the link count.
+sub _default_links_desc {
+    my ($urls, $desc_suffix) = @_;
+    my $url_count = scalar(@$urls);
+    return sprintf("%d link%s %s", $url_count, $url_count == 1 ? "" : "s", $desc_suffix);
 }
 
 # This actually performs the status check of each url.

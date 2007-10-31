@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -39,6 +39,11 @@ test_test('Handles bad regexs');
 # like
 test_out('ok 1 - Checking all page links contain: Test');
 $mech->page_links_content_like(qr/Test/,'Checking all page links contain: Test');
+test_test('Handles All page links contents successful');
+
+# like - default desc
+test_out('ok 1 - All links are like \'(?-xism:Test)\'');
+$mech->page_links_content_like(qr/Test/);
 test_test('Handles All page links contents successful');
 
 test_out('not ok 1 - Checking all page link content failures');

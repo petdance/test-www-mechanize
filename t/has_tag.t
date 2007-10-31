@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 8;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -31,6 +31,11 @@ $mech->get('http://localhost:'.PORT.'/goodlinks.html');
 test_out( 'ok 1 - looking for "Test" link' );
 $mech->has_tag( h1 => 'Test Page', 'looking for "Test" link' );
 test_test( 'Handles finding tag by content' );
+
+# default desc
+test_out( 'ok 1 - Page has h1 tag with \'Test Page\'' );
+$mech->has_tag( h1 => 'Test Page' );
+test_test( 'Handles finding tag by content - default desc' );
 
 test_out( 'not ok 1 - looking for "Quiz" link' );
 test_fail( +1 );

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -31,6 +31,10 @@ test_out( 'ok 1 - Does it say test page?' );
 $mech->content_contains( 'Test Page', "Does it say test page?" );
 test_test( "Finds the contains" );
 
+# default desc
+test_out( 'ok 1 - Content contains \'Test Page\'' );
+$mech->content_contains( 'Test Page');
+test_test( "Finds the contains - default desc" );
 
 test_out( 'not ok 1 - Where is Mungo?' );
 test_fail(+3);
