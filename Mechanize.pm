@@ -315,7 +315,7 @@ sub follow_link_ok {
 
 =head1 METHODS: CONTENT CHECKING
 
-=head2 html_lint_ok( [$msg] )
+=head2 $mech->html_lint_ok( [$msg] )
 
 Checks the validity of the HTML on the current page.  If the page is not
 HTML, then it fails.  The URI is automatically appended to the I<$msg>.
@@ -343,10 +343,13 @@ sub html_lint_ok {
         $lint->parse( $self->content );
 
         my @errors = $lint->errors;
-        if ( @errors ) {
+        my $nerrors = @errors;
+        if ( $nerrors ) {
             $ok = $Test->ok( 0, $msg );
             $Test->diag( "HTML::Lint errors for $uri" );
             $Test->diag( $_->as_string ) for @errors;
+            my $s = $nerrors == 1 ? '' : 's';
+            $Test->diag( "$nerrors error$s on the page" );
         }
         else {
             $ok = $Test->ok( 1, $msg );
