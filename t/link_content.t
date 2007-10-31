@@ -17,6 +17,8 @@ BEGIN {
 my $server = TWMServer->new(PORT);
 my $pid = $server->background;
 ok( $pid, 'HTTP Server started' ) or die "Can't start the server";
+# HTTP::Server::Simple->background() may return prematurely.
+sleep 1;
 
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;
@@ -24,8 +26,6 @@ $SIG{__DIE__}=\&cleanup;
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
-# HTTP::Server::Simple->background() may return prematurely.
-sleep 1;
 $mech->get('http://localhost:'.PORT.'/goodlinks.html');
 my @urls=$mech->links();
 ok(@urls, 'Got links from the HTTP server');
