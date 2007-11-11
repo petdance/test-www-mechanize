@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
-WriteMakefile(
+my $parms = {
     NAME                => 'Test::WWW::Mechanize',
     AUTHOR              => 'Andy Lester <andy@petdance.com>',
     VERSION_FROM        => 'Mechanize.pm',
@@ -19,7 +19,18 @@ WriteMakefile(
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Test-WWW-Mechanize-*' },
-);
+};
+
+if ( $ExtUtils::MakeMaker::VERSION eq '6.36' ) {
+    $parms->{EXTRA_META} = <<EOF;
+resources:
+    homepage: http://code.google.com/p/www-mechanize/
+    bugtracker: http://code.google.com/p/www-mechanize/issues/list
+EOF
+    }
+
+WriteMakefile( %{$parms} );
+
 
 sub MY::postamble {
     return <<'MAKE_FRAG';
