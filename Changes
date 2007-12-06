@@ -1,6 +1,11 @@
 Revision history for Test-WWW-Mechanize
 
-NEXT
+WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
+bug tracking.  They are now being tracked via Google Code at
+http://code.google.com/p/www-mechanize/issues/list
+
+
+1.18    Thu Dec  6 10:12:14 CST 2007
 ------------------------------------
 [ENHANCEMENTS]
 Added default descriptions for most test assertions.
@@ -8,17 +13,12 @@ Added default descriptions for most test assertions.
 [FIXES]
 HTML::Lint is now properly optional.
 
-Added delays in all the tests that use HTTP::Server::Simple to give it
-time to correctly fire up.
+Added delays in all the tests that use HTTP::Server::Simple to give
+it time to correctly fire up.
 
 
 1.16    Mon Oct 29 15:34:21 CDT 2007
 ------------------------------------
-Please note that WWW::Mechanize and Test::WWW::Mechanize are no
-longer using rt.cpan.org for bug tracking.  They are now being
-tracked via Google Code at
-http://code.google.com/p/www-mechanize/issues/list
-
 [ENHANCEMENTS]
 Added $mech->post_ok().  Thanks, Greg Sheard.
 

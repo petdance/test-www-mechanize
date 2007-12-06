@@ -6,11 +6,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.17
+Version 1.18
 
 =cut
 
-our $VERSION = '1.17_01';
+our $VERSION = '1.18';
 
 =head1 SYNOPSIS
 
@@ -1146,8 +1146,8 @@ You can also look for information at:
 
 L<http://code.google.com/p/www-mechanize/issues/list>
 
-Please note that WWW::Mechanize and Test::WWW::Mechanize do NOT use
-rt.cpan.org at
+Please B<do not use> the old queues for WWW::Mechanize and
+Test::WWW::Mechanize at
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-WWW-Mechanize>
 
 =item * AnnoCPAN: Annotated CPAN documentation
