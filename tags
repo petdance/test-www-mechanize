@@ -10,6 +10,7 @@ FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
+MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 NEW	t/new.t	/^NEW: {$/;"	l
 NONEXISTENT	t/get_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 PORT	t/content_contains.t	/^use constant PORT => 13432;$/;"	c
@@ -44,11 +45,13 @@ Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test::WWW::Mechanize	Mechanize.pm	/^package Test::WWW::Mechanize;$/;"	p
 _check_links_content	Mechanize.pm	/^sub _check_links_content {$/;"	s
 _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
+_default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
 base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
 base_unlike	Mechanize.pm	/^sub base_unlike {$/;"	s
+bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
 cleanup	t/content_contains.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/content_lacks.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/follow_link_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
@@ -67,6 +70,7 @@ content_is	Mechanize.pm	/^sub content_is {$/;"	s
 content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
 content_like	Mechanize.pm	/^sub content_like {$/;"	s
 content_unlike	Mechanize.pm	/^sub content_unlike {$/;"	s
+critic	Makefile.PL	/^critic:$/;"	l
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
@@ -85,6 +89,7 @@ handle_request	t/stuff_inputs.t	/^  sub handle_request {$/;"	s
 handle_request	t/submit_form_ok.t	/^  sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
+homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
 html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
 link_content_like	Mechanize.pm	/^sub link_content_like {$/;"	s
 link_content_unlike	Mechanize.pm	/^sub link_content_unlike {$/;"	s
@@ -96,8 +101,10 @@ page_links_content_like	Mechanize.pm	/^sub page_links_content_like {$/;"	s
 page_links_content_unlike	Mechanize.pm	/^sub page_links_content_unlike {$/;"	s
 page_links_ok	Mechanize.pm	/^sub page_links_ok {$/;"	s
 post_ok	Mechanize.pm	/^sub post_ok {$/;"	s
+resources	Makefile.PL	/^resources:$/;"	l
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s
 submit_form_ok	Mechanize.pm	/^sub submit_form_ok {$/;"	s
+tags	Makefile.PL	/^tags:$/;"	l
 title_is	Mechanize.pm	/^sub title_is {$/;"	s
 title_like	Mechanize.pm	/^sub title_like {$/;"	s
 title_unlike	Mechanize.pm	/^sub title_unlike {$/;"	s
