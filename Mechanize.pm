@@ -120,11 +120,11 @@ sub get_ok {
             $desc = shift;
         }
         elsif ( ref $flex eq 'HASH' ) {
-            %opts = %$flex;
+            %opts = %{$flex};
             $desc = shift;
         }
         elsif ( ref $flex eq 'ARRAY' ) {
-            %opts = @$flex;
+            %opts = @{$flex};
             $desc = shift;
         }
         else {
@@ -173,11 +173,11 @@ sub post_ok {
             $desc = shift;
         }
         elsif ( ref $flex eq 'HASH' ) {
-            %opts = %$flex;
+            %opts = %{$flex};
             $desc = shift;
         }
         elsif ( ref $flex eq 'ARRAY' ) {
-            %opts = @$flex;
+            %opts = @{$flex};
             $desc = shift;
         }
         else {
@@ -232,7 +232,7 @@ sub submit_form_ok {
     }
 
     # return from submit_form() is an HTTP::Response or undef
-    my $response = $self->submit_form( %$parms );
+    my $response = $self->submit_form( %{$parms} );
 
     my $ok;
     my $error;
@@ -282,7 +282,7 @@ sub follow_link_ok {
     my $desc = shift;
 
     if (!defined($desc)) {
-        my $parms_str = join(", ", map { join("=", $_, $parms->{$_}) } keys(%$parms));
+        my $parms_str = join(", ", map { join("=", $_, $parms->{$_}) } keys(%{$parms}));
         $desc = "Followed link with '$parms_str'" if !defined($desc);
     }
 
@@ -291,7 +291,7 @@ sub follow_link_ok {
     }
 
     # return from follow_link() is an HTTP::Response or undef
-    my $response = $self->follow_link( %$parms );
+    my $response = $self->follow_link( %{$parms} );
 
     my $ok;
     my $error;
@@ -1038,7 +1038,7 @@ sub stuff_inputs {
 
     my $options = shift || {};
     assert_isa( $options, 'HASH' );
-    assert_in( $_, ['ignore', 'fill', 'specs'] ) foreach ( keys %$options );
+    assert_in( $_, ['ignore', 'fill', 'specs'] ) foreach ( keys %{$options} );
 
     # set up the fill we'll use unless a field overrides it
     my $default_fill = '@';
@@ -1057,7 +1057,7 @@ sub stuff_inputs {
     if ( exists $options->{specs} ) {
         assert_isa( $options->{specs}, 'HASH' );
         $specs = $options->{specs};
-        foreach my $field_name ( keys %$specs ) {
+        foreach my $field_name ( keys %{$specs} ) {
             assert_isa( $specs->{$field_name}, 'HASH' );
             assert_in( $_, ['fill', 'maxlength'] ) foreach ( keys %{$specs->{$field_name}} );
         }

@@ -24,7 +24,7 @@ sub Test::WWW::Mechanize::get {
 my $mech = Test::WWW::Mechanize->new();
 isa_ok( $mech, 'Test::WWW::Mechanize' );
 
-my $url = "dummy://url";
+my $url = 'dummy://url';
 $mech->get_ok( $url );
 ok( eq_hash( {}, $ua_args ), 'passing URL only' );
 
@@ -36,14 +36,14 @@ ok( eq_hash( {}, $ua_args ), 'Passing undef for hash' );
 
 my $wanted = { foo=>1, bar=>2, baz=>3 };
 
-$mech->get_ok( $url, [ %$wanted ] );
+$mech->get_ok( $url, [ %{$wanted} ] );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous list for hash' );
 
-$mech->get_ok( $url, [ %$wanted ], 'Description' );
+$mech->get_ok( $url, [ %{$wanted} ], 'Description' );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous list for hash' );
 
-$mech->get_ok( $url, { %$wanted } );
+$mech->get_ok( $url, { %{$wanted} } );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );
 
-$mech->get_ok( $url, { %$wanted }, 'Description' );
+$mech->get_ok( $url, { %{$wanted} }, 'Description' );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );

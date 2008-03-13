@@ -17,7 +17,7 @@ BEGIN {
 
 my $server = TWMServer->new(PORT);
 my $pid = $server->background;
-ok($pid,'HTTP Server started') or die "Can't start the server";
+ok($pid,'HTTP Server started') or die q{Can't start the server};
 
 # HTTP::Server::Simple->background() can return prematurely, so give it time to fire up
 sleep 1;
