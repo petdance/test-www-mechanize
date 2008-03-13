@@ -37,7 +37,7 @@ sub MY::postamble {
 .PHONY: critic tags
 
 critic:
-	perlcritic -1 -q -profile perlcriticrc bin/ lib/ t/
+	perlcritic -1 -q -profile perlcriticrc Mechanize.pm t/
 
 tags:
 	ctags -f tags --recurse --totals \

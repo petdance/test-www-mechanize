@@ -6,13 +6,19 @@
 !_TAG_PROGRAM_VERSION	5.7	//
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
 CONSTRUCTOR_PARMS	t/new.t	/^CONSTRUCTOR_PARMS: {$/;"	l
+CUSTOM_FILL	t/stuff_inputs.t	/^CUSTOM_FILL: {$/;"	l
+EMPTY_FIELDS	t/stuff_inputs.t	/^EMPTY_FIELDS: {$/;"	l
 FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
+IGNORE	t/stuff_inputs.t	/^IGNORE: {$/;"	l
+MAXLENGTH	t/stuff_inputs.t	/^MAXLENGTH: {$/;"	l
+MULTICHAR_FILL	t/stuff_inputs.t	/^MULTICHAR_FILL: {$/;"	l
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 NEW	t/new.t	/^NEW: {$/;"	l
 NONEXISTENT	t/get_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
+OVERWRITE	t/stuff_inputs.t	/^OVERWRITE: {$/;"	l
 PORT	t/content_contains.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/content_lacks.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/follow_link_ok.t	/^use constant PORT => 13432;$/;"	c
@@ -24,7 +30,6 @@ PORT	t/link_status.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/links_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/page_links_content.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/page_links_ok.t	/^use constant PORT => 13432;$/;"	c
-PORT	t/stuff_inputs.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/submit_form_ok.t	/^use constant PORT => 13432;$/;"	c
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 TWMServer	t/content_contains.t	/^  package TWMServer;$/;"	p
@@ -38,7 +43,6 @@ TWMServer	t/link_status.t	/^  package TWMServer;$/;"	p
 TWMServer	t/links_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_content.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_ok.t	/^  package TWMServer;$/;"	p
-TWMServer	t/stuff_inputs.t	/^  package TWMServer;$/;"	p
 TWMServer	t/submit_form_ok.t	/^  package TWMServer;$/;"	p
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::get {$/;"	s
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
@@ -48,6 +52,7 @@ _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
+add_test_fields	t/stuff_inputs.t	/^sub add_test_fields {$/;"	s
 base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
 base_unlike	Mechanize.pm	/^sub base_unlike {$/;"	s
@@ -63,7 +68,6 @@ cleanup	t/link_status.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/page_links_content.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/page_links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
-cleanup	t/stuff_inputs.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/submit_form_ok.t	/^sub cleanup { kill(9,$pid) };$/;"	s
 content_contains	Mechanize.pm	/^sub content_contains {$/;"	s
 content_is	Mechanize.pm	/^sub content_is {$/;"	s
@@ -71,6 +75,7 @@ content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
 content_like	Mechanize.pm	/^sub content_like {$/;"	s
 content_unlike	Mechanize.pm	/^sub content_unlike {$/;"	s
 critic	Makefile.PL	/^critic:$/;"	l
+field_checks	t/stuff_inputs.t	/^sub field_checks {$/;"	s
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
@@ -85,7 +90,6 @@ handle_request	t/link_status.t	/^  sub handle_request {$/;"	s
 handle_request	t/links_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_content.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_ok.t	/^  sub handle_request {$/;"	s
-handle_request	t/stuff_inputs.t	/^  sub handle_request {$/;"	s
 handle_request	t/submit_form_ok.t	/^  sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s

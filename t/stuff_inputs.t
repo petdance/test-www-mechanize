@@ -1,56 +1,174 @@
-#!perl -w
+#!perl -Tw
 
 use strict;
 use warnings;
-use Test::More tests => 3;
-use Test::Builder::Tester;
+
+use Test::More tests => 44;
 use URI::file;
-
-use constant PORT => 13432;
-
-$ENV{http_proxy} = ''; # All our tests are running on localhost
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-my $server=TWMServer->new(PORT);
-my $pid=$server->background;
-ok($pid,'HTTP Server started') or die "Can't start the server";
-sleep 1; # $server->background() may come back prematurely, so give it a second to fire up
+my $mech = Test::WWW::Mechanize->new();
+my $uri = URI::file->new_abs( 't/stuff_inputs.html' )->as_string;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
+EMPTY_FIELDS: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
-my $mech=Test::WWW::Mechanize->new();
-isa_ok( $mech, 'Test::WWW::Mechanize' );
+    add_test_fields( $mech );
+    $mech->stuff_inputs();
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => '@',
+            text10        => '@' x 10,
+            text70k       => '@' x 70000,
+            textunlimited => '@' x 66000,
+            textarea      => '@' x 66000,
+        },
+        'filling empty fields'
+    );
+}
 
-$mech->get('http://localhost:'.PORT.'/form.html');
-$mech->stuff_inputs();
+
+MULTICHAR_FILL: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+
+    add_test_fields( $mech );
+    $mech->stuff_inputs( { fill => '123' } );
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => '1',
+            text10        => '1231231231',
+            text70k       => '123' x 23333 . '1',
+            textunlimited => '123' x 22000,
+            textarea      => '123' x 22000,
+        },
+        'multichar_fill'
+    );
+}
 
 
-cleanup();
+OVERWRITE: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
-{
-  package TWMServer;
-  use base 'HTTP::Server::Simple::CGI';
+    add_test_fields( $mech );
+    $mech->stuff_inputs();
+    is( $mech->value('text10'), '@' x 10, 'overwriting fields: initial fill as expected' );
+    $mech->stuff_inputs( { fill => 'X' } );
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => 'X',
+            text10        => 'X' x 10,
+            text70k       => 'X' x 70000,
+            textunlimited => 'X' x 66000,
+            textarea      => 'X' x 66000,
+        },
+        'overwriting fields'
+    );
+}
 
-  sub handle_request {
-    my $self=shift;
-    my $cgi=shift;
 
-    my $file=(split('/',$cgi->path_info))[-1]||'index.html';
-    $file=~s/\s+//g;
+CUSTOM_FILL: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
-    if(-r "t/html/$file") {
-      if(my $response=do { local (@ARGV, $/) = "t/html/$file"; <> }) {
-        print "HTTP/1.0 200 OK\r\n";
-        print "Content-Type: text/html\r\nContent-Length: ",
-          length($response), "\r\n\r\n", $response;
-        return;
-      }
+    add_test_fields( $mech );
+    $mech->stuff_inputs( {
+            fill => 'z',
+            specs => {
+                text10 => { fill=>'#' },
+                textarea => { fill=>'*' },
+            }
+    } );
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => 'z',
+            text10        => '#' x 10,
+            text70k       => 'z' x 70000,
+            textunlimited => 'z' x 66000,
+            textarea      => '*' x 66000,
+        },
+        'custom fill'
+    );
+}
+
+
+MAXLENGTH: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+
+    add_test_fields( $mech );
+    $mech->stuff_inputs( {
+            specs => {
+                text10 => { maxlength=>7 },
+                textarea => { fill=>'*', maxlength=>9 },
+            }
+        }
+    );
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => '@',
+            text10        => '@' x 7,
+            text70k       => '@' x 70000,
+            textunlimited => '@' x 66000,
+            textarea      => '*' x 9,
+        },
+        'maxlength'
+    );
+}
+
+
+IGNORE: {
+    $mech->get( $uri );
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+
+    add_test_fields( $mech );
+    $mech->stuff_inputs( { ignore => [ 'text10' ] } );
+    field_checks(
+        $mech, {
+            text0         => '',
+            text1         => '@',
+            text10        => undef,
+            text70k       => '@' x 70000,
+            textunlimited => '@' x 66000,
+            textarea      => '@' x 66000,
+        },
+        'ignore'
+    );
+}
+
+
+sub add_test_fields {
+    my $mech = shift;
+
+    HTML::Form::Input->new( type=>'text', name=>'text0', maxlength=>0 )->add_to_form( $mech->current_form() );
+    HTML::Form::Input->new( type=>'text', name=>'text1', maxlength=>1 )->add_to_form( $mech->current_form() );
+    HTML::Form::Input->new( type=>'text', name=>'text10', maxlength=>10 )->add_to_form( $mech->current_form() );
+    HTML::Form::Input->new( type=>'text', name=>'text70k', maxlength=>70000 )->add_to_form( $mech->current_form() );
+    HTML::Form::Input->new( type=>'text', name=>'textunlimited' )->add_to_form( $mech->current_form() );
+    HTML::Form::Input->new( type=>'textarea', name=>'textarea' )->add_to_form( $mech->current_form() );
+
+    return;
+}
+
+
+sub field_checks {
+    my $mech = shift;
+    my $expected = shift;
+    my $desc = shift;
+
+    foreach my $key ( qw( text0 text1 text10 text70k textunlimited textarea ) ) {
+        is( $mech->value($key), $expected->{$key}, "$desc: field $key" );
     }
 
-    print "HTTP/1.0 404 Not Found\r\n\r\n";
-  }
+    return;
 }

@@ -1063,7 +1063,7 @@ sub stuff_inputs {
         }
     }
 
-    my @inputs = $self->find_all_inputs( type => qr/^(text|textarea|password)$/ );
+    my @inputs = $self->find_all_inputs( type_regex => qr/^(text|textarea|password)$/ );
 
     foreach my $field ( @inputs ) {
         next if $field->readonly();

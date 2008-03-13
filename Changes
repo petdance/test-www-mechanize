@@ -4,6 +4,12 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+NEXT
+-----------------------------------
+[FIXES]
+stuff_inputs() used to do nothing.  Now it works.
+http://code.google.com/p/www-mechanize/issues/detail?id=9
+
 
 1.18    Thu Dec  6 10:12:14 CST 2007
 ------------------------------------
