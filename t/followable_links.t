@@ -40,7 +40,7 @@ my @expected = (
     "$base/badlinks.html",
     "$base/goodlinks.html",
 );
-is_deeply( \@links, \@expected, "Got the right links" );
+is_deeply( \@links, \@expected, 'Got the right links' );
 
 cleanup();
 

@@ -32,7 +32,7 @@ $mech->get('http://localhost:'.PORT.'/goodlinks.html');
 # test regex
 test_out('not ok 1 - page_links_content_like'); 
 test_fail(+2);
-test_diag("     'blah' doesn't look much like a regex to me.");
+test_diag(q{     "blah" doesn't look much like a regex to me.});
 $mech->page_links_content_like('blah','Testing the regex');
 test_test('Handles bad regexs');
 
@@ -42,7 +42,7 @@ $mech->page_links_content_like(qr/Test/,'Checking all page links contain: Test')
 test_test('Handles All page links contents successful');
 
 # like - default desc
-test_out('ok 1 - All links are like \'(?-xism:Test)\'');
+test_out(q{ok 1 - All links are like "(?-xism:Test)"});
 $mech->page_links_content_like(qr/Test/);
 test_test('Handles All page links contents successful');
 
@@ -56,9 +56,9 @@ test_test('Handles link content not found');
 
 # unlike
 # test regex
-test_out('not ok 1 - page_links_content_unlike'); 
+test_out('not ok 1 - page_links_content_unlike');
 test_fail(+2);
-test_diag("     'blah' doesn't look much like a regex to me.");
+test_diag(q{     "blah" doesn't look much like a regex to me.});
 $mech->page_links_content_unlike('blah','Testing the regex');
 test_test('Handles bad regexs');
 

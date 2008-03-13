@@ -33,7 +33,7 @@ ok(@urls, 'Got links from the HTTP server');
 # test regex
 test_out('not ok 1 - link_content_like');
 test_fail(+2);
-test_diag("     'blah' doesn't look much like a regex to me.");
+test_diag(q{     "blah" doesn't look much like a regex to me.});
 $mech->link_content_like(\@urls,'blah','Testing the regex');
 test_test('Handles bad regexs');
 
@@ -57,9 +57,9 @@ test_test('Handles link content not found');
 
 # unlike
 # test regex
-test_out('not ok 1 - link_content_unlike'); 
+test_out('not ok 1 - link_content_unlike');
 test_fail(+2);
-test_diag("     'blah' doesn't look much like a regex to me.");
+test_diag(q{     "blah" doesn't look much like a regex to me.});
 $mech->link_content_unlike(\@urls,'blah','Testing the regex');
 test_test('Handles bad regexs');
 
@@ -68,7 +68,7 @@ $mech->link_content_unlike(\@urls,qr/BadTest/,'Checking all page links do not co
 test_test('Handles All page links unlike contents successful');
 
 # unlike - default desc
-test_out('ok 1 - ' . scalar(@urls) . ' links are not like \'(?-xism:BadTest)\'');
+test_out('ok 1 - ' . scalar(@urls) . ' links are not like "(?-xism:BadTest)"');
 $mech->link_content_unlike(\@urls,qr/BadTest/);
 test_test('Handles All page links unlike contents successful - default desc');
 

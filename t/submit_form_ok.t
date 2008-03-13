@@ -14,8 +14,7 @@ BEGIN {
 
 
 my $server=TWMServer->new(PORT);
-my $pid=$server->background;
-ok($pid,'HTTP Server started') or die "Can't start the server";
+my $pid=$server->background or die q{Can't start the server};
 sleep 1; # $server->background() may come back prematurely, so give it a second to fire up
 
 sub cleanup { kill(9,$pid) };
@@ -26,7 +25,7 @@ SUBMIT_GOOD_FORM: {
     isa_ok( $mech,'Test::WWW::Mechanize' );
 
     $mech->get('http://localhost:'.PORT.'/form.html');
-    $mech->submit_form_ok( {form_number =>1}, "Submit First Form" );
+    $mech->submit_form_ok( {form_number =>1}, 'Submit First Form' );
 }
 
 cleanup();

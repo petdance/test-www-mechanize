@@ -26,7 +26,7 @@ FOLLOW_GOOD_LINK: {
     isa_ok( $mech,'Test::WWW::Mechanize' );
 
     $mech->get('http://localhost:'.PORT.'/goodlinks.html');
-    $mech->follow_link_ok( {n=>1}, "Go after first link" );
+    $mech->follow_link_ok( {n=>1}, 'Go after first link' );
 }
 
 FOLLOW_BAD_LINK: {

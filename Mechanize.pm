@@ -1,5 +1,8 @@
 package Test::WWW::Mechanize;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
@@ -60,9 +63,6 @@ results in
     ok - Content is like '(?-xism:(cpan|perl)\.org)'
 
 =cut
-
-use warnings;
-use strict;
 
 use WWW::Mechanize ();
 use Test::LongString;
@@ -637,7 +637,8 @@ Follow all links on the current page and test for HTTP status 200
 sub page_links_ok {
     my $self = shift;
     my $desc = shift;
-    $desc = "All links ok" if !defined($desc);
+
+    $desc = 'All links ok' unless defined $desc;
 
     my @links = $self->followable_links();
     my @urls = _format_links(\@links);
@@ -664,12 +665,13 @@ sub page_links_content_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "All links are like '$regex'" if !defined($desc);
+
+    $desc = qq{All links are like "$regex"} unless defined $desc;
 
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
         my $ok = $Test->ok( 0, 'page_links_content_like' );
-        $Test->diag("     '$regex' doesn't look much like a regex to me.");
+        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -704,7 +706,7 @@ sub page_links_content_unlike {
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
         my $ok = $Test->ok( 0, 'page_links_content_unlike' );
-        $Test->diag("     '$regex' doesn't look much like a regex to me.");
+        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -743,7 +745,7 @@ sub links_ok {
     my $desc = shift;
 
     my @urls = _format_links( $links );
-    $desc = _default_links_desc(\@urls, "are ok") if !defined($desc);
+    $desc = _default_links_desc(\@urls, 'are ok') unless defined $desc;
     my @failures = $self->_check_links_status( \@urls );
     my $ok = (@failures == 0);
 
@@ -836,7 +838,7 @@ sub link_content_like {
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
         my $ok = $Test->ok( 0, 'link_content_like' );
-        $Test->diag("     '$regex' doesn't look much like a regex to me.");
+        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -873,12 +875,12 @@ sub link_content_unlike {
     my $usable_regex=$Test->maybe_regex( $regex );
     unless(defined( $usable_regex )) {
         my $ok = $Test->ok( 0, 'link_content_unlike' );
-        $Test->diag("     '$regex' doesn't look much like a regex to me.");
+        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
     my @urls = _format_links( $links );
-    $desc = _default_links_desc(\@urls, "are not like '$regex'") if !defined($desc);
+    $desc = _default_links_desc(\@urls, qq{are not like "$regex"}) if !defined($desc);
     my @failures = $self->_check_links_content( \@urls, $regex, 'unlike' );
     my $ok = (@failures == 0);
 
@@ -962,13 +964,13 @@ sub _format_links {
     my $links = shift;
 
     my @urls;
-    if(ref($links) eq 'ARRAY') {
-        if(defined($$links[0])) {
-            if(ref($$links[0]) eq 'WWW::Mechanize::Link') {
-                @urls=map { $_->url() } @$links;
+    if (ref($links) eq 'ARRAY') {
+        if (defined($$links[0])) {
+            if (ref($$links[0]) eq 'WWW::Mechanize::Link') {
+                @urls = map { $_->url() } @{$links};
             }
             else {
-                @urls=@$links;
+                @urls = @{$links};
             }
         }
     }
