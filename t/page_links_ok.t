@@ -22,7 +22,7 @@ sleep 1;
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;
 
-my $mech=Test::WWW::Mechanize->new();
+my $mech=Test::WWW::Mechanize->new( autocheck => 0 );
 
 isa_ok($mech,'Test::WWW::Mechanize');
 

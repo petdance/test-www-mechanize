@@ -22,7 +22,7 @@ sleep 1; # $server->background() may come back prematurely, so give it a second 
 sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__}=\&cleanup;
 
-my $mech=Test::WWW::Mechanize->new();
+my $mech=Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
 
 $mech->get('http://localhost:'.PORT.'/goodlinks.html');
