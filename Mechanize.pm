@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.18
+Version 1.22
 
 =cut
 
-our $VERSION = '1.20';
+our $VERSION = '1.22';
 
 =head1 SYNOPSIS
 
@@ -93,7 +93,7 @@ sub new {
     return $self;
 }
 
-=head1 METHODS: GETTING & POSTING
+=head1 METHODS: HTTP VERBS
 
 =head2 $mech->get_ok($url, [ \%LWP_options ,] $desc)
 
@@ -138,6 +138,59 @@ sub get_ok {
     if ( not defined $desc ) {
         $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
         $desc = "GET $url";
+    }
+    $Test->ok( $ok, $desc );
+    if ( !$ok ) {
+        $Test->diag( $self->status );
+        $Test->diag( $self->response->message ) if $self->response;
+    }
+
+    return $ok;
+}
+
+=head2 $mech->head_ok($url, [ \%LWP_options ,] $desc)
+
+A wrapper around WWW::Mechanize's head(), with similar options, except
+the second argument needs to be a hash reference, not a hash. Like
+well-behaved C<*_ok()> functions, it returns true if the test passed,
+or false if not.
+
+A default description of "HEAD $url" is used if none if provided.
+
+=cut
+
+sub head_ok {
+    my $self = shift;
+    my $url = shift;
+
+    my $desc;
+    my %opts;
+
+    if ( @_ ) {
+        my $flex = shift; # The flexible argument
+
+        if ( !defined( $flex ) ) {
+            $desc = shift;
+        }
+        elsif ( ref $flex eq 'HASH' ) {
+            %opts = %{$flex};
+            $desc = shift;
+        }
+       elsif ( ref $flex eq 'ARRAY' ) {
+            %opts = @{$flex};
+            $desc = shift;
+        }
+        else {
+            $desc = $flex;
+        }
+    } # parms left
+
+    $self->head( $url, %opts );
+    my $ok = $self->success;
+
+    if ( not defined $desc ) {
+        $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
+        $desc = "HEAD $url";
     }
     $Test->ok( $ok, $desc );
     if ( !$ok ) {
@@ -200,6 +253,57 @@ sub post_ok {
     return $ok;
 }
 
+=head2 $mech->put_ok( $url, [ \%LWP_options ,] $desc )
+
+A wrapper around WWW::Mechanize's put(), with similar options, except
+the second argument needs to be a hash reference, not a hash. Like
+well-behaved C<*_ok()> functions, it returns true if the test passed,
+or false if not.
+
+A default description of "PUT to $url" is used if none if provided.
+
+=cut
+
+sub put_ok {
+    my $self = shift;
+    my $url = shift;
+
+    my $desc;
+    my %opts;
+
+    if ( @_ ) {
+        my $flex = shift; # The flexible argument
+
+        if ( !defined( $flex ) ) {
+            $desc = shift;
+        }
+        elsif ( ref $flex eq 'HASH' ) {
+            %opts = %{$flex};
+            $desc = shift;
+        }
+        elsif ( ref $flex eq 'ARRAY' ) {
+            %opts = @{$flex};
+            $desc = shift;
+        }
+        else {
+            $desc = $flex;
+        }
+    } # parms left
+
+    if ( not defined $desc ) {
+        $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
+        $desc = "PUT $url";
+    }
+    $self->put( $url, \%opts );
+    my $ok = $self->success;
+    $Test->ok( $ok, $desc );
+    if ( !$ok ) {
+        $Test->diag( $self->status );
+        $Test->diag( $self->response->message ) if $self->response;
+    }
+
+    return $ok;
+}
 
 =head2 submit_form_ok( \%parms [, $desc] )
 

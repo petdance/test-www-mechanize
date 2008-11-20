@@ -4,8 +4,15 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+1.22    Thu Nov 20 00:33:36 CST 2008
+------------------------------------
+[ENHANCEMENTS]
+Added $mech->head_ok() and $mech->put_ok() methods.  Thanks to
+Jaldhar Vyas.
+
+
 1.20    Wed Mar 12 23:56:11 CDT 2008
------------------------------------
+------------------------------------
 [FIXES]
 stuff_inputs() used to do nothing.  Now it works.
 http://code.google.com/p/www-mechanize/issues/detail?id=9
