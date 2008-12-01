@@ -7,6 +7,7 @@ use Test::Builder::Tester;
 use URI::file;
 
 use constant PORT => 13432;
+delete $ENV{http_proxy};
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
@@ -17,7 +18,7 @@ my $server=TWMServer->new(PORT);
 my $pid=$server->background or die q{Can't start the server};
 sleep 1; # $server->background() may come back prematurely, so give it a second to fire up
 
-sub cleanup { kill(9,$pid) };
+sub cleanup { kill(9,$pid) }
 $SIG{__DIE__}=\&cleanup;
 
 SUBMIT_GOOD_FORM: {
@@ -31,25 +32,27 @@ SUBMIT_GOOD_FORM: {
 cleanup();
 
 {
-  package TWMServer;
-  use base 'HTTP::Server::Simple::CGI';
+    package TWMServer;
+    use base 'HTTP::Server::Simple::CGI';
 
-  sub handle_request {
-    my $self=shift;
-    my $cgi=shift;
+    sub handle_request {
+        my $self=shift;
+        my $cgi=shift;
 
-    my $file=(split('/',$cgi->path_info))[-1]||'index.html';
-    $file=~s/\s+//g;
+        my $file=(split('/',$cgi->path_info))[-1]||'index.html';
+        $file=~s/\s+//g;
 
-    if(-r "t/html/$file") {
-      if(my $response=do { local (@ARGV, $/) = "t/html/$file"; <> }) {
-        print "HTTP/1.0 200 OK\r\n";
-        print "Content-Type: text/html\r\nContent-Length: ",
-          length($response), "\r\n\r\n", $response;
+        if(-r "t/html/$file") {
+            if(my $response=do { local (@ARGV, $/) = "t/html/$file"; <> }) {
+                print "HTTP/1.0 200 OK\r\n";
+                print "Content-Type: text/html\r\nContent-Length: ",
+                length($response), "\r\n\r\n", $response;
+                return;
+            }
+        }
+
+        print "HTTP/1.0 404 Not Found\r\n\r\n";
+
         return;
-      }
     }
-
-    print "HTTP/1.0 404 Not Found\r\n\r\n";
-  }
 }

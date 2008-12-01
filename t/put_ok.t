@@ -6,6 +6,8 @@ use Test::More;
 use Test::Builder::Tester;
 use URI::file;
 
+use Carp::Always;
+
 use constant PORT => 13432;
 
 use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
@@ -27,7 +29,7 @@ my $pid=$server->background;
 ok( $pid,'HTTP Server started' ) or die "Can't start the server";
 sleep 1; # $server->background() may come back prematurely, so give it a second to fire up
 
-sub cleanup { kill(9,$pid) if !$^S };
+sub cleanup { kill(9,$pid) if !$^S }
 $SIG{__DIE__}=\&cleanup;
 
 my $mech=Test::WWW::Mechanize->new( autocheck => 0 );
@@ -42,8 +44,8 @@ GOOD_PUT: {
     test_out('ok 1 - Try to PUT goodlinks.html');
     my $ok = $mech->put_ok($goodlinks, 'Try to PUT goodlinks.html');
     test_test('PUTs existing URI and reports success');
-    is( ref($ok), '', "put_ok() should only return a scalar" );
-    ok( $ok, "And the result should be true" );
+    is( ref($ok), '', 'put_ok() should only return a scalar' );
+    ok( $ok, 'And the result should be true' );
 
     # default desc
     test_out("ok 1 - PUT $goodlinks");
@@ -52,19 +54,19 @@ GOOD_PUT: {
 }
 
 BAD_PUT: {
-    my $badurl = "http://wango.nonexistent.xx-only-testing/";
+    my $badurl = 'http://wango.nonexistent.xx-only-testing/';
     $mech->put($badurl);
-    ok(!$mech->success, "sanity check: we can't load NONEXISTENT.html");
+    ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html});
 
     test_out( 'not ok 1 - Try to PUT bad URL' );
     test_fail( +3 );
-    test_diag( "500" );
-    test_diag( "Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname 'wango.nonexistent.xx-only-testing')" );
+    test_diag( '500' );
+    test_diag( q{Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname 'wango.nonexistent.xx-only-testing')} );
     my $ok = $mech->put_ok( $badurl, 'Try to PUT bad URL' );
     test_test( 'Fails to PUT nonexistent URI and reports failure' );
 
     is( ref($ok), '', "put_ok() should only return a scalar" );
-    ok( !$ok, "And the result should be false" );
+    ok( !$ok, 'And the result should be false' );
 }
 
 

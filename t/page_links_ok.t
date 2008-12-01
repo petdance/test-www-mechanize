@@ -19,7 +19,7 @@ my $pid=$server->background or die q{Can't start the server};
 # Pause a second in case $server->background() came back too fast
 sleep 1;
 
-sub cleanup { kill(9,$pid) if !$^S };
+sub cleanup { kill(9,$pid) if !$^S }
 $SIG{__DIE__}=\&cleanup;
 
 my $mech=Test::WWW::Mechanize->new( autocheck => 0 );

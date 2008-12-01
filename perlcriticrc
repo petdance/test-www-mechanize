@@ -17,6 +17,9 @@ allow_leading_tabs = 0
 
 [-Miscellanea::RequireRcsKeywords]
 
+[Modules::ProhibitEvilModules]
+modules = Autoload Data::Dumper Date::Manip /Acme::/ Array::Iterator Carp::Always /Tie::/ Time::localtime Time::Local
+
 [-Modules::RequireVersionVar]
 
 [-RegularExpressions::RequireExtendedFormatting]
@@ -24,5 +27,14 @@ allow_leading_tabs = 0
 
 [-ValuesAndExpressions::ProhibitConstantPragma]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
+[-ValuesAndExpressions::ProhibitMagicNumbers]
+[-ValuesAndExpressions::ProhibitNoisyQuotes]
+
+[ValuesAndExpressions::RequireQuotedHeredocTerminator]
+severity = 5
+
+[ValuesAndExpressions::RequireUpperCaseHeredocTerminator]
+severity = 5
 
 [-Variables::ProhibitPunctuationVars]
+

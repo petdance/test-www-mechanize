@@ -4,6 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
+BAD_GET	t/back_ok.t	/^BAD_GET: {$/;"	l
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
 BAD_HEAD	t/head_ok.t	/^BAD_HEAD: {$/;"	l
 BAD_PUT	t/put_ok.t	/^BAD_PUT: {$/;"	l
@@ -12,6 +13,7 @@ CUSTOM_FILL	t/stuff_inputs.t	/^CUSTOM_FILL: {$/;"	l
 EMPTY_FIELDS	t/stuff_inputs.t	/^EMPTY_FIELDS: {$/;"	l
 FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
+GOOD_GET	t/back_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_HEAD	t/head_ok.t	/^GOOD_HEAD: { # Stop giggling, you!$/;"	l
@@ -21,10 +23,13 @@ MAXLENGTH	t/stuff_inputs.t	/^MAXLENGTH: {$/;"	l
 MULTICHAR_FILL	t/stuff_inputs.t	/^MULTICHAR_FILL: {$/;"	l
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 NEW	t/new.t	/^NEW: {$/;"	l
+NONEXISTENT	t/back_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NONEXISTENT	t/get_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NONEXISTENT	t/head_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NONEXISTENT	t/put_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 OVERWRITE	t/stuff_inputs.t	/^OVERWRITE: {$/;"	l
+PORT	t/back_ok.t	/^use constant PORT => 13432;$/;"	c
+PORT	t/click_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/content_contains.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/content_lacks.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/follow_link_ok.t	/^use constant PORT => 13432;$/;"	c
@@ -39,7 +44,10 @@ PORT	t/page_links_content.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/page_links_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/put_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/submit_form_ok.t	/^use constant PORT => 13432;$/;"	c
+SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
+TWMServer	t/back_ok.t	/^  package TWMServer;$/;"	p
+TWMServer	t/click_ok.t	/^    package TWMServer;$/;"	p
 TWMServer	t/content_contains.t	/^  package TWMServer;$/;"	p
 TWMServer	t/content_lacks.t	/^  package TWMServer;$/;"	p
 TWMServer	t/follow_link_ok.t	/^  package TWMServer;$/;"	p
@@ -69,6 +77,8 @@ base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
 base_unlike	Mechanize.pm	/^sub base_unlike {$/;"	s
 bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
+cleanup	t/back_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
+cleanup	t/click_ok.t	/^sub cleanup { kill(9,$pid) };$/;"	s
 cleanup	t/content_contains.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/content_lacks.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/follow_link_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
@@ -80,9 +90,10 @@ cleanup	t/link_content.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/link_status.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
 cleanup	t/page_links_content.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
-cleanup	t/page_links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
-cleanup	t/put_ok.t	/^sub cleanup { kill(9,$pid) if !$^S };$/;"	s
-cleanup	t/submit_form_ok.t	/^sub cleanup { kill(9,$pid) };$/;"	s
+cleanup	t/page_links_ok.t	/^sub cleanup { kill(9,$pid) if !$^S }$/;"	s
+cleanup	t/put_ok.t	/^sub cleanup { kill(9,$pid) if !$^S }$/;"	s
+cleanup	t/submit_form_ok.t	/^sub cleanup { kill(9,$pid) }$/;"	s
+click_ok	Mechanize.pm	/^sub click_ok {$/;"	s
 content_contains	Mechanize.pm	/^sub content_contains {$/;"	s
 content_is	Mechanize.pm	/^sub content_is {$/;"	s
 content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
@@ -93,6 +104,8 @@ field_checks	t/stuff_inputs.t	/^sub field_checks {$/;"	s
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
+handle_request	t/back_ok.t	/^  sub handle_request {$/;"	s
+handle_request	t/click_ok.t	/^    sub handle_request {$/;"	s
 handle_request	t/content_contains.t	/^  sub handle_request {$/;"	s
 handle_request	t/content_lacks.t	/^  sub handle_request {$/;"	s
 handle_request	t/follow_link_ok.t	/^  sub handle_request {$/;"	s

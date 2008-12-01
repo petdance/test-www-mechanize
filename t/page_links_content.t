@@ -30,7 +30,7 @@ isa_ok($mech,'Test::WWW::Mechanize');
 $mech->get('http://localhost:'.PORT.'/goodlinks.html');
 
 # test regex
-test_out('not ok 1 - page_links_content_like'); 
+test_out('not ok 1 - page_links_content_like');
 test_fail(+2);
 test_diag(q{     "blah" doesn't look much like a regex to me.});
 $mech->page_links_content_like('blah','Testing the regex');
@@ -84,7 +84,7 @@ cleanup();
     my $self=shift;
     my $cgi=shift;
 
-    my $file=(split('/',$cgi->path_info))[-1]||'index.html';
+    my $file=(split(/\//,$cgi->path_info))[-1]||'index.html';
     $file=~s/\s+//g;
 
     if(-r "t/html/$file") {

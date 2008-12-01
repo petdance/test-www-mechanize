@@ -66,7 +66,7 @@ cleanup();
     my $self=shift;
     my $cgi=shift;
 
-    my $file=(split('/',$cgi->path_info))[-1]||'index.html';
+    my $file=(split(/\//,$cgi->path_info))[-1]||'index.html';
     $file=~s/\s+//g;
 
     if(-r "t/html/$file") {
