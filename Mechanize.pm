@@ -391,7 +391,7 @@ sub follow_link_ok {
     }
 
     if ( ref $parms ne 'HASH' ) {
-       Carp::croak "FATAL: parameters must be given as a hashref";
+       Carp::croak 'FATAL: parameters must be given as a hashref';
     }
 
     # return from follow_link() is an HTTP::Response or undef
@@ -400,7 +400,7 @@ sub follow_link_ok {
     my $ok;
     my $error;
     if ( !$response ) {
-        $error = "No matching link found";
+        $error = 'No matching link found';
     }
     else {
         if ( $response->is_success ) {
@@ -415,6 +415,32 @@ sub follow_link_ok {
     $Test->diag( $error ) if $error;
 
     return $ok;
+}
+
+
+=head2 click_ok( $button[, $desc] )
+
+Clicks the button named by C<$button>.  An optional C<$desc> can
+be given for the test.
+
+=cut
+
+sub click_ok {
+    my $self   = shift;
+    my $button = shift;
+    my $desc   = shift;
+
+    my $response = $self->click( $button );
+    if ( !$response ) {
+        return $Test->ok( 0, $desc );
+    }
+
+    if ( !$response->is_success ) {
+        $Test->diag( "Failed test $desc:" );
+        $Test->diag( $response->as_string );
+        return $Test->ok( 0, $desc );
+    }
+    return $Test->( 1, $desc );
 }
 
 =head1 METHODS: CONTENT CHECKING

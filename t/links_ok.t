@@ -8,7 +8,7 @@ use URI::file;
 
 use constant PORT => 13432;
 
-$ENV{http_proxy} = ''; # All our tests are running on localhost
+delete $ENV{http_proxy}; # All our tests are running on localhost
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );

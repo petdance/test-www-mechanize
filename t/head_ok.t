@@ -16,7 +16,7 @@ BEGIN {
 }
 
 BEGIN {
-    $ENV{http_proxy} = ''; # All our tests are running on localhost
+    delete $ENV{http_proxy}; # All our tests are running on localhost
     plan tests => 12;
     use_ok( 'Test::WWW::Mechanize' );
 }

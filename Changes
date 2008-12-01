@@ -4,6 +4,15 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+NEXT
+------------------------------------
+[FIXED]
+Tests would fail because we weren't unsetting http_proxy.
+
+[ENHANCEMENTS]
+Added $mech->click_ok().
+
+
 1.22    Thu Nov 20 00:33:36 CST 2008
 ------------------------------------
 [ENHANCEMENTS]
