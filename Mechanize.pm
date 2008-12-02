@@ -305,7 +305,7 @@ sub put_ok {
     return $ok;
 }
 
-=head2 submit_form_ok( \%parms [, $desc] )
+=head2 $mech->submit_form_ok( \%parms [, $desc] )
 
 Makes a C<submit_form()> call and executes tests on the results.
 The form must be found, and then submitted successfully.  Otherwise,
