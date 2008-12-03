@@ -86,9 +86,12 @@ passed in get passed to WWW::Mechanize's constructor.
 
 sub new {
     my $class = shift;
-    my %mech_args = @_;
 
-    my $self = $class->SUPER::new( %mech_args );
+    my %args = (
+        agent => "Test-WWW-Mechanize/$VERSION",
+        @_
+    );
+    my $self = $class->SUPER::new( %args );
 
     return $self;
 }

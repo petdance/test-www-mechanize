@@ -12,6 +12,8 @@ Tests would fail because we weren't unsetting http_proxy.
 [ENHANCEMENTS]
 Added $mech->click_ok().
 
+The user agent is now "Test-WWW-Mechanize/version" by default.
+
 
 1.22    Thu Nov 20 00:33:36 CST 2008
 ------------------------------------

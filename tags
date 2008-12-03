@@ -61,7 +61,7 @@ TWMServer	t/links_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_content.t	/^  package TWMServer;$/;"	p
 TWMServer	t/page_links_ok.t	/^  package TWMServer;$/;"	p
 TWMServer	t/put_ok.t	/^    package TWMServer;$/;"	p
-TWMServer	t/submit_form_ok.t	/^  package TWMServer;$/;"	p
+TWMServer	t/submit_form_ok.t	/^    package TWMServer;$/;"	p
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::get {$/;"	s
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test	t/head_ok-parms.t	/^sub Test::WWW::Mechanize::head {$/;"	s
@@ -119,7 +119,7 @@ handle_request	t/links_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_content.t	/^  sub handle_request {$/;"	s
 handle_request	t/page_links_ok.t	/^  sub handle_request {$/;"	s
 handle_request	t/put_ok.t	/^    sub handle_request {$/;"	s
-handle_request	t/submit_form_ok.t	/^  sub handle_request {$/;"	s
+handle_request	t/submit_form_ok.t	/^    sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
 head_ok	Mechanize.pm	/^sub head_ok {$/;"	s
