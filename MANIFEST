@@ -36,5 +36,6 @@ t/TestServer.pm
 t/html/bad.html
 t/html/badlinks.html
 t/html/form.html
+t/html/good.html
 t/html/goodlinks.html
 t/html/manylinks.html
