@@ -335,7 +335,7 @@ sub submit_form_ok {
     my $desc = shift;
 
     if ( ref $parms ne 'HASH' ) {
-       Carp::croak "FATAL: parameters must be given as a hashref";
+       Carp::croak 'FATAL: parameters must be given as a hashref';
     }
 
     # return from submit_form() is an HTTP::Response or undef
@@ -344,7 +344,7 @@ sub submit_form_ok {
     my $ok;
     my $error;
     if ( !$response ) {
-        $error = "No matching form found";
+        $error = 'No matching form found';
     }
     else {
         if ( $response->is_success ) {
@@ -389,8 +389,8 @@ sub follow_link_ok {
     my $desc = shift;
 
     if (!defined($desc)) {
-        my $parms_str = join(", ", map { join("=", $_, $parms->{$_}) } keys(%{$parms}));
-        $desc = "Followed link with '$parms_str'" if !defined($desc);
+        my $parms_str = join(', ', map { join('=', $_, $parms->{$_}) } keys(%{$parms}));
+        $desc = qq{Followed link with "$parms_str"} if !defined($desc);
     }
 
     if ( ref $parms ne 'HASH' ) {
@@ -509,7 +509,7 @@ sub title_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
-    $desc = "Title is '$str'" if !defined($desc);
+    $desc = qq{Title is "$str"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return is_string( $self->title, $str, $desc );
@@ -527,7 +527,7 @@ sub title_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Title is like '$regex'" if !defined($desc);
+    $desc = qq{Title is like "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->title, $regex, $desc );
@@ -545,7 +545,7 @@ sub title_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Title unlike '$regex'" if !defined($desc);
+    $desc = qq{Title is unlike "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->title, $regex, $desc );
@@ -563,7 +563,7 @@ sub base_is {
     my $self = shift;
     my $str = shift;
     my $desc = shift;
-    $desc = "Base is '$str'" if !defined($desc);
+    $desc = qq{Base is "$str"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return is_string( $self->base, $str, $desc );
@@ -581,7 +581,7 @@ sub base_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Base is like '$regex'" if !defined($desc);
+    $desc = qq{Base is like "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->base, $regex, $desc );
@@ -599,7 +599,7 @@ sub base_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Base unlike '$regex'" if !defined($desc);
+    $desc = qq{Base is unlike "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->base, $regex, $desc );
