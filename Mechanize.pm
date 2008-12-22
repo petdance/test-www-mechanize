@@ -182,28 +182,16 @@ sub get_ok {
         $desc = "GET $url";
     }
 
-    if ( $ok && $self->is_html && $self->{autolint} ) {
-        my $lint = HTML::Lint->new;
-        $lint->parse( $self->content );
-
-        my @errors = $lint->errors;
-        my $nerrors = @errors;
-        if ( $nerrors ) {
-            $ok = $Test->ok( 0, $desc );
-            $Test->diag( "HTML::Lint errors for $url" );
-            $Test->diag( $_->as_string ) for @errors;
-            my $s = $nerrors == 1 ? '' : 's';
-            $Test->diag( "$nerrors error$s on the page" );
+    if ( $ok ) {
+        if ( $self->is_html && $self->{autolint} ) {
+            $ok = $self->_lint_content_ok( $desc );
         }
         else {
-            $ok = $Test->ok( 1, $desc );
+            $Test->ok( $ok, $desc );
         }
     }
     else {
         $Test->ok( $ok, $desc );
-    }
-
-    if ( !$ok ) {
         $Test->diag( $self->status );
         $Test->diag( $self->response->message ) if $self->response;
     }
@@ -522,31 +510,13 @@ sub html_lint_ok {
     my $self = shift;
     my $desc = shift;
 
-    eval 'require HTML::Lint';
-    $@ and die 'html_lint_ok cannot run without HTML::Lint';
-
     my $uri = $self->uri;
     $desc = $desc ? "$desc ($uri)" : $uri;
 
     my $ok;
 
     if ( $self->is_html ) {
-        # XXX Combine with the cut'n'paste version in get_ok()
-        my $lint = HTML::Lint->new;
-        $lint->parse( $self->content );
-
-        my @errors = $lint->errors;
-        my $nerrors = @errors;
-        if ( $nerrors ) {
-            $ok = $Test->ok( 0, $desc );
-            $Test->diag( "HTML::Lint errors for $uri" );
-            $Test->diag( $_->as_string ) for @errors;
-            my $s = $nerrors == 1 ? '' : 's';
-            $Test->diag( "$nerrors error$s on the page" );
-        }
-        else {
-            $ok = $Test->ok( 1, $desc );
-        }
+        $ok = $self->_lint_content_ok( $desc );
     }
     else {
         $ok = $Test->ok( 0, $desc );
@@ -556,6 +526,35 @@ sub html_lint_ok {
     return $ok;
 }
 
+sub _lint_content_ok {
+    my $self = shift;
+    my $desc = shift;
+
+    if ( not ( eval 'require HTML::Lint' ) ) {
+        die "Test::WWW::Mechanize can't do linting without HTML::Lint: $@";
+    }
+
+    # XXX Combine with the cut'n'paste version in get_ok()
+    my $lint = HTML::Lint->new;
+    $lint->parse( $self->content );
+
+    my @errors = $lint->errors;
+    my $nerrors = @errors;
+    my $ok;
+    if ( $nerrors ) {
+        my $uri = $self->uri;
+        $ok = $Test->ok( 0, $desc );
+        $Test->diag( "HTML::Lint errors for $uri" );
+        $Test->diag( $_->as_string ) for @errors;
+        my $s = $nerrors == 1 ? '' : 's';
+        $Test->diag( "$nerrors error$s on the page" );
+    }
+    else {
+        $ok = $Test->ok( 1, $desc );
+    }
+
+    return $ok;
+}
 
 =head2 $mech->title_is( $str [, $desc ] )
 
