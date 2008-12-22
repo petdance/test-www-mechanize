@@ -40,14 +40,12 @@ GOOD_GET_BAD_HTML: {
     my $uri = "$server_root/bad.html";
 
     test_out( 'not ok 1 - GET bad.html' );
-    test_fail( +8 );
+    test_fail( +6 );
     test_err( "# HTML::Lint errors for $uri" );
     test_err( '#  (7:9) Unknown attribute "hrex" for tag <a>' );
     test_err( '#  (8:33) </b> with no opening <b>' );
     test_err( '#  (9:5) <a> at (8:9) is never closed' );
     test_err( '# 3 errors on the page' );
-    test_diag( '200' );
-    test_diag( 'OK' );
     $mech->get_ok( $uri, 'GET bad.html' );
     test_test( 'Good GET, bad HTML' );
 }

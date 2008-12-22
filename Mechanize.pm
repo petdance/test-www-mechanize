@@ -530,6 +530,8 @@ sub _lint_content_ok {
     my $self = shift;
     my $desc = shift;
 
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     if ( not ( eval 'require HTML::Lint' ) ) {
         die "Test::WWW::Mechanize can't do linting without HTML::Lint: $@";
     }
@@ -542,9 +544,8 @@ sub _lint_content_ok {
     my $nerrors = @errors;
     my $ok;
     if ( $nerrors ) {
-        my $uri = $self->uri;
         $ok = $Test->ok( 0, $desc );
-        $Test->diag( "HTML::Lint errors for $uri" );
+        $Test->diag( 'HTML::Lint errors for ' . $self->uri );
         $Test->diag( $_->as_string ) for @errors;
         my $s = $nerrors == 1 ? '' : 's';
         $Test->diag( "$nerrors error$s on the page" );

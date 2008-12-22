@@ -42,6 +42,7 @@ _check_links_content	Mechanize.pm	/^sub _check_links_content {$/;"	s
 _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
+_lint_content_ok	Mechanize.pm	/^sub _lint_content_ok {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
 add_test_fields	t/stuff_inputs.t	/^sub add_test_fields {$/;"	s
 background	t/TestServer.pm	/^sub background {$/;"	s
