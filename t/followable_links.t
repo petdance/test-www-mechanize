@@ -32,3 +32,5 @@ my @expected = (
     "$server_root/goodlinks.html",
 );
 is_deeply( \@links, \@expected, 'Got the right links' );
+
+$server->stop;

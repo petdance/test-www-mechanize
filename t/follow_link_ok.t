@@ -36,3 +36,5 @@ FOLLOW_BAD_LINK: {
     test_diag('');
     test_test('Handles bad links');
 }
+
+$server->stop;

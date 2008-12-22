@@ -37,3 +37,5 @@ test_diag(q(    searched: "<html>\x{0a}  <head>\x{0a}    <title>Test Page</title
 test_diag(q(  can't find: "Mungo") );
 $mech->content_contains( 'Mungo', "Where is Mungo?" );
 test_test( "Handles not finding it" );
+
+$server->stop;

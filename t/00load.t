@@ -9,4 +9,7 @@ BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, Perl $], $^X" );
+use WWW::Mechanize;
+use LWP;
+
+diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Perl $], $^X" );

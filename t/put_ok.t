@@ -60,3 +60,5 @@ BAD_PUT: {
     is( ref($ok), '', "put_ok() should only return a scalar" );
     ok( !$ok, 'And the result should be false' );
 }
+
+$server->stop;

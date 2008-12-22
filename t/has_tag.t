@@ -43,3 +43,5 @@ test_out( 'not ok 1 - Should be missing qr/goof/i link' );
 test_fail( +1 );
 $mech->has_tag_like( a => qr/goof/i, 'Should be missing qr/goof/i link' );
 test_test( 'Handles unfindable tag by content regexp' );
+
+$server->stop;

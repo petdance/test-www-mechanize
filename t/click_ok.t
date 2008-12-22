@@ -17,9 +17,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-$SIG{__DIE__} = \&TestServer::shutdown;
-
-
 SUBMIT_GOOD_FORM: {
     my $mech = Test::WWW::Mechanize->new();
     isa_ok( $mech,'Test::WWW::Mechanize' );
@@ -27,4 +24,5 @@ SUBMIT_GOOD_FORM: {
     $mech->get( "$server_root/form.html" );
     $mech->click_ok( 'big_button', 'Submit First Form' );
 }
-$server->shutdown;
+
+$server->stop;

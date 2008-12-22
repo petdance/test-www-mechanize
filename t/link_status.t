@@ -57,3 +57,5 @@ test_fail(+2);
 test_diag('goodlinks.html');
 $mech->link_status_isnt($links,200,'Checking all links not 200');
 test_test('Handles all links mismatch');
+
+$server->stop;

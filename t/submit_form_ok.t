@@ -23,3 +23,5 @@ SUBMIT_GOOD_FORM: {
     $mech->get( "$server_root/form.html" );
     $mech->submit_form_ok( {form_number =>1}, 'Submit First Form' );
 }
+
+$server->stop;

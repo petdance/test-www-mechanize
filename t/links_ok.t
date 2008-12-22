@@ -48,3 +48,5 @@ test_fail(+2);
 test_diag('test2.html');
 $mech->links_ok('test2.html','Checking specified link not found');
 test_test('Handles link not found');
+
+$server->stop;

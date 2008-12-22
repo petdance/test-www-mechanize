@@ -41,3 +41,5 @@ test_diag('bad2.html');
 test_diag('bad3.html');
 $mech->page_links_ok('Checking some page link failures');
 test_test('Handles link not found');
+
+$server->stop;

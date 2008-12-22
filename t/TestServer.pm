@@ -13,7 +13,7 @@ our $pid;
 sub new {
     my $class = shift;
 
-    die 'An instance of TestServer has already been started.' if $::pid;
+    die 'An instance of TestServer has already been started.' if $pid;
 
     return $class->SUPER::new(@_);
 }
@@ -21,11 +21,11 @@ sub new {
 sub run {
     my $self = shift;
 
-    $::pid = $self->SUPER::run(@_);
+    $pid = $self->SUPER::run(@_);
 
-    $SIG{__DIE__} = \&::stop;
+    $SIG{__DIE__} = \&stop;
 
-    return $::pid;
+    return $pid;
 }
 
 sub handle_request {
@@ -50,12 +50,12 @@ sub handle_request {
 sub background {
     my $self = shift;
 
-    $::pid = $self->SUPER::background()
+    $pid = $self->SUPER::background()
         or Carp::confess( q{Can't start the test server} );
 
     sleep 1; # background() may come back prematurely, so give it a second to fire up
 
-    return $::pid;
+    return $pid;
 }
 
 sub root {
@@ -66,14 +66,12 @@ sub root {
 }
 
 sub stop {
-    if ( $::pid ) {
-        kill( 9, $::pid ) unless $^S;
-        undef $::pid;
+    if ( $pid ) {
+        kill( 9, $pid ) unless $^S;
+        undef $pid;
     }
-}
 
-DESTROY {
-    stop();
+    return;
 }
 
 1;

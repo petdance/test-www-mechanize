@@ -61,3 +61,5 @@ BAD_GET: {
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 }
+
+$server->stop;

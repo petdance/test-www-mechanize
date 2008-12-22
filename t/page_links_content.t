@@ -65,3 +65,5 @@ test_diag('badlinks.html');
 test_diag('goodlinks.html');
 $mech->page_links_content_unlike(qr/Test/,'Checking all page link unlike content failures');
 test_test('Handles link unlike content found');
+
+$server->stop;
