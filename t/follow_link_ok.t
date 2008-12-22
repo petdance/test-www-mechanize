@@ -27,12 +27,12 @@ FOLLOW_GOOD_LINK: {
 FOLLOW_BAD_LINK: {
     my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
     isa_ok( $mech, 'Test::WWW::Mechanize' );
-    local $TODO = "I don't know how to get Test::Builder::Tester to handle regexes for the timestamp.";
+    local $TODO = q{I don't know how to get Test::Builder::Tester to handle regexes for the timestamp.};
 
     $mech->get( "$server_root/badlinks.html" );
     test_out('not ok 1 - Go after bad link');
     test_fail(+1);
-    $mech->follow_link_ok( {n=>2}, "Go after bad link" );
+    $mech->follow_link_ok( {n=>2}, 'Go after bad link' );
     test_diag('');
     test_test('Handles bad links');
 }

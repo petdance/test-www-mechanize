@@ -1,5 +1,8 @@
 package TestServer;
 
+use warnings;
+use strict;
+
 BEGIN {
     delete $ENV{http_proxy}; # All our tests are running on localhost
 }
@@ -45,6 +48,8 @@ sub handle_request {
     }
 
     print "HTTP/1.0 404 Not Found\r\n\r\n";
+
+    return;
 }
 
 sub background {

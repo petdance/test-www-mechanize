@@ -6,6 +6,7 @@ allow_leading_tabs = 0
 
 [-ControlStructures::ProhibitPostfixControls]
 
+[-Documentation::PodSpelling]
 [-Documentation::RequirePodAtEnd]
 [-Documentation::RequirePodSections]
 
@@ -37,4 +38,6 @@ severity = 5
 severity = 5
 
 [-Variables::ProhibitPunctuationVars]
+[Variables::ProhibitPackageVars]
+packages = Test::Builder
 

@@ -57,7 +57,7 @@ BAD_PUT: {
     my $ok = $mech->put_ok( $badurl, 'Try to PUT bad URL' );
     test_test( 'Fails to PUT nonexistent URI and reports failure' );
 
-    is( ref($ok), '', "put_ok() should only return a scalar" );
+    is( ref($ok), '', 'put_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 }
 

@@ -20,10 +20,10 @@ CONSTRUCTOR_PARMS: {
     my $m = Test::WWW::Mechanize->new( agent => $alias );
     isa_ok( $m, 'Test::WWW::Mechanize' );
     can_ok( $m, 'request' );
-    is( $m->agent, $alias, "Aliases don't get translated in the constructor" );
+    is( $m->agent, $alias, q{Aliases don't get translated in the constructor} );
 
     $m->agent_alias( $alias );
-    like( $m->agent, qr/^Mozilla.+compatible.+Windows/, "Alias sets the agent" );
+    like( $m->agent, qr/^Mozilla.+compatible.+Windows/, 'Alias sets the agent' );
 
     $m->agent( 'ratso/bongo v.43' );
     is( $m->agent, 'ratso/bongo v.43', 'Can still set the agent' );
