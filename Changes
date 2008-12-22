@@ -13,6 +13,14 @@ Fixed many failed tests.  Overhauled the test server setup.
 
 
 [ENHANCEMENTS]
+Added autolinting capability, so you can do this:
+
+    my $mech = Test::WWW::Mechanize->new( autolint => 1 );
+    $mech->get_ok( $url );
+
+and the get_ok() will fail if the page is fetched, but the resultant HTML
+(if it is indeed text/html) does not pass HTML::Lint.
+
 Added $mech->click_ok().
 
 The user agent is now "Test-WWW-Mechanize/version" by default.

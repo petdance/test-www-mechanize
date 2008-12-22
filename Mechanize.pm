@@ -77,10 +77,44 @@ my $Test = Test::Builder->new();
 
 =head1 CONSTRUCTOR
 
-=head2 new
+=head2 new( %args )
 
 Behaves like, and calls, L<WWW::Mechanize>'s C<new> method.  Any parms
 passed in get passed to WWW::Mechanize's constructor.
+
+You can pass in C<< autolint => 1 >> to make Test::WWW::Mechanize
+automatically run HTML::Lint after any of the following methods are
+called.
+
+=over
+
+=item * get_ok()
+
+=item * post_ok()
+
+=item * back_ok()
+
+=item * submit_form_ok()
+
+=item * follow_link_ok()
+
+=item * click_ok()
+
+=back
+
+This means you no longerhave to do the following:
+
+    my $mech = Test::WWW::Mechanize->new();
+    $mech->get_ok( $url, 'Fetch the intro page' );
+    $mech->html_lint_ok( 'Intro page looks OK' );
+
+and can simply do
+
+    my $mech = Test::WWW::Mechanize->new( autolint => 1 );
+    $mech->get_ok( $url, 'Fetch the intro page' );
+
+The C<< $mech->get_ok() >> only counts as one test in the test count.  Both the
+main IO operation and the linting must pass for the entire test to pass.
 
 =cut
 
@@ -91,7 +125,12 @@ sub new {
         agent => "Test-WWW-Mechanize/$VERSION",
         @_
     );
+
+    my $autolint = delete $args{autolint};
+
     my $self = $class->SUPER::new( %args );
+
+    $self->{autolint} = $autolint;
 
     return $self;
 }
