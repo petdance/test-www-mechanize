@@ -6,8 +6,6 @@ use Test::More 'no_plan';
 use Test::Builder::Tester;
 use URI::file;
 
-use constant PORT => 13432;
-
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
@@ -21,7 +19,7 @@ sleep 1; # $server->background() may come back prematurely, so give it a second 
 my $port = $server->port;
 
 sub cleanup { kill(9,$pid) };
-$SIG{__DIE__}=\&cleanup;
+$SIG{__DIE__} = \&cleanup;
 
 SUBMIT_GOOD_FORM: {
     my $mech = Test::WWW::Mechanize->new();

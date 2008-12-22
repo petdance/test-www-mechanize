@@ -443,7 +443,7 @@ sub click_ok {
         $Test->diag( $response->as_string );
         return $Test->ok( 0, $desc );
     }
-    return $Test->( 1, $desc );
+    return $Test->ok( 1, $desc );
 }
 
 =head1 METHODS: CONTENT CHECKING
