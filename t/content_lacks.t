@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -41,5 +38,3 @@ test_diag(q(   and found: "Test Page") );
 test_diag(q( at position: 27) );
 $mech->content_lacks( 'Test Page', "Shouldn't say it's a test page" );
 test_test( "Handles not finding it" );
-
-cleanup();

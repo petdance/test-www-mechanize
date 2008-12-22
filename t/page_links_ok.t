@@ -16,10 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
-
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -45,5 +41,3 @@ test_diag('bad2.html');
 test_diag('bad3.html');
 $mech->page_links_ok('Checking some page link failures');
 test_test('Handles link not found');
-
-cleanup();

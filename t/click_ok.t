@@ -17,8 +17,7 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__} = \&cleanup;
+$SIG{__DIE__} = \&TestServer::shutdown;
 
 
 SUBMIT_GOOD_FORM: {
@@ -28,5 +27,4 @@ SUBMIT_GOOD_FORM: {
     $mech->get( "$server_root/form.html" );
     $mech->click_ok( 'big_button', 'Submit First Form' );
 }
-
-cleanup();
+$server->shutdown;

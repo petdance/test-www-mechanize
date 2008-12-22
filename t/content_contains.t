@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -40,5 +37,3 @@ test_diag(q(    searched: "<html>\x{0a}  <head>\x{0a}    <title>Test Page</title
 test_diag(q(  can't find: "Mungo") );
 $mech->content_contains( 'Mungo', "Where is Mungo?" );
 test_test( "Handles not finding it" );
-
-cleanup();

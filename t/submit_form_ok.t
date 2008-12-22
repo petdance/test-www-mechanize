@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 SUBMIT_GOOD_FORM: {
     my $mech = Test::WWW::Mechanize->new();
     isa_ok( $mech,'Test::WWW::Mechanize' );
@@ -26,6 +23,3 @@ SUBMIT_GOOD_FORM: {
     $mech->get( "$server_root/form.html" );
     $mech->submit_form_ok( {form_number =>1}, 'Submit First Form' );
 }
-
-cleanup();
-

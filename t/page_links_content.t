@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 my $mech = Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -68,5 +65,3 @@ test_diag('badlinks.html');
 test_diag('goodlinks.html');
 $mech->page_links_content_unlike(qr/Test/,'Checking all page link unlike content failures');
 test_test('Handles link unlike content found');
-
-cleanup();

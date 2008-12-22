@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S }
-$SIG{__DIE__}=\&cleanup;
-
 FOLLOW_GOOD_LINK: {
     my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
     isa_ok( $mech,'Test::WWW::Mechanize' );
@@ -39,5 +36,3 @@ FOLLOW_BAD_LINK: {
     test_diag('');
     test_test('Handles bad links');
 }
-
-cleanup();

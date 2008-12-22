@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 my $mech = Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -35,5 +32,3 @@ my @expected = (
     "$server_root/goodlinks.html",
 );
 is_deeply( \@links, \@expected, 'Got the right links' );
-
-cleanup();

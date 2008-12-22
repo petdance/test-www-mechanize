@@ -16,9 +16,6 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) if !$^S };
-$SIG{__DIE__}=\&cleanup;
-
 my $mech = Test::WWW::Mechanize->new;
 isa_ok($mech,'Test::WWW::Mechanize');
 
@@ -46,5 +43,3 @@ test_out( 'not ok 1 - Should be missing qr/goof/i link' );
 test_fail( +1 );
 $mech->has_tag_like( a => qr/goof/i, 'Should be missing qr/goof/i link' );
 test_test( 'Handles unfindable tag by content regexp' );
-
-cleanup();
