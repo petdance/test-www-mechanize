@@ -32,7 +32,7 @@ sub handle_request {
     my $self = shift;
     my $cgi  = shift;
 
-    my $file = (split('/',$cgi->path_info))[-1]||'index.html';
+    my $file = (split( /\//,$cgi->path_info))[-1]||'index.html';
     $file    =~ s/\s+//g;
 
     my $filename = "t/html/$file";

@@ -4,6 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
+BAD_GET	t/autolint.t	/^BAD_GET: {$/;"	l
 BAD_GET	t/back_ok.t	/^BAD_GET: {$/;"	l
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
 BAD_HEAD	t/head_ok.t	/^BAD_HEAD: {$/;"	l
@@ -16,6 +17,8 @@ FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD_GET	t/back_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
+GOOD_GET_BAD_HTML	t/autolint.t	/^GOOD_GET_BAD_HTML: {$/;"	l
+GOOD_GET_GOOD_HTML	t/autolint.t	/^GOOD_GET_GOOD_HTML: {$/;"	l
 GOOD_HEAD	t/head_ok.t	/^GOOD_HEAD: { # Stop giggling, you!$/;"	l
 GOOD_PUT	t/put_ok.t	/^GOOD_PUT: {$/;"	l
 IGNORE	t/stuff_inputs.t	/^IGNORE: {$/;"	l

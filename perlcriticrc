@@ -21,6 +21,7 @@ modules = Autoload Data::Dumper Date::Manip /Acme::/ Array::Iterator Carp::Alway
 
 [-Modules::RequireVersionVar]
 
+[-RegularExpressions::RequireDotMatchAnything]
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
