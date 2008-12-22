@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Test::More tests => 16;
 use Test::Builder::Tester;
+use Data::Dumper; ## no critic, needed for the head() method below
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
@@ -15,7 +16,6 @@ sub Test::WWW::Mechanize::success { return 1; }
 sub Test::WWW::Mechanize::head {
     my $self = shift;
     my $url = shift;
-    use Data::Dumper;
     $ua_args = {@_};
     print Dumper( \@_ ) if @_ % 2;
     return 1;

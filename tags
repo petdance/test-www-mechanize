@@ -26,8 +26,6 @@ NONEXISTENT	t/put_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-no
 OVERWRITE	t/stuff_inputs.t	/^OVERWRITE: {$/;"	l
 SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
-TWMServer	t/link_status.t	/^  package TWMServer;$/;"	p
-TWMServer	t/put_ok.t	/^    package TWMServer;$/;"	p
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::get {$/;"	s
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test	t/head_ok-parms.t	/^sub Test::WWW::Mechanize::head {$/;"	s
@@ -71,8 +69,6 @@ follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
 handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
-handle_request	t/link_status.t	/^  sub handle_request {$/;"	s
-handle_request	t/put_ok.t	/^    sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
 head_ok	Mechanize.pm	/^sub head_ok {$/;"	s

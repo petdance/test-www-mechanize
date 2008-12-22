@@ -635,7 +635,7 @@ sub content_contains {
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( ref($str) eq 'REGEX' ) {
-        diag( "content_contains takes a string, not a regex" );
+        diag( 'content_contains takes a string, not a regex' );
     }
     $desc = qq{Content contains "$str"} if !defined($desc);
 
@@ -672,7 +672,7 @@ sub content_like {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Content is like '$regex'" if !defined($desc);
+    $desc = qq{Content is like "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return like_string( $self->content, $regex, $desc );
@@ -688,7 +688,7 @@ sub content_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Content unlike '$regex'" if !defined($desc);
+    $desc = qq{Content is like "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->content, $regex, $desc );
@@ -705,7 +705,7 @@ sub has_tag {
     my $tag  = shift;
     my $text = shift;
     my $desc = shift;
-    $desc = "Page has $tag tag with '$text'" if !defined($desc);
+    $desc = qq{Page has $tag tag with "$text"} if !defined($desc);
 
     my $found = $self->_tag_walk( $tag, sub { $text eq $_[0] } );
 
@@ -724,7 +724,7 @@ sub has_tag_like {
     my $tag  = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = "Page has $tag tag like '$regex'" if !defined($desc);
+    $desc = qq{Page has $tag tag like "$regex"} if !defined($desc);
 
     my $found = $self->_tag_walk( $tag, sub { $_[0] =~ $regex } );
 
@@ -1026,8 +1026,8 @@ sub link_content_unlike {
 # Create a default description for the link_* methods, including the link count.
 sub _default_links_desc {
     my ($urls, $desc_suffix) = @_;
-    my $url_count = scalar(@$urls);
-    return sprintf("%d link%s %s", $url_count, $url_count == 1 ? "" : "s", $desc_suffix);
+    my $url_count = scalar(@{$urls});
+    return sprintf( '%d link%s %s', $url_count, $url_count == 1 ? '' : 's', $desc_suffix );
 }
 
 # This actually performs the status check of each url.
@@ -1043,7 +1043,7 @@ sub _check_links_status {
 
     my @failures;
 
-    for my $url ( @$urls ) {
+    for my $url ( @{$urls} ) {
         if ( $mech->follow_link( url => $url ) ) {
             if ( $test eq 'is' ) {
                 push( @failures, $url ) unless $mech->status() == $status;
@@ -1073,7 +1073,7 @@ sub _check_links_content {
     my $mech = $self->clone();
 
     my @failures;
-    for my $url ( @$urls ) {
+    for my $url ( @{$urls} ) {
         if ( $mech->follow_link( url => $url ) ) {
             my $content=$mech->content();
             if ( $test eq 'like' ) {

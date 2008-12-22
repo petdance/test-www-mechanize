@@ -32,7 +32,7 @@ $mech->link_status_is($links,200,'Checking all links status are 200');
 test_test('Handles All Links successful');
 
 # Good links - Default desc
-test_out('ok 1 - ' . scalar(@$links) . ' links have status 200');
+test_out('ok 1 - ' . scalar(@{$links}) . ' links have status 200');
 $mech->link_status_is($links,200);
 test_test('Handles All Links successful - default desc');
 

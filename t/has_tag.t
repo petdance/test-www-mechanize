@@ -29,7 +29,7 @@ $mech->has_tag( h1 => 'Test Page', 'looking for "Test" link' );
 test_test( 'Handles finding tag by content' );
 
 # default desc
-test_out( 'ok 1 - Page has h1 tag with \'Test Page\'' );
+test_out( 'ok 1 - Page has h1 tag with "Test Page"' );
 $mech->has_tag( h1 => 'Test Page' );
 test_test( 'Handles finding tag by content - default desc' );
 

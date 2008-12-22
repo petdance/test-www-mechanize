@@ -42,8 +42,8 @@ GOOD_HEAD: { # Stop giggling, you!
     test_out('ok 1 - Try to HEAD goodlinks.html');
     my $ok = $mech->head_ok($goodlinks, 'Try to HEAD goodlinks.html');
     test_test('HEAD existing URI and reports success');
-    is( ref($ok), '', "head_ok() should only return a scalar" );
-    ok( $ok, "And the result should be true" );
+    is( ref($ok), '', 'head_ok() should only return a scalar' );
+    ok( $ok, 'And the result should be true' );
 
     # default desc
     test_out("ok 1 - HEAD $goodlinks");
@@ -52,19 +52,19 @@ GOOD_HEAD: { # Stop giggling, you!
 }
 
 BAD_HEAD: {
-    my $badurl = "http://wango.nonexistent.xx-only-testing/";
+    my $badurl = 'http://wango.nonexistent.xx-only-testing/';
     $mech->head($badurl);
-    ok(!$mech->success, "sanity check: we can't load NONEXISTENT.html");
+    ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html} );
 
     test_out( 'not ok 1 - Try to HEAD bad URL' );
     test_fail( +3 );
-    test_diag( "500" );
-    test_diag( "Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname 'wango.nonexistent.xx-only-testing')" );
+    test_diag( '500' );
+    test_diag( q{Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname 'wango.nonexistent.xx-only-testing')} );
     my $ok = $mech->head_ok( $badurl, 'Try to HEAD bad URL' );
     test_test( 'Fails to HEAD nonexistent URI and reports failure' );
 
-    is( ref($ok), '', "head_ok() should only return a scalar" );
-    ok( !$ok, "And the result should be false" );
+    is( ref($ok), '', 'head_ok() should only return a scalar' );
+    ok( !$ok, 'And the result should be false' );
 }
 
 cleanup();
