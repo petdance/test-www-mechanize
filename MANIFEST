@@ -6,6 +6,7 @@ Mechanize.pm
 README
 
 t/00load.t
+t/autolint.t
 t/back_ok.t
 t/click_ok.t
 t/content_contains.t
