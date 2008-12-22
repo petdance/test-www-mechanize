@@ -182,6 +182,18 @@ sub get_ok {
         $desc = "GET $url";
     }
 
+    $ok = $self->_maybe_lint( $ok, $desc );
+
+    return $ok;
+}
+
+sub _maybe_lint {
+    my $self = shift;
+    my $ok   = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     if ( $ok ) {
         if ( $self->is_html && $self->{autolint} ) {
             $ok = $self->_lint_content_ok( $desc );
@@ -1374,7 +1386,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2007 Andy Lester, all rights reserved.
+Copyright 2004-2008 Andy Lester, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
