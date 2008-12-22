@@ -17,7 +17,7 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-sub cleanup { kill(9,$pid) };
+sub cleanup { kill(9,$pid) if !$^S };
 $SIG{__DIE__} = \&cleanup;
 
 
