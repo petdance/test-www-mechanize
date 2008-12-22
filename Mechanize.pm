@@ -487,10 +487,10 @@ sub click_ok {
 
 =head1 METHODS: CONTENT CHECKING
 
-=head2 $mech->html_lint_ok( [$msg] )
+=head2 $mech->html_lint_ok( [$desc] )
 
 Checks the validity of the HTML on the current page.  If the page is not
-HTML, then it fails.  The URI is automatically appended to the I<$msg>.
+HTML, then it fails.  The URI is automatically appended to the I<$desc>.
 
 Note that HTML::Lint must be installed for this to work.  Otherwise,
 it will blow up.
@@ -499,13 +499,13 @@ it will blow up.
 
 sub html_lint_ok {
     my $self = shift;
-    my $msg = shift;
+    my $desc = shift;
 
     eval 'require HTML::Lint';
     $@ and die 'html_lint_ok cannot run without HTML::Lint';
 
     my $uri = $self->uri;
-    $msg = $msg ? "$msg ($uri)" : $uri;
+    $desc = $desc ? "$desc ($uri)" : $uri;
 
     my $ok;
 
