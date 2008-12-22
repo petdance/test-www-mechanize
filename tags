@@ -40,7 +40,6 @@ PORT	t/put_ok.t	/^use constant PORT => 13432;$/;"	c
 PORT	t/submit_form_ok.t	/^use constant PORT => 13432;$/;"	c
 SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
-TWMServer	t/click_ok.t	/^    package TWMServer;$/;"	p
 TWMServer	t/content_contains.t	/^  package TWMServer;$/;"	p
 TWMServer	t/content_lacks.t	/^  package TWMServer;$/;"	p
 TWMServer	t/follow_link_ok.t	/^  package TWMServer;$/;"	p
@@ -60,12 +59,14 @@ Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test	t/head_ok-parms.t	/^sub Test::WWW::Mechanize::head {$/;"	s
 Test	t/head_ok-parms.t	/^sub Test::WWW::Mechanize::success { return 1; }$/;"	s
 Test::WWW::Mechanize	Mechanize.pm	/^package Test::WWW::Mechanize;$/;"	p
+TestServer	t/TestServer.pm	/^package TestServer;$/;"	p
 _check_links_content	Mechanize.pm	/^sub _check_links_content {$/;"	s
 _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
 add_test_fields	t/stuff_inputs.t	/^sub add_test_fields {$/;"	s
+background	t/TestServer.pm	/^sub background {$/;"	s
 base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
 base_unlike	Mechanize.pm	/^sub base_unlike {$/;"	s
@@ -94,7 +95,7 @@ field_checks	t/stuff_inputs.t	/^sub field_checks {$/;"	s
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
-handle_request	t/click_ok.t	/^    sub handle_request {$/;"	s
+handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 handle_request	t/content_contains.t	/^  sub handle_request {$/;"	s
 handle_request	t/content_lacks.t	/^  sub handle_request {$/;"	s
 handle_request	t/follow_link_ok.t	/^  sub handle_request {$/;"	s
@@ -124,6 +125,7 @@ page_links_content_unlike	Mechanize.pm	/^sub page_links_content_unlike {$/;"	s
 page_links_ok	Mechanize.pm	/^sub page_links_ok {$/;"	s
 post_ok	Mechanize.pm	/^sub post_ok {$/;"	s
 put_ok	Mechanize.pm	/^sub put_ok {$/;"	s
+root	t/TestServer.pm	/^sub root {$/;"	s
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s
 submit_form_ok	Mechanize.pm	/^sub submit_form_ok {$/;"	s
 title_is	Mechanize.pm	/^sub title_is {$/;"	s
