@@ -8,6 +8,24 @@ use base 'HTTP::Server::Simple::CGI';
 
 use Carp ();
 
+our $pid;
+
+sub new {
+    my $class = shift;
+
+    die 'An instance of TestServer has already been started.' if $pid;
+
+    return $class->SUPER::new(@_);
+}
+
+sub run {
+    my $self = shift;
+
+    $pid = $self->SUPER::run(@_);
+
+    return $pid;
+}
+
 sub handle_request {
     my $self = shift;
     my $cgi  = shift;
