@@ -1,5 +1,9 @@
 package TestServer;
 
+BEGIN {
+    delete $ENV{http_proxy}; # All our tests are running on localhost
+}
+
 use base 'HTTP::Server::Simple::CGI';
 
 use Carp ();
@@ -26,8 +30,16 @@ sub handle_request {
 sub background {
     my $self = shift;
 
+    local $SIG{__WARN__} = sub {
+        my @msgs = @_;
+
+        Carp::confess( "Unable to start the test server: @_" );
+    };
+
     my $pid = $self->SUPER::background()
         or Carp::confess( q{Can't start the test server} );
+
+    sleep 1; # background() may come back prematurely, so give it a second to fire up
 
     return $pid;
 }
