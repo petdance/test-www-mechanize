@@ -13,14 +13,13 @@ BEGIN {
 }
 
 
-my $server = TestServer->new;
-my $pid    = $server->background;
-sleep 1; # $server->background() may come back prematurely, so give it a second to fire up
+my $server      = TestServer->new;
+my $pid         = $server->background;
+my $server_root = $server->root;
 
 sub cleanup { kill(9,$pid) };
 $SIG{__DIE__} = \&cleanup;
 
-my $server_root = $server->root;
 
 SUBMIT_GOOD_FORM: {
     my $mech = Test::WWW::Mechanize->new();
