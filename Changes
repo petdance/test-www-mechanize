@@ -9,7 +9,8 @@ NEXT
 [FIXED]
 Tests would fail because we weren't unsetting http_proxy.
 
-Fixed many failed tests.
+Fixed many failed tests.  Overhauled the test server setup.
+
 
 [ENHANCEMENTS]
 Added $mech->click_ok().
