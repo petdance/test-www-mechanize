@@ -181,7 +181,28 @@ sub get_ok {
         $url = $url->url if ref($url) eq 'WWW::Mechanize::Link';
         $desc = "GET $url";
     }
-    $Test->ok( $ok, $desc );
+
+    if ( $ok && $self->is_html && $self->{autolint} ) {
+        my $lint = HTML::Lint->new;
+        $lint->parse( $self->content );
+
+        my @errors = $lint->errors;
+        my $nerrors = @errors;
+        if ( $nerrors ) {
+            $ok = $Test->ok( 0, $desc );
+            $Test->diag( "HTML::Lint errors for $url" );
+            $Test->diag( $_->as_string ) for @errors;
+            my $s = $nerrors == 1 ? '' : 's';
+            $Test->diag( "$nerrors error$s on the page" );
+        }
+        else {
+            $ok = $Test->ok( 1, $desc );
+        }
+    }
+    else {
+        $Test->ok( $ok, $desc );
+    }
+
     if ( !$ok ) {
         $Test->diag( $self->status );
         $Test->diag( $self->response->message ) if $self->response;
@@ -510,25 +531,25 @@ sub html_lint_ok {
     my $ok;
 
     if ( $self->is_html ) {
-
+        # XXX Combine with the cut'n'paste version in get_ok()
         my $lint = HTML::Lint->new;
         $lint->parse( $self->content );
 
         my @errors = $lint->errors;
         my $nerrors = @errors;
         if ( $nerrors ) {
-            $ok = $Test->ok( 0, $msg );
+            $ok = $Test->ok( 0, $desc );
             $Test->diag( "HTML::Lint errors for $uri" );
             $Test->diag( $_->as_string ) for @errors;
             my $s = $nerrors == 1 ? '' : 's';
             $Test->diag( "$nerrors error$s on the page" );
         }
         else {
-            $ok = $Test->ok( 1, $msg );
+            $ok = $Test->ok( 1, $desc );
         }
     }
     else {
-        $ok = $Test->ok( 0, $msg );
+        $ok = $Test->ok( 0, $desc );
         $Test->diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
     }
 
