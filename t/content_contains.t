@@ -23,19 +23,19 @@ $mech->get( "$server_root/goodlinks.html" );
 
 # test regex
 test_out( 'ok 1 - Does it say test page?' );
-$mech->content_contains( 'Test Page', "Does it say test page?" );
-test_test( "Finds the contains" );
+$mech->content_contains( 'Test Page', 'Does it say test page?' );
+test_test( 'Finds the contains' );
 
 # default desc
 test_out( 'ok 1 - Content contains "Test Page"' );
 $mech->content_contains( 'Test Page');
-test_test( "Finds the contains - default desc" );
+test_test( 'Finds the contains - default desc' );
 
 test_out( 'not ok 1 - Where is Mungo?' );
 test_fail(+3);
 test_diag(q(    searched: "<html>\x{0a}  <head>\x{0a}    <title>Test Page</title>\x{0a}  </h"...) );
 test_diag(q(  can't find: "Mungo") );
-$mech->content_contains( 'Mungo', "Where is Mungo?" );
-test_test( "Handles not finding it" );
+$mech->content_contains( 'Mungo', 'Where is Mungo?' );
+test_test( 'Handles not finding it' );
 
 $server->stop;
