@@ -14,7 +14,6 @@ BEGIN {
 }
 
 BEGIN {
-    delete $ENV{http_proxy}; # All our tests are running on localhost
     plan tests => 11;
     use_ok( 'Test::WWW::Mechanize' );
 }
