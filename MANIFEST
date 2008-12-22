@@ -6,6 +6,7 @@ Mechanize.pm
 README
 
 t/00load.t
+t/click_ok.t
 t/content_contains.t
 t/content_lacks.t
 t/follow_link_ok.t
