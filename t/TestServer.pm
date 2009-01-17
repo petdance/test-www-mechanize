@@ -18,7 +18,8 @@ sub new {
 
     die 'An instance of TestServer has already been started.' if $pid;
 
-    return $class->SUPER::new(@_);
+    # XXX This should really be a random port.
+    return $class->SUPER::new(13432, @_);
 }
 
 sub run {
