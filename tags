@@ -24,6 +24,7 @@ GOOD_PUT	t/put_ok.t	/^GOOD_PUT: {$/;"	l
 IGNORE	t/stuff_inputs.t	/^IGNORE: {$/;"	l
 MAXLENGTH	t/stuff_inputs.t	/^MAXLENGTH: {$/;"	l
 MULTICHAR_FILL	t/stuff_inputs.t	/^MULTICHAR_FILL: {$/;"	l
+MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 NEW	t/new.t	/^NEW: {$/;"	l
 NONEXISTENT	t/back_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NONEXISTENT	t/get_ok.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
@@ -43,18 +44,22 @@ _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
 _lint_content_ok	Mechanize.pm	/^sub _lint_content_ok {$/;"	s
+_maybe_lint	Mechanize.pm	/^sub _maybe_lint {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
+_unpack_args	Mechanize.pm	/^sub _unpack_args {$/;"	s
 add_test_fields	t/stuff_inputs.t	/^sub add_test_fields {$/;"	s
 background	t/TestServer.pm	/^sub background {$/;"	s
 base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
 base_unlike	Mechanize.pm	/^sub base_unlike {$/;"	s
+bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
 click_ok	Mechanize.pm	/^sub click_ok {$/;"	s
 content_contains	Mechanize.pm	/^sub content_contains {$/;"	s
 content_is	Mechanize.pm	/^sub content_is {$/;"	s
 content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
 content_like	Mechanize.pm	/^sub content_like {$/;"	s
 content_unlike	Mechanize.pm	/^sub content_unlike {$/;"	s
+critic	Makefile.PL	/^critic:$/;"	l
 field_checks	t/stuff_inputs.t	/^sub field_checks {$/;"	s
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
@@ -63,6 +68,7 @@ handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
 head_ok	Mechanize.pm	/^sub head_ok {$/;"	s
+homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
 html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
 link_content_like	Mechanize.pm	/^sub link_content_like {$/;"	s
 link_content_unlike	Mechanize.pm	/^sub link_content_unlike {$/;"	s
@@ -76,11 +82,13 @@ page_links_content_unlike	Mechanize.pm	/^sub page_links_content_unlike {$/;"	s
 page_links_ok	Mechanize.pm	/^sub page_links_ok {$/;"	s
 post_ok	Mechanize.pm	/^sub post_ok {$/;"	s
 put_ok	Mechanize.pm	/^sub put_ok {$/;"	s
+resources	Makefile.PL	/^resources:$/;"	l
 root	t/TestServer.pm	/^sub root {$/;"	s
 run	t/TestServer.pm	/^sub run {$/;"	s
 stop	t/TestServer.pm	/^sub stop {$/;"	s
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s
 submit_form_ok	Mechanize.pm	/^sub submit_form_ok {$/;"	s
+tags	Makefile.PL	/^tags:$/;"	l
 title_is	Mechanize.pm	/^sub title_is {$/;"	s
 title_like	Mechanize.pm	/^sub title_like {$/;"	s
 title_unlike	Mechanize.pm	/^sub title_unlike {$/;"	s
