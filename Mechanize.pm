@@ -704,7 +704,7 @@ sub content_unlike {
     my $self = shift;
     my $regex = shift;
     my $desc = shift;
-    $desc = qq{Content is like "$regex"} if !defined($desc);
+    $desc = qq{Content is unlike "$regex"} if !defined($desc);
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->content, $regex, $desc );
