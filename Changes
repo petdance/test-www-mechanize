@@ -10,6 +10,8 @@ Hoisted common code out of get_ok, post_ok, etc.
 
 Description of error in $mech->content_unlike() was wrong.
 
+Updated copyright and licensing information.
+
 
 1.24    Sat Jan 17 13:26:47 CST 2009
 ------------------------------------
