@@ -9,6 +9,8 @@ NEXT
 [FIXED]
 Description of error in $mech->content_unlike() was wrong.
 
+Now requires newer Test::LongString.
+
 [INTERNALS]
 Hoisted common code out of get_ok, post_ok, etc.
 
