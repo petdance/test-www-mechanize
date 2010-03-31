@@ -6,11 +6,15 @@ http://code.google.com/p/www-mechanize/issues/list
 
 NEXT
 ------------------------------------
-Hoisted common code out of get_ok, post_ok, etc.
-
+[FIXED]
 Description of error in $mech->content_unlike() was wrong.
 
+[INTERNALS]
+Hoisted common code out of get_ok, post_ok, etc.
+
+[DOCUMENTATION]
 Updated copyright and licensing information.
+
 
 
 1.24    Sat Jan 17 13:26:47 CST 2009
@@ -104,7 +108,6 @@ $^S to find out if the __DIE__ signal is being called
 for an eval so we ignore that case with the patch
 attached.
 
-The stuff_inputs() function now actually works.
 
 [DOCUMENTATION]
 *   Made the synopsis show that T:W:M doesn't take the tests=>$x
