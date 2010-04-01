@@ -9,7 +9,7 @@ use warnings;
 use WWW::Mechanize;
 
 my $server      = HangServer->new;
-$server->background;
+my $pid = $server->background;
 my $server_root = $server->root;
 
 my $mech = WWW::Mechanize->new;
@@ -40,7 +40,8 @@ GOOD_GET: {
 print "\n\nHit enter to down the server";
 $f = <>;
 
-$server->stop;
+print "Killing pid $pid\n";
+kill( 9, $pid ) unless $^S;
 
 print "Server stopped\n";
 
@@ -56,12 +57,8 @@ use base 'HTTP::Server::Simple::CGI';
 
 use Carp ();
 
-our $pid;
-
 sub new {
     my $class = shift;
-
-    die 'An instance of HangServer has already been started.' if $pid;
 
     # XXX This should really be a random port.
     return $class->SUPER::new(13432, @_);
@@ -80,31 +77,12 @@ sub handle_request {
     return;
 }
 
-sub background {
-    my $self = shift;
-
-    $pid = $self->SUPER::background()
-        or Carp::confess( q{Can't start the test server} );
-
-    sleep 1; # background() may come back prematurely, so give it a second to fire up
-
-    return $pid;
-}
 
 sub root {
     my $self = shift;
     my $port = $self->port;
 
     return "http://localhost:$port";
-}
-
-sub stop {
-    if ( $pid ) {
-        kill( 9, $pid ) unless $^S;
-        undef $pid;
-    }
-
-    return;
 }
 
 1;
