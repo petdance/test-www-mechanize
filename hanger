@@ -21,10 +21,11 @@ BEGIN {
 }
 
 use lib 't';
+
 use HangServer;
 
 my $server      = HangServer->new;
-my $pid         = $server->background;
+$server->background;
 my $server_root = $server->root;
 
 use WWW::Mechanize;
