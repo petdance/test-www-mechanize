@@ -76,7 +76,7 @@ sub run {
 
     $pid = $self->SUPER::run(@_);
 
-    $SIG{__DIE__} = \&stop;
+#    $SIG{__DIE__} = \&stop;
 
     return $pid;
 }
@@ -87,24 +87,10 @@ sub handle_request {
 
     use Data::Dumper; local $Data::Dumper::Sortkeys=1;
     my $response = Dumper($cgi);
+    $response .= '$cgi->path_info is [' . $cgi->path_info . ']';
+
     print "HTTP/1.0 200 OK\r\n";
     print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
-    return;
-
-    my $file = (split( /\//,$cgi->path_info))[-1]||'index.html';
-    $file    =~ s/\s+//g;
-
-    my $filename = "t/html/$file";
-    if ( -r $filename ) {
-        if (my $response=do { local (@ARGV, $/) = $filename; <> }) {
-            print "HTTP/1.0 200 OK\r\n";
-            print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
-            return;
-        }
-    }
-
-    print "HTTP/1.0 404 Not Found\r\n\r\n";
-
     return;
 }
 
