@@ -10,6 +10,7 @@ use WWW::Mechanize;
 
 my $server      = HangServer->new;
 my $pid = $server->background;
+print "Running as pid $pid\n";
 my $server_root = $server->root;
 
 my $mech = WWW::Mechanize->new;
@@ -29,8 +30,6 @@ my $f = <>;
 GOOD_GET: {
     my $scraps = "$server_root/scraps.html";
     $mech->put( $scraps );
-    {use Data::Dumper; local $Data::Dumper::Sortkeys=1;
-        print Dumper( $mech )}
     print "=== PUT content ===\n";
     print $mech->content, "\n";
     print "=== PUT content ===\n";
@@ -55,8 +54,6 @@ use strict;
 
 use base 'HTTP::Server::Simple::CGI';
 
-use Carp ();
-
 sub new {
     my $class = shift;
 
@@ -76,7 +73,6 @@ sub handle_request {
     print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
     return;
 }
-
 
 sub root {
     my $self = shift;
