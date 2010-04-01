@@ -1,0 +1,60 @@
+#!perl
+
+# This program only exists to figure out why perl 5.12.0 RC1 hangs when
+# trying to test PUT in Test::WWW::Mechanize.
+
+use strict;
+use warnings;
+use Test::More;
+use Test::Builder::Tester;
+
+use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
+BEGIN {
+    if ( gethostbyname( 'blahblahblah.xx-nonexistent.' ) ) {
+        plan skip_all => 'Found an A record for the non-existent domain';
+    }
+}
+
+BEGIN {
+    plan tests => 12;
+    #use_ok( 'Test::WWW::Mechanize' );
+    use_ok( 'WWW::Mechanize' );
+}
+
+use lib 't';
+use TestServer;
+
+my $server      = TestServer->new;
+my $pid         = $server->background;
+my $server_root = $server->root;
+
+use WWW::Mechanize;
+
+my $mech = WWW::Mechanize->new;
+
+GOOD_GET: {
+    my $goodlinks = "$server_root/goodlinks.html";
+    $mech->get( $goodlinks );
+    ok( $mech->success, "I was able to get $goodlinks" );
+    {use Data::Dumper; local $Data::Dumper::Sortkeys=1;
+        print Dumper( $mech )}
+}
+
+print "\n\nHit enter to do a PUT";
+my $f = <>;
+
+GOOD_GET: {
+    my $scraps = "$server_root/scraps.html";
+    $mech->put( $scraps );
+    ok( $mech->success, "I was able to put $scraps" );
+    {use Data::Dumper; local $Data::Dumper::Sortkeys=1;
+        print Dumper( $mech )}
+    print "=== content ===\n";
+    print $mech->content, "\n";
+    print "=== content ===\n";
+}
+
+print "\n\nHit enter to down the server";
+$f = <>;
+
+$server->stop;
