@@ -17,14 +17,13 @@ BEGIN {
 
 BEGIN {
     plan tests => 12;
-    #use_ok( 'Test::WWW::Mechanize' );
     use_ok( 'WWW::Mechanize' );
 }
 
 use lib 't';
-use TestServer;
+use HangServer;
 
-my $server      = TestServer->new;
+my $server      = HangServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 

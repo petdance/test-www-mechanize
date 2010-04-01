@@ -1,4 +1,4 @@
-package TestServer;
+package HangServer;
 
 use warnings;
 use strict;
@@ -13,14 +13,10 @@ use Carp ();
 
 our $pid;
 
-our $fh;
-
 sub new {
     my $class = shift;
 
-open $fh, '>', '/home/andy/test-www-mechanize/cgidump.txt' or die;
-print {$fh} "started logging\n";
-    die 'An instance of TestServer has already been started.' if $pid;
+    die 'An instance of HangServer has already been started.' if $pid;
 
     # XXX This should really be a random port.
     return $class->SUPER::new(13432, @_);
