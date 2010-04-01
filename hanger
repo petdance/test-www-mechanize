@@ -52,10 +52,6 @@ package HangServer;
 use warnings;
 use strict;
 
-BEGIN {
-    delete $ENV{http_proxy}; # All our tests are running on localhost
-}
-
 use base 'HTTP::Server::Simple::CGI';
 
 use Carp ();
