@@ -23,7 +23,7 @@ GOOD_GET: {
     print "=== GET content ===\n";
 }
 
-print "\n\nHit enter to do a PUT";
+print "\n\nHit enter to do a PUT.  You can also go elsewhere and connect to $server_root";
 my $f = <>;
 
 GOOD_GET: {
@@ -34,7 +34,7 @@ GOOD_GET: {
     print "=== PUT content ===\n";
     print $mech->content, "\n";
     print "=== PUT content ===\n";
-    print "Success?", ($mech->success ? 'YES' : 'NO'), "\n";
+    print 'Success in the PUT? ', ($mech->success ? 'YES' : 'NO'), '\n';
 }
 
 print "\n\nHit enter to down the server";
@@ -69,16 +69,6 @@ sub new {
 
     # XXX This should really be a random port.
     return $class->SUPER::new(13432, @_);
-}
-
-sub run {
-    my $self = shift;
-
-    $pid = $self->SUPER::run(@_);
-
-#    $SIG{__DIE__} = \&stop;
-
-    return $pid;
 }
 
 sub handle_request {
