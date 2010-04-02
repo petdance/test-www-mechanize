@@ -11,6 +11,8 @@ Description of error in $mech->content_unlike() was wrong.
 
 Now requires newer Test::LongString.
 
+t/put_ok.t now passes
+
 [INTERNALS]
 Hoisted common code out of get_ok, post_ok, etc.
 

@@ -30,7 +30,7 @@ isa_ok($mech,'Test::WWW::Mechanize');
 GOOD_PUT: {
     my $goodlinks = "$server_root/goodlinks.html";
 
-    $mech->put($goodlinks);
+    $mech->put($goodlinks, 'DATA');
     ok($mech->success, 'sanity check: we can load goodlinks.html');
 
     test_out('ok 1 - Try to PUT goodlinks.html');
@@ -47,7 +47,7 @@ GOOD_PUT: {
 
 BAD_PUT: {
     my $badurl = 'http://wango.nonexistent.xx-only-testing/';
-    $mech->put($badurl);
+    $mech->put($badurl, 'DATA');
     ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html});
 
     test_out( 'not ok 1 - Try to PUT bad URL' );
