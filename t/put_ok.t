@@ -28,10 +28,11 @@ diag( 'Any help in squashing the warnings in this test would be appreciated' );
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
 
+my $text = 'This is what we are putting';
 GOOD_PUT: {
     my $goodlinks = "$server_root/goodlinks.html";
 
-    $mech->put($goodlinks, 'DATA');
+    $mech->put($goodlinks, $text);
     ok($mech->success, 'sanity check: we can load goodlinks.html');
 
     test_out('ok 1 - Try to PUT goodlinks.html');
@@ -48,7 +49,7 @@ GOOD_PUT: {
 
 BAD_PUT: {
     my $badurl = 'http://wango.nonexistent.xx-only-testing/';
-    $mech->put($badurl, 'DATA');
+    $mech->put($badurl, $text);
     ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html});
 
     test_out( 'not ok 1 - Try to PUT bad URL' );

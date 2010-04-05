@@ -5,13 +5,15 @@ bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
 NEXT
+1.26    Mon Apr  5 00:54:46 CDT 2010
 ------------------------------------
 [FIXED]
 Description of error in $mech->content_unlike() was wrong.
 
-Now requires newer Test::LongString.
+Now requires Test::LongString 0.12.
 
-t/put_ok.t now passes
+t/put_ok.t now passes, but with a handful of warnings.  Help in figuring
+out why would be appreciated.
 
 [INTERNALS]
 Hoisted common code out of get_ok, post_ok, etc.
