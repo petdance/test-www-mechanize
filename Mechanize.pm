@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.26
+Version 1.28
 
 =cut
 
-our $VERSION = '1.26';
+our $VERSION = '1.28';
 
 =head1 SYNOPSIS
 
@@ -262,7 +262,8 @@ sub put_ok {
     my $self = shift;
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'PUT', @_ );
-    $self->put( $url, \%opts );
+    $opts{content} = '' if !exists $opts{content};
+    $self->put( $url, %opts );
 
     my $ok = $self->success;
     $Test->ok( $ok, $desc );
@@ -1318,6 +1319,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Niko Tyni,
 Greg Sheard,
 Michael Schwern,
 Mark Blackman,
@@ -1330,7 +1332,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2009 Andy Lester.
+Copyright 2004-2010 Andy Lester.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of either:

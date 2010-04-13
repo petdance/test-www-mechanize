@@ -4,8 +4,11 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
-NEXT
+
+1.28    Tue Apr 13 00:44:27 CDT 2010
 ------------------------------------
+[FIXED]
+t/put_ok.t finally passes.
 
 
 1.26    Mon Apr  5 00:54:46 CDT 2010
