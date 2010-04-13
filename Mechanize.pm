@@ -1319,6 +1319,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Philip G. Potter,
 Niko Tyni,
 Greg Sheard,
 Michael Schwern,
