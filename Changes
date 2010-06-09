@@ -8,6 +8,9 @@ http://code.google.com/p/www-mechanize/issues/list
 NEXT
 ------------------------------------
 [ENHANCEMENTS]
+autolint used to only work on get_ok() calls.  Now it works with
+post_ok(), submit_form_ok(), follow_link_ok() and click_ok().
+
 Added $mech->text_contains(), $mech->text_like() and $mech->text_unlike()
 methods.  These check the text of an HTML page separate from the
 HTML markup.  Thanks to Ashley Pond V.

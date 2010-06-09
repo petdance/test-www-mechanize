@@ -90,15 +90,7 @@ called.
 
 =item * get_ok()
 
-=back
-
-and will eventually do the same after any of the following:
-
-=over
-
 =item * post_ok()
-
-=item * back_ok()
 
 =item * submit_form_ok()
 
@@ -238,11 +230,7 @@ sub post_ok {
 
     $self->post( $url, \%opts );
     my $ok = $self->success;
-    $Test->ok( $ok, $desc );
-    if ( !$ok ) {
-        $Test->diag( $self->status );
-        $Test->diag( $self->response->message ) if $self->response;
-    }
+    $ok = $self->_maybe_lint( $ok, $desc );
 
     return $ok;
 }
@@ -322,8 +310,7 @@ sub submit_form_ok {
         }
     }
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $error ) if $error;
+    $ok = $self->_maybe_lint( $ok, $desc );
 
     return $ok;
 }
@@ -381,8 +368,7 @@ sub follow_link_ok {
         }
     }
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $error ) if $error;
+    $ok = $self->_maybe_lint( $ok, $desc );
 
     return $ok;
 }
@@ -405,12 +391,12 @@ sub click_ok {
         return $Test->ok( 0, $desc );
     }
 
-    if ( !$response->is_success ) {
-        $Test->diag( "Failed test $desc:" );
-        $Test->diag( $response->as_string );
-        return $Test->ok( 0, $desc );
-    }
-    return $Test->ok( 1, $desc );
+
+    my $ok = $response->is_success;
+
+    $ok = $self->_maybe_lint( $ok, $desc );
+
+    return $ok;
 }
 
 
