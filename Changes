@@ -5,7 +5,7 @@ bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
 
-NEXT
+1.30    Wed Jun  9 12:23:48 CDT 2010
 ------------------------------------
 [ENHANCEMENTS]
 autolint used to only work on get_ok() calls.  Now it works with

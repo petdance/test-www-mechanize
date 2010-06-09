@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.28
+Version 1.30
 
 =cut
 
-our $VERSION = '1.28';
+our $VERSION = '1.30';
 
 =head1 SYNOPSIS
 
@@ -26,8 +26,8 @@ features for web application testing.  For example:
     my $mech = Test::WWW::Mechanize->new;
     $mech->get_ok( $page );
     $mech->base_is( 'http://petdance.com/', 'Proper <BASE HREF>' );
-    $mech->title_is( "Invoice Status", "Make sure we're on the invoice page" );
-    $mech->content_contains( "Andy Lester", "My name somewhere" );
+    $mech->title_is( 'Invoice Status', "Make sure we're on the invoice page" );
+    $mech->text_contains( 'Andy Lester', 'My name somewhere' );
     $mech->content_like( qr/(cpan|perl)\.org/, "Link to perl.org or CPAN" );
 
 This is equivalent to:
@@ -40,7 +40,7 @@ This is equivalent to:
     ok( $mech->success );
     is( $mech->base, 'http://petdance.com', 'Proper <BASE HREF>' );
     is( $mech->title, "Invoice Status", "Make sure we're on the invoice page" );
-    ok( index( $mech->content, "Andy Lester" ) >= 0, "My name somewhere" );
+    ok( index( $mech->content( format => 'text' ), 'Andy Lester' ) >= 0, 'My name somewhere' );
     like( $mech->content, qr/(cpan|perl)\.org/, "Link to perl.org or CPAN" );
 
 but has nicer diagnostics if they fail.
@@ -59,7 +59,7 @@ results in
     ok - Got 'http://petdance.com/' ok
     ok - Base is 'http://petdance.com/'
     ok - Title is 'Invoice Status'
-    ok - Content contains 'Andy Lester'
+    ok - Text contains 'Andy Lester'
     ok - Content is like '(?-xism:(cpan|perl)\.org)'
 
 =cut
