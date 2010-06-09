@@ -31,13 +31,15 @@ test_out( 'ok 1 - Text contains "Test Page"' );
 $mech->text_contains( 'Test Page');
 test_test( 'Finds the contains - default desc' );
 
-test_out( 'not ok 1 - Where is Mungo?' );
+# Handles not finding something. Also, what we are searching for IS
+# found in content_contains() but NOT in text_contains().
+test_out( 'not ok 1 - Trying to find goodlinks' );
 test_fail(+5);
-test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
-test_diag(q(  can't find: "Mungo") );
-test_diag(q(        LCSS: "go"));
-test_diag(q(LCSS context: "dy>\x{0a}        <h1>Test Page</h1>\x{0a}        <a href="go"));
-$mech->content_contains( 'Mungo', 'Where is Mungo?' );
+test_diag(q(    searched: "Test PageTest PageTest 1 Test 2 Test 3") );
+test_diag(q(  can't find: "goodlinks.html") );
+test_diag(q(        LCSS: "s"));
+test_diag(q(LCSS context: "Test PageTest PageTest 1 Test 2 Test 3"));
+$mech->text_contains( 'goodlinks.html', 'Trying to find goodlinks' );
 test_test( 'Handles not finding it' );
 
 $server->stop;
