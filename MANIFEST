@@ -30,6 +30,7 @@ t/put_ok.t
 t/stuff_inputs.html
 t/stuff_inputs.t
 t/submit_form_ok.t
+t/text_contains.t
 t/TestServer.pm
 
 t/html/bad.html

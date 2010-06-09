@@ -702,13 +702,78 @@ Tells if the content of the page does NOT match I<$regex>.
 =cut
 
 sub content_unlike {
-    my $self = shift;
+    my $self  = shift;
     my $regex = shift;
-    my $desc = shift;
-    $desc = qq{Content is unlike "$regex"} if !defined($desc);
+    my $desc  = shift || qq{Content is unlike "$regex"};
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     return unlike_string( $self->content, $regex, $desc );
+}
+
+=head2 $mech->text_contains( $str [, $desc ] )
+
+Tells if the text form of the page's content contains I<$str>.
+
+When your page contains HTML which is difficult, unimportant, or
+unlikely to match over time as designers alter markup, use
+C<text_contains> instead of L</content_contains>.
+
+ # <b>Hi, <i><a href="some/path">User</a></i>!</b>
+ $mech->content_contains('Hi, User'); # Fails.
+ $mech->text_contains('Hi, User'); # Passes.
+
+Text is determined by calling C<< $mech->content(format => 'text') >>.
+See L<WWW::Mechanize/content>.
+
+=cut
+
+sub text_contains {
+    my $self = shift;
+    my $str  = shift;
+    my $desc = shift || qq{Text contains "$str"};
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    if ( ref($str) eq 'REGEX' ) {
+        diag( 'text_contains takes a string, not a regex' );
+    }
+
+    return contains_string( $self->content(format => "text"), $str, $desc );
+}
+
+=head2 $mech->text_like( $regex [, $desc ] )
+
+Tells if the text form of the page's content matches I<$regex>.
+
+=cut
+
+sub text_like {
+    my $self  = shift;
+    my $regex = shift;
+    my $desc  = shift || qq{Text is like "$regex"};
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return like_string( $self->_text, $regex, $desc );
+}
+
+=head2 $mech->text_unlike( $regex [, $desc ] )
+
+Tells if the text format of the page's content does NOT match I<$regex>.
+
+=cut
+
+sub text_unlike {
+    my $self  = shift;
+    my $regex = shift;
+    my $desc  = shift || qq{Text is unlike "$regex"};
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return unlike_string( $self->_text, $regex, $desc );
+}
+
+sub _text {
+    my $self = shift;
+
+    return $self->content( format => 'text' );
 }
 
 =head2 $mech->has_tag( $tag, $text [, $desc ] )
@@ -721,8 +786,7 @@ sub has_tag {
     my $self = shift;
     my $tag  = shift;
     my $text = shift;
-    my $desc = shift;
-    $desc = qq{Page has $tag tag with "$text"} if !defined($desc);
+    my $desc = shift || qq{Page has $tag tag with "$text"};
 
     my $found = $self->_tag_walk( $tag, sub { $text eq $_[0] } );
 
