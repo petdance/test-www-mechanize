@@ -10,6 +10,7 @@ my $parms = {
     PL_FILES            => {},
     PREREQ_PM => {
         'Carp::Assert::More'        => 0,
+        'HTML::TreeBuilder'         => 0,
         'HTTP::Server::Simple'      => '0.42',
         'HTTP::Server::Simple::CGI' => 0,
         'Test::Builder::Tester'     => '1.09',
