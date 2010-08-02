@@ -100,7 +100,7 @@ called.
 
 =back
 
-This means you no longerhave to do the following:
+This means you no longer have to do the following:
 
     my $mech = Test::WWW::Mechanize->new();
     $mech->get_ok( $url, 'Fetch the intro page' );
