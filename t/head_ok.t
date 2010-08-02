@@ -2,15 +2,11 @@
 
 use strict;
 use warnings;
-use Test::More;
+use Test::More tests => 11;
 use Test::Builder::Tester;
 
 my $NONEXISTENT = 'blahblablah.xx-nonexistent.foo';
 
-plan skip_all => "Found an A record for the non-existent domain $NONEXISTENT"
-    if gethostbyname $NONEXISTENT;
-
-plan tests => 11;
 require_ok( 'Test::WWW::Mechanize' );
 
 use lib 't';
@@ -20,7 +16,7 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-my $mech=Test::WWW::Mechanize->new( autocheck => 0 );
+my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
 
 GOOD_HEAD: { # Stop giggling, you!
@@ -41,15 +37,22 @@ GOOD_HEAD: { # Stop giggling, you!
     test_test('HEAD existing URI and reports success - default desc');
 }
 
-BAD_HEAD: {
-    my $badurl = 'http://$NONEXISTENT/';
+# Bad HEAD test. Relies on getting an error finding a non-existent domain.
+# Some ISPs "helpfully" provide resolution for non-existent domains,
+# and thus this test fails by succeeding.  We check for this annoying
+# behavior and skip this subtest if we get it.
+SKIP: {
+    skip "Found an A record for the non-existent domain $NONEXISTENT", 4
+        if gethostbyname $NONEXISTENT;
+
+    my $badurl = "http://$NONEXISTENT/";
     $mech->head($badurl);
     ok(!$mech->success, q{sanity check: we can't load $badurl} );
 
     test_out( 'not ok 1 - Try to HEAD bad URL' );
     test_fail( +3 );
     test_diag( '500' );
-    test_diag( q{Can't connect to $NONEXISTENT:80 (Bad hostname '$NONEXISTENT')} );
+    test_diag( qq{Can't connect to $NONEXISTENT:80 (Bad hostname '$NONEXISTENT')} );
     my $ok = $mech->head_ok( $badurl, 'Try to HEAD bad URL' );
     test_test( 'Fails to HEAD nonexistent URI and reports failure' );
 

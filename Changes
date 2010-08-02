@@ -15,6 +15,10 @@ Added $mech->text_contains(), $mech->text_like() and $mech->text_unlike()
 methods.  These check the text of an HTML page separate from the
 HTML markup.  Thanks to Ashley Pond V.
 
+[FIXED]
+t/head_ok.t should no longer fail if your ISP "helpfully" returns
+an IP address for non-existent DNS records.  Thanks, Schwern.
+
 
 1.28    Tue Apr 13 00:44:27 CDT 2010
 ------------------------------------
