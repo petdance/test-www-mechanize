@@ -5,18 +5,13 @@ use warnings;
 use Test::More;
 use Test::Builder::Tester;
 
-use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
-BEGIN {
-    if ( gethostbyname( NONEXISTENT ) ) {
-        plan skip_all => 'Found an A record for the non-existent domain';
-    }
-}
+my $NONEXISTENT = 'blahblablah.xx-nonexistent.foo';
 
-BEGIN {
-    plan tests => 11;
-    use_ok( 'Test::WWW::Mechanize' );
-}
+plan skip_all => "Found an A record for the non-existent domain $NONEXISTENT"
+    if gethostbyname $NONEXISTENT;
 
+plan tests => 11;
+require_ok( 'Test::WWW::Mechanize' );
 
 use lib 't';
 use TestServer;
@@ -47,14 +42,14 @@ GOOD_HEAD: { # Stop giggling, you!
 }
 
 BAD_HEAD: {
-    my $badurl = 'http://wango.nonexistent.xx-only-testing/';
+    my $badurl = 'http://$NONEXISTENT/';
     $mech->head($badurl);
-    ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html} );
+    ok(!$mech->success, q{sanity check: we can't load $badurl} );
 
     test_out( 'not ok 1 - Try to HEAD bad URL' );
     test_fail( +3 );
     test_diag( '500' );
-    test_diag( q{Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname 'wango.nonexistent.xx-only-testing')} );
+    test_diag( q{Can't connect to $NONEXISTENT:80 (Bad hostname '$NONEXISTENT')} );
     my $ok = $mech->head_ok( $badurl, 'Try to HEAD bad URL' );
     test_test( 'Fails to HEAD nonexistent URI and reports failure' );
 
