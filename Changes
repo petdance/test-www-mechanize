@@ -6,6 +6,12 @@ http://code.google.com/p/www-mechanize/issues/list
 
 1.31_01
 ------------------------------------
+[ENHANCEMENTS]
+The methods that look at the text of the page, ->text_like() and
+->text_unlike(), now use the WWW::Mechanize method ->text() which caches
+the text.  This will be a big speedup if you call these methods more
+than once.
+
 [FIXED]
 Normalized the use of single vs. double quotes in the default descriptions.
 

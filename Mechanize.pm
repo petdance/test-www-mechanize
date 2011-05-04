@@ -744,7 +744,7 @@ sub text_like {
     my $desc  = shift || qq{Text is like "$regex"};
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    return like_string( $self->_text, $regex, $desc );
+    return like_string( $self->text, $regex, $desc );
 }
 
 =head2 $mech->text_unlike( $regex [, $desc ] )
@@ -759,13 +759,7 @@ sub text_unlike {
     my $desc  = shift || qq{Text is unlike "$regex"};
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    return unlike_string( $self->_text, $regex, $desc );
-}
-
-sub _text {
-    my $self = shift;
-
-    return $self->content( format => 'text' );
+    return unlike_string( $self->text, $regex, $desc );
 }
 
 =head2 $mech->has_tag( $tag, $text [, $desc ] )
