@@ -35,7 +35,7 @@ test_out( q{not ok 1 - Shouldn't say it's a test page} );
 test_fail(+4);
 test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
 test_diag(q(   and found: "Test Page") );
-test_diag(q( at position: 33) );
+test_diag(q( at position: 33 (line 3 column 16)) );
 $mech->content_lacks( 'Test Page', q{Shouldn't say it's a test page} );
 test_test( 'Handles not finding it' );
 

@@ -52,7 +52,7 @@ SKIP: {
     test_out( 'not ok 1 - Try to HEAD bad URL' );
     test_fail( +3 );
     test_diag( '500' );
-    test_diag( qq{Can't connect to $NONEXISTENT:80 (Bad hostname '$NONEXISTENT')} );
+    test_diag( qq{Can't connect to $NONEXISTENT:80 (Bad hostname)} );
     my $ok = $mech->head_ok( $badurl, 'Try to HEAD bad URL' );
     test_test( 'Fails to HEAD nonexistent URI and reports failure' );
 

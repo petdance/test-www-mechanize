@@ -4,6 +4,11 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+1.31_01
+------------------------------------
+[FIXED]
+Fixed tests that fail under newer versions of LWP.
+
 
 1.30    Wed Jun  9 12:23:48 CDT 2010
 ------------------------------------
