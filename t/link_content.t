@@ -36,7 +36,8 @@ $mech->link_content_like(\@urls,qr/Test/,'Checking all page links contain: Test'
 test_test('Handles All page links contents successful');
 
 # like - default desc
-test_out('ok 1 - ' . scalar(@urls) . ' links are like \'(?-xism:Test)\'');
+my $re_string = ($] < 5.014) ? '(?-xism:Test)' : '(?^:Test)';
+test_out('ok 1 - ' . scalar(@urls) . qq{ links are like "$re_string"} );
 $mech->link_content_like(\@urls,qr/Test/);
 test_test('Handles All page links contents successful - default desc');
 
@@ -61,7 +62,8 @@ $mech->link_content_unlike(\@urls,qr/BadTest/,'Checking all page links do not co
 test_test('Handles All page links unlike contents successful');
 
 # unlike - default desc
-test_out('ok 1 - ' . scalar(@urls) . ' links are not like "(?-xism:BadTest)"');
+$re_string = ($] < 5.014) ? '(?-xism:BadTest)' : '(?^:BadTest)';
+test_out('ok 1 - ' . scalar(@urls) . qq{ links are not like "$re_string"});
 $mech->link_content_unlike(\@urls,qr/BadTest/);
 test_test('Handles All page links unlike contents successful - default desc');
 

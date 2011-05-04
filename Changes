@@ -11,6 +11,8 @@ Fixed tests that fail under newer versions of LWP.
 
 Fixed tests that fail if http_proxy or HTTP_PROXY are set.
 
+Fixed tests that fail on Perl 5.14.
+
 
 1.30    Wed Jun  9 12:23:48 CDT 2010
 ------------------------------------
