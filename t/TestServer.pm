@@ -4,7 +4,10 @@ use warnings;
 use strict;
 
 BEGIN {
-    delete $ENV{http_proxy}; # All our tests are running on localhost
+    # All our tests are running on localhost
+    foreach my $proxy (grep { /http_proxy/i } keys %ENV ) {
+        delete $ENV{$proxy};
+    }
 }
 
 use base 'HTTP::Server::Simple::CGI';

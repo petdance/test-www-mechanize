@@ -9,6 +9,8 @@ http://code.google.com/p/www-mechanize/issues/list
 [FIXED]
 Fixed tests that fail under newer versions of LWP.
 
+Fixed tests that fail if http_proxy or HTTP_PROXY are set.
+
 
 1.30    Wed Jun  9 12:23:48 CDT 2010
 ------------------------------------
