@@ -1043,7 +1043,7 @@ sub link_content_like {
     }
 
     my @urls = _format_links( $links );
-    $desc = _default_links_desc(\@urls, "are like '$regex'") if !defined($desc);
+    $desc = _default_links_desc( \@urls, qq{are like "$regex"} ) if !defined($desc);
     my @failures = $self->_check_links_content( \@urls, $regex );
     my $ok = (@failures == 0);
 
@@ -1080,7 +1080,7 @@ sub link_content_unlike {
     }
 
     my @urls = _format_links( $links );
-    $desc = _default_links_desc(\@urls, qq{are not like "$regex"}) if !defined($desc);
+    $desc = _default_links_desc( \@urls, qq{are not like "$regex"} ) if !defined($desc);
     my @failures = $self->_check_links_content( \@urls, $regex, 'unlike' );
     my $ok = (@failures == 0);
 
