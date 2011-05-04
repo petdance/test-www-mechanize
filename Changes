@@ -7,6 +7,8 @@ http://code.google.com/p/www-mechanize/issues/list
 1.31_01
 ------------------------------------
 [FIXED]
+Normalized the use of single vs. double quotes in the default descriptions.
+
 Fixed tests that fail under newer versions of LWP.
 
 Fixed tests that fail if http_proxy or HTTP_PROXY are set.
