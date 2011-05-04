@@ -4,7 +4,7 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
-1.31_01
+1.31_01 Wed May  4 16:07:31 CDT 2011
 ------------------------------------
 [ENHANCEMENTS]
 The methods that look at the text of the page, ->text_like() and
