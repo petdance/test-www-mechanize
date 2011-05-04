@@ -28,7 +28,7 @@ features for web application testing.  For example:
     $mech->base_is( 'http://petdance.com/', 'Proper <BASE HREF>' );
     $mech->title_is( 'Invoice Status', "Make sure we're on the invoice page" );
     $mech->text_contains( 'Andy Lester', 'My name somewhere' );
-    $mech->content_like( qr/(cpan|perl)\.org/, "Link to perl.org or CPAN" );
+    $mech->content_like( qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
 
 This is equivalent to:
 
@@ -39,9 +39,9 @@ This is equivalent to:
     $mech->get( $page );
     ok( $mech->success );
     is( $mech->base, 'http://petdance.com', 'Proper <BASE HREF>' );
-    is( $mech->title, "Invoice Status", "Make sure we're on the invoice page" );
+    is( $mech->title, 'Invoice Status', "Make sure we're on the invoice page" );
     ok( index( $mech->content( format => 'text' ), 'Andy Lester' ) >= 0, 'My name somewhere' );
-    like( $mech->content, qr/(cpan|perl)\.org/, "Link to perl.org or CPAN" );
+    like( $mech->content, qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
 
 but has nicer diagnostics if they fail.
 
@@ -50,8 +50,8 @@ Default descriptions will be supplied for most methods if you omit them. e.g.
     my $mech = Test::WWW::Mechanize->new;
     $mech->get_ok( 'http://petdance.com/' );
     $mech->base_is( 'http://petdance.com/' );
-    $mech->title_is( "Invoice Status" );
-    $mech->content_contains( "Andy Lester" );
+    $mech->title_is( 'Invoice Status' );
+    $mech->content_contains( 'Andy Lester' );
     $mech->content_like( qr/(cpan|perl)\.org/ );
 
 results in
@@ -332,7 +332,7 @@ I<%parms> is a hashref containing the parms to pass to C<follow_link()>.
 Note that the parms to C<follow_link()> are a hash whereas the parms to
 this function are a hashref.  You have to call this function like:
 
-    $mech->follow_link_ok( {n=>3}, "looking for 3rd link" );
+    $mech->follow_link_ok( {n=>3}, 'looking for 3rd link' );
 
 As with other test functions, C<$desc> is optional.  If it is supplied
 then it will display when running the test harness in verbose mode.
@@ -510,7 +510,7 @@ sub _lint_content_ok {
 
 Tells if the title of the page is the given string.
 
-    $mech->title_is( "Invoice Summary" );
+    $mech->title_is( 'Invoice Summary' );
 
 =cut
 
@@ -564,7 +564,7 @@ sub title_unlike {
 
 Tells if the base of the page is the given string.
 
-    $mech->base_is( "http://example.com/" );
+    $mech->base_is( 'http://example.com/' );
 
 =cut
 
@@ -1389,7 +1389,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2010 Andy Lester.
+Copyright 2004-2011 Andy Lester.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of either:
