@@ -27,10 +27,10 @@ my $parms = {
 if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
     $parms->{META_MERGE} = {
         resources => {
-            license     => 'http://dev.perl.org/licenses/',
-            homepage    => 'http://code.google.com/p/www-mechanize/',
+            license     => 'http://www.opensource.org/licenses/artistic-license-2.0',
+            homepage    => 'https://github.com/petdance/test-www-mechanize',
             bugtracker  => 'http://code.google.com/p/www-mechanize/issues/list',
-            Repository  => 'http://code.google.com/p/www-mechanize/source',
+            Repository  => 'https://github.com/petdance/test-www-mechanize',
             MailingList => 'http://groups.google.com/group/www-mechanize-users',
         }
     };
