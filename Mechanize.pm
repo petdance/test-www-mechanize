@@ -1317,6 +1317,145 @@ sub stuff_inputs {
     return;
 }
 
+
+
+=head2 $mech->lacks_uncapped_inputs( [$comment] )
+
+Executes a test to make sure that the current form content has no
+text input fields that lack the C<maxlength> attribute, and that each
+C<maxlength> value is a positive integer.  The test fails if the current
+form has such a field, and succeeds otherwise.
+
+Returns an array containing all text input fields in the current
+form that do not specify a maximum input length.  Fields for which
+the concept of input length is irrelevant, and controls that HTML
+does not allow to be capped (e.g. textarea) are ignored.
+
+The inputs in the returned array are descended from HTML::Form::Input.
+
+The return is true if the test succeeded, false otherwise.
+
+=cut
+
+sub lacks_uncapped_inputs {
+    my $self    = shift;
+    my $comment = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my @uncapped;
+
+    my @inputs = $self->grep_inputs( { type => qr/^(?:text|password)$/ } );
+    foreach my $field ( @inputs ) {
+        next if $field->readonly();
+        next if $field->disabled();
+
+        if ( not defined($field->{maxlength}) ) {
+            push( @uncapped, $field->name . ' has no maxlength attribute' );
+            next;
+        }
+
+        my $val = $field->{maxlength};
+        if ( ($val !~ /^\s*\d+\s*$/) || ($val+0 <= 0) ) {
+            push( @uncapped, $field->name . qq{ has an invalid maxlength attribute of "$val"} );
+        }
+    }
+
+    my $ok = $Test->cmp_ok( scalar @uncapped, '==', 0, $comment );
+    $Test->diag( $_ ) for @uncapped;
+
+    return $ok;
+}
+
+=head2 $mech->grep_inputs( \%properties )
+
+grep_inputs() returns an array of all the input controls in the
+current form whose properties match all of the regexes in $properties.
+The controls returned are all descended from HTML::Form::Input.
+
+If $properties is undef or empty then all inputs will be
+returned.
+
+If there is no current page, there is no form on the current
+page, or there are no submit controls in the current form
+then the return will be an empty array.
+
+    # get all text controls whose names begin with "customer"
+    my @customer_text_inputs =
+        $mech->grep_inputs( {
+            type => qr/^(text|textarea)$/,
+            name => qr/^customer/
+        }
+    );
+
+=cut
+
+sub grep_inputs {
+    my $self = shift;
+    my $properties = shift;
+
+    my @found;
+
+    my $form = $self->current_form();
+    if ( $form ) {
+        my @inputs = $form->inputs();
+        @found = _grep_hashes( \@inputs, $properties );
+    }
+
+    return @found;
+}
+
+
+=head2 $mech->grep_submits( \%properties )
+
+grep_submits() does the same thing as grep_inputs() except that
+it only returns controls that are submit controls, ignoring
+other types of input controls like text and checkboxes.
+
+=cut
+
+sub grep_submits {
+    my $self = shift;
+    my $properties = shift || {};
+
+    $properties->{type} = qr/^(?:submit|image)$/;  # submits only
+    my @found = $self->grep_inputs( $properties );
+
+    return @found;
+}
+
+# search an array of hashrefs, returning an array of the incoming
+# hashrefs that match *all* the pattern in $patterns.
+sub _grep_hashes {
+    my $hashes = shift;
+    my $patterns = shift || {};
+
+    my @found;
+
+    if ( ! %{$patterns} ) {
+        # nothing to match on, so return them all
+        @found = @{$hashes};
+    }
+    else {
+        foreach my $hash ( @{$hashes} ) {
+
+            # check every pattern for a match on the current hash
+            my $matches_everything = 1;
+            foreach my $patternKey ( keys %{$patterns} ) {
+                $matches_everything = 0 unless exists $hash->{$patternKey} && $hash->{$patternKey} =~ $patterns->{$patternKey};
+                last if !$matches_everything;
+            }
+
+            push @found, $hash if $matches_everything;
+        }
+    }
+
+    return @found;
+}
+
+
+
+
 =head1 TODO
 
 Add HTML::Tidy capabilities.
@@ -1344,7 +1483,7 @@ You can also look for information at:
 
 =over 4
 
-=item * Google Code bug tracker
+=item * Bug tracker
 
 L<http://code.google.com/p/www-mechanize/issues/list>
 
@@ -1385,18 +1524,8 @@ and Pete Krawczyk for patches.
 
 Copyright 2004-2011 Andy Lester.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of either:
-
-=over 4
-
-=item * the GNU General Public License as published by the Free
-Software Foundation; either version 1, or (at your option) any
-later version, or
-
-=item * the Artistic License version 2.0.
-
-=back
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License version 2.0.
 
 =cut
 

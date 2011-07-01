@@ -4,6 +4,18 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+1.31_02 Fri Jul  1 16:45:55 CDT 2011
+------------------------------------
+[ENHANCEMENTS]
+Added $mech->lacks_uncapped_inputs() to check for <input> tags that
+don't have a maxlength attribute.  We've been using this for years at
+work, and I'm just now moving it into Test::WWW::Mechanize.
+
+Added $mech->grep_inputs() and $mech->grep_submits() to easily pull
+input fields from the page.  I'd like to get this moved up to base
+WWW::Mechanize, because it has use outside of the Test:: world.
+
+
 1.31_01 Wed May  4 16:07:31 CDT 2011
 ------------------------------------
 [ENHANCEMENTS]
