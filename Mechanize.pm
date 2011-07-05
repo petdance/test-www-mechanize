@@ -643,8 +643,9 @@ sub content_contains {
     my $desc = shift;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    if ( ref($str) eq 'REGEX' ) {
-        diag( 'content_contains takes a string, not a regex' );
+
+    if ( ref($str) ) {
+        return $Test->ok( 0, 'Test::WWW::Mechanize->content_contains called incorrectly.  It requires a scalar, not a reference.' );
     }
     $desc = qq{Content contains "$str"} if !defined($desc);
 
@@ -663,8 +664,8 @@ sub content_lacks {
     my $desc = shift;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    if ( ref($str) eq 'REGEX' ) {
-        diag( 'content_lacks takes a string, not a regex' );
+    if ( ref($str) ) {
+        return $Test->ok( 0, 'Test::WWW::Mechanize->content_lacks called incorrectly.  It requires a scalar, not a reference.' );
     }
     $desc = qq{Content lacks "$str"} if !defined($desc);
 
@@ -725,8 +726,8 @@ sub text_contains {
     my $desc = shift || qq{Text contains "$str"};
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    if ( ref($str) eq 'REGEX' ) {
-        diag( 'text_contains takes a string, not a regex' );
+    if ( ref($str) ) {
+        return $Test->ok( 0, 'Test::WWW::Mechanize->text_contains called incorrectly.  It requires a scalar, not a reference.' );
     }
 
     return contains_string( $self->content(format => "text"), $str, $desc );

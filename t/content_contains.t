@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -16,7 +16,12 @@ isa_ok( $mech,'Test::WWW::Mechanize' );
 my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
 $mech->get_ok( $uri );
 
-# test regex
+test_out( "not ok 1 - Test::WWW::Mechanize->content_contains called incorrectly.  It requires a scalar, not a reference." );
+test_fail( +1 );
+$mech->content_contains( qr/foo/, "Passing regex fails" );
+test_test( "Passing regex fails" );
+
+# test success
 test_out( 'ok 1 - Does it say test page?' );
 $mech->content_contains( 'Test Page', 'Does it say test page?' );
 test_test( 'Finds the contains' );
@@ -26,6 +31,7 @@ test_out( 'ok 1 - Content contains "Test Page"' );
 $mech->content_contains( 'Test Page');
 test_test( 'Finds the contains - default desc' );
 
+# test failure
 test_out( 'not ok 1 - Where is Mungo?' );
 test_fail(+5);
 test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
