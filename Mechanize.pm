@@ -823,7 +823,7 @@ https links.
 sub followable_links {
     my $self = shift;
 
-    return $self->find_all_links( url_abs_regex => qr{^https?://} );
+    return $self->find_all_links( url_abs_regex => qr{^(?:https?|file)://} );
 }
 
 =head2 $mech->page_links_ok( [ $desc ] )

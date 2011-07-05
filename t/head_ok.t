@@ -4,23 +4,17 @@ use strict;
 use warnings;
 use Test::More tests => 11;
 use Test::Builder::Tester;
+use URI::file;
 
 my $NONEXISTENT = 'blahblablah.xx-nonexistent.foo';
 
 require_ok( 'Test::WWW::Mechanize' );
 
-use lib 't';
-use TestServer;
-
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
-
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
 
 GOOD_HEAD: { # Stop giggling, you!
-    my $goodlinks = "$server_root/goodlinks.html";
+    my $goodlinks = URI::file->new_abs( 't/goodlinks.html' )->as_string;
 
     $mech->head($goodlinks);
     ok($mech->success, 'sanity check: we can load goodlinks.html');
@@ -59,5 +53,3 @@ SKIP: {
     is( ref($ok), '', 'head_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 }
-
-$server->stop;

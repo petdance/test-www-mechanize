@@ -2,24 +2,19 @@
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Builder::Tester;
+use URI::file;
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-use lib 't';
-use TestServer;
+my $mech = Test::WWW::Mechanize->new();
+isa_ok( $mech,'Test::WWW::Mechanize' );
 
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
-
-my $mech=Test::WWW::Mechanize->new();
-isa_ok($mech,'Test::WWW::Mechanize');
-
-$mech->get( "$server_root/goodlinks.html" );
+my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
+$mech->get_ok( $uri );
 
 # test regex
 test_out( 'ok 1 - Does it say test page?' );
@@ -39,5 +34,3 @@ test_diag(q(        LCSS: "go"));
 test_diag(q(LCSS context: "dy>\x{0a}        <h1>Test Page</h1>\x{0a}        <a href="go"));
 $mech->content_contains( 'Mungo', 'Where is Mungo?' );
 test_test( 'Handles not finding it' );
-
-$server->stop;

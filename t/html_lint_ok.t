@@ -21,7 +21,7 @@ GOOD_GET: {
     my $mech = Test::WWW::Mechanize->new;
     isa_ok( $mech, 'Test::WWW::Mechanize' );
 
-    my $uri = URI::file->new_abs( 't/html/bad.html' )->as_string;
+    my $uri = URI::file->new_abs( 't/bad.html' )->as_string;
     $mech->get_ok( $uri, 'Fetching the file from disk' );
 
     test_out( "not ok 1 - checking HTML ($uri)" );

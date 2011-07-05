@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Builder::Tester;
+use URI::file;
 
 use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
 BEGIN {
@@ -17,19 +18,11 @@ BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-
-use lib 't';
-use TestServer;
-
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
-
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
 GOOD_GET: {
-    my $goodlinks = "$server_root/goodlinks.html";
+    my $goodlinks = URI::file->new_abs( 't/goodlinks.html' )->as_string;
 
     $mech->get($goodlinks);
     ok($mech->success, 'sanity check: we can load goodlinks.html');
@@ -62,4 +55,4 @@ BAD_GET: {
     ok( !$ok, 'And the result should be false' );
 }
 
-$server->stop;
+done_testing();

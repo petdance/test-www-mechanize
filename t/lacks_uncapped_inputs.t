@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 6;
 use Test::Builder::Tester;
 
 use URI::file;
@@ -16,7 +16,7 @@ isa_ok( $mech,'Test::WWW::Mechanize' );
 
 GOOD: {
     my $uri = URI::file->new_abs( 't/lacks_uncapped_inputs-good.html' )->as_string;
-    $mech->get( $uri );
+    $mech->get_ok( $uri ) or die;
 
     test_out( 'ok 1 - This should have no failures' );
     $mech->lacks_uncapped_inputs( 'This should have no failures' );
@@ -25,7 +25,7 @@ GOOD: {
 
 BAD: {
     my $uri = URI::file->new_abs( 't/lacks_uncapped_inputs-bad.html' )->as_string;
-    $mech->get( $uri );
+    $mech->get_ok( $uri ) or die;
 
     test_out( 'not ok 1 - This should have three errors found' );
     test_fail( +6 );

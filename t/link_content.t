@@ -1,27 +1,23 @@
-#!perl
+#!perl -Tw
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 12;
 use Test::Builder::Tester;
+use URI::file;
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-use lib 't';
-use TestServer;
-
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
-
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
-$mech->get( "$server_root/goodlinks.html" );
+my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
+$mech->get_ok( $uri );
+
 my @urls = $mech->links();
-ok( scalar @urls, 'Got links from the HTTP server');
+is( scalar @urls, 3, 'Got links from the HTTP server');
 
 # test regex
 test_out('not ok 1 - link_content_like');
@@ -75,4 +71,4 @@ test_diag('goodlinks.html');
 $mech->link_content_unlike(\@urls,qr/Test/,'Checking all page link unlike content failures');
 test_test('Handles link unlike content found');
 
-$server->stop;
+done_testing();

@@ -14,8 +14,7 @@ my $mech = Test::WWW::Mechanize->new();
 my $uri = URI::file->new_abs( 't/stuff_inputs.html' )->as_string;
 
 EMPTY_FIELDS: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs();
@@ -34,8 +33,7 @@ EMPTY_FIELDS: {
 
 
 MULTICHAR_FILL: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs( { fill => '123' } );
@@ -54,8 +52,7 @@ MULTICHAR_FILL: {
 
 
 OVERWRITE: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs();
@@ -76,8 +73,7 @@ OVERWRITE: {
 
 
 CUSTOM_FILL: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs( {
@@ -102,8 +98,7 @@ CUSTOM_FILL: {
 
 
 MAXLENGTH: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs( {
@@ -128,8 +123,7 @@ MAXLENGTH: {
 
 
 IGNORE: {
-    $mech->get( $uri );
-    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+    $mech->get_ok( $uri ) or die;
 
     add_test_fields( $mech );
     $mech->stuff_inputs( { ignore => [ 'text10' ] } );

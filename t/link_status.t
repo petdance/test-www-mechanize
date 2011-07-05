@@ -2,25 +2,21 @@
 
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 10;
 use Test::Builder::Tester;
+use URI::file;
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-
 use lib 't';
-use TestServer;
-
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
-isa_ok($mech,'Test::WWW::Mechanize');
+isa_ok( $mech,'Test::WWW::Mechanize' );
 
-$mech->get( "$server_root/goodlinks.html" );
+my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
+$mech->get_ok( $uri );
 
 # Good links.
 my $links=$mech->links();
@@ -36,7 +32,8 @@ test_test('Handles All Links successful - default desc');
 $mech->link_status_isnt($links,404,'Checking all links isnt');
 
 # Bad links
-$mech->get( "$server_root/badlinks.html" );
+$uri = URI::file->new_abs( 't/badlinks.html' )->as_string;
+$mech->get_ok( $uri );
 
 $links=$mech->links();
 test_out('not ok 1 - Checking all links some bad');
@@ -57,5 +54,3 @@ test_fail(+2);
 test_diag('goodlinks.html');
 $mech->link_status_isnt($links,200,'Checking all links not 200');
 test_test('Handles all links mismatch');
-
-$server->stop;

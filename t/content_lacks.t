@@ -1,25 +1,20 @@
-#!perl -w
+#!perl -Tw
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Builder::Tester;
-
-use lib 't';
-use TestServer;
+use URI::file;
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
 }
 
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
-
 my $mech=Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
-$mech->get( "$server_root/goodlinks.html" );
+my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
+$mech->get_ok( $uri );
 
 # test regex
 test_out( 'ok 1 - Does it say Mungo eats cheese?' );
@@ -38,5 +33,3 @@ test_diag(q(   and found: "Test Page") );
 test_diag(q( at position: 33 (line 3 column 16)) );
 $mech->content_lacks( 'Test Page', q{Shouldn't say it's a test page} );
 test_test( 'Handles not finding it' );
-
-$server->stop;
