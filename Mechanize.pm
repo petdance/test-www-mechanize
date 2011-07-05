@@ -926,7 +926,8 @@ sub page_links_content_unlike {
     $desc = qq{All links are unlike "$regex"} unless defined($desc);
 
     my $usable_regex=$Test->maybe_regex( $regex );
-    unless(defined( $usable_regex )) {
+
+    if ( !defined( $usable_regex ) ) {
         my $ok = $Test->ok( 0, 'page_links_content_unlike' );
         $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
@@ -1058,7 +1059,8 @@ sub link_content_like {
     my $desc = shift;
 
     my $usable_regex=$Test->maybe_regex( $regex );
-    unless(defined( $usable_regex )) {
+
+    if ( !defined( $usable_regex ) ) {
         my $ok = $Test->ok( 0, 'link_content_like' );
         $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
@@ -1095,7 +1097,8 @@ sub link_content_unlike {
     my $desc = shift;
 
     my $usable_regex=$Test->maybe_regex( $regex );
-    unless(defined( $usable_regex )) {
+
+    if ( !defined( $usable_regex ) ) {
         my $ok = $Test->ok( 0, 'link_content_unlike' );
         $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
