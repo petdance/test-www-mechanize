@@ -733,6 +733,26 @@ sub text_contains {
     return contains_string( $self->content(format => "text"), $str, $desc );
 }
 
+=head2 $mech->text_lacks( $str [, $desc ] )
+
+Tells if the text of the page lacks I<$str>.
+
+=cut
+
+sub text_lacks {
+    my $self = shift;
+    my $str = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    if ( ref($str) ) {
+        return $Test->ok( 0, 'Test::WWW::Mechanize->text_lacks called incorrectly.  It requires a scalar, not a reference.' );
+    }
+    $desc = qq{Text lacks "$str"} if !defined($desc);
+
+    return lacks_string( $self->text, $str, $desc );
+}
+
 =head2 $mech->text_like( $regex [, $desc ] )
 
 Tells if the text form of the page's content matches I<$regex>.
