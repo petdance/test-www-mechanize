@@ -17,6 +17,9 @@ WWW::Mechanize, because it has use outside of the Test:: world.
 
 $mech->followable_links() now finds file: URLs, too.
 
+$mech->content_contains(), $mech->content_lacks() and $mech->text_lacks()
+all fail if a reference is passed instead of a string.
+
 [INTERNALS]
 Most tests no longer use TestServer.pm class.  All tests now run under
 -T and have plan counts.
