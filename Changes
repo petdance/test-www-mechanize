@@ -21,6 +21,10 @@ $mech->content_contains(), $mech->content_lacks(), $mech->text_contains(0
 and $mech->text_lacks() all fail if a reference is passed instead of
 a string.
 
+[FIXES]
+$mech->text_contains() was not calling $mech->text(), so was not taking
+advantage of the caching of the parsed text.
+
 [INTERNALS]
 Most tests no longer use TestServer.pm class.
 

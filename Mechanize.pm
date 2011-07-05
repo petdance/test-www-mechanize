@@ -715,7 +715,7 @@ C<text_contains> instead of L</content_contains>.
  $mech->content_contains('Hi, User'); # Fails.
  $mech->text_contains('Hi, User'); # Passes.
 
-Text is determined by calling C<< $mech->content(format => 'text') >>.
+Text is determined by calling C<< $mech->text() >>.
 See L<WWW::Mechanize/content>.
 
 =cut
@@ -730,7 +730,7 @@ sub text_contains {
         return $Test->ok( 0, 'Test::WWW::Mechanize->text_contains called incorrectly.  It requires a scalar, not a reference.' );
     }
 
-    return contains_string( $self->content(format => "text"), $str, $desc );
+    return contains_string( $self->text, $str, $desc );
 }
 
 =head2 $mech->text_lacks( $str [, $desc ] )
