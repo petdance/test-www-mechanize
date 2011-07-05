@@ -1187,8 +1187,9 @@ sub _format_links {
 
     my @urls;
     if (ref($links) eq 'ARRAY') {
-        if (defined($$links[0])) {
-            if (ref($$links[0]) eq 'WWW::Mechanize::Link') {
+        my $link = $links->[0];
+        if ( defined($link) ) {
+            if ( ref($link) eq 'WWW::Mechanize::Link' ) {
                 @urls = map { $_->url() } @{$links};
             }
             else {
