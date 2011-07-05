@@ -4,7 +4,7 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
-1.33_01
+1.34
 ------------------------------------
 [ENHANCEMENTS]
 Added $mech->lacks_uncapped_inputs() to check for <input> tags that
