@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 18;
 use Test::Builder::Tester;
 use URI::file;
 
@@ -16,10 +16,15 @@ isa_ok( $mech,'Test::WWW::Mechanize' );
 my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
 $mech->get_ok( $uri );
 
-test_out( "not ok 1 - Test::WWW::Mechanize->content_contains called incorrectly.  It requires a scalar, not a reference." );
-test_fail( +1 );
-$mech->content_contains( qr/foo/, "Passing regex fails" );
-test_test( "Passing regex fails" );
+for my $method ( qw( content_contains content_lacks text_contains ) ) {
+    for my $ref ( {}, [], qr/foo/, sub {} ) {
+        test_out( "not ok 1 - Test::WWW::Mechanize->$method called incorrectly.  It requires a scalar, not a reference." );
+        test_fail( +1 );
+        $mech->$method( $ref, 'Passing ref fails' );
+        my $type = ref( $ref );
+        test_test( "Passing a $type reference to $method() fails" );
+    }
+}
 
 # test success
 test_out( 'ok 1 - Does it say test page?' );
