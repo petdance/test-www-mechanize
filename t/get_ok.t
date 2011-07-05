@@ -24,8 +24,7 @@ isa_ok($mech,'Test::WWW::Mechanize');
 GOOD_GET: {
     my $goodlinks = URI::file->new_abs( 't/goodlinks.html' )->as_string;
 
-    $mech->get($goodlinks);
-    ok($mech->success, 'sanity check: we can load goodlinks.html');
+    $mech->get_ok($goodlinks);
 
     test_out('ok 1 - Try to get goodlinks.html');
     my $ok = $mech->get_ok($goodlinks, 'Try to get goodlinks.html');
