@@ -15,9 +15,7 @@ sub Test::WWW::Mechanize::success { return 1; }
 sub Test::WWW::Mechanize::get {
     my $self = shift;
     my $url = shift;
-    use Data::Dumper;
     $ua_args = {@_};
-    print Dumper( \@_ ) if @_ % 2;
     return 1;
 }
 
