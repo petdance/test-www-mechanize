@@ -1463,8 +1463,8 @@ sub _grep_hashes {
 
             # check every pattern for a match on the current hash
             my $matches_everything = 1;
-            foreach my $patternKey ( keys %{$patterns} ) {
-                $matches_everything = 0 unless exists $hash->{$patternKey} && $hash->{$patternKey} =~ $patterns->{$patternKey};
+            foreach my $pattern_key ( keys %{$patterns} ) {
+                $matches_everything = 0 unless exists $hash->{$pattern_key} && $hash->{$pattern_key} =~ $patterns->{$pattern_key};
                 last if !$matches_everything;
             }
 
