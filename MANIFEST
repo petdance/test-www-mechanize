@@ -6,7 +6,6 @@ README
 
 t/00load.t
 t/autolint.t
-t/back_ok.t
 t/bad.html
 t/badlinks.html
 t/click_ok.t
