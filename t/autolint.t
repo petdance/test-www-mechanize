@@ -9,11 +9,17 @@ use URI::file;
 BEGIN {
     eval 'use HTML::Lint';
     plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
-    plan tests => 7;
+    plan tests => 8;
 }
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
+}
+
+CUSTOM_LINTER: {
+    my $lint = HTML::Lint->new;
+    my $mech = Test::WWW::Mechanize->new( autolint => $lint );
+    isa_ok( $mech, 'Test::WWW::Mechanize' );
 }
 
 GOOD_GET_GOOD_HTML: {
