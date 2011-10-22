@@ -5,6 +5,7 @@ use warnings;
 use Test::Builder::Tester;
 use Test::More;
 use URI::file;
+use HTML::Lint;
 
 BEGIN {
     eval 'use HTML::Lint';
@@ -17,7 +18,8 @@ BEGIN {
 }
 
 CUSTOM_LINTER: {
-    my $lint = HTML::Lint->new;
+    my $lint = HTML::Lint->new( only_types => HTML::Lint::Error::STRUCTURE );
+
     my $mech = Test::WWW::Mechanize->new( autolint => $lint );
     isa_ok( $mech, 'Test::WWW::Mechanize' );
 }
