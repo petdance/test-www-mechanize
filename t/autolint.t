@@ -1,19 +1,27 @@
-#!perl -Tw
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
 use Test::Builder::Tester;
 use Test::More;
 use URI::file;
+use HTML::Lint;
 
 BEGIN {
     eval 'use HTML::Lint';
     plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
-    plan tests => 7;
+    plan tests => 8;
 }
 
 BEGIN {
     use_ok( 'Test::WWW::Mechanize' );
+}
+
+CUSTOM_LINTER: {
+    my $lint = HTML::Lint->new( only_types => HTML::Lint::Error::STRUCTURE );
+
+    my $mech = Test::WWW::Mechanize->new( autolint => $lint );
+    isa_ok( $mech, 'Test::WWW::Mechanize' );
 }
 
 GOOD_GET_GOOD_HTML: {
