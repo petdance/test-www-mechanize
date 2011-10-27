@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.34
+Version 1.36
 
 =cut
 
-our $VERSION = '1.34';
+our $VERSION = '1.36';
 
 =head1 SYNOPSIS
 
@@ -1543,6 +1543,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Jonathan "Duke" Leto,
 Philip G. Potter,
 Niko Tyni,
 Greg Sheard,

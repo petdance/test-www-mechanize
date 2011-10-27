@@ -4,6 +4,14 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+1.36    Thu Oct 27 00:09:21 CDT 2011
+------------------------------------
+[ENHANCEMENTS]
+The $mech object autolint argument can now take an HTML::Lint object.
+This lets you pass your own HTML::Lint object that does less stringent
+checking than the one T:W:M creates.
+
+
 1.34    Tue Jul  5 16:23:24 CDT 2011
 ------------------------------------
 [ENHANCEMENTS]
