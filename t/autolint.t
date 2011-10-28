@@ -5,7 +5,6 @@ use warnings;
 use Test::Builder::Tester;
 use Test::More;
 use URI::file;
-use HTML::Lint;
 
 BEGIN {
     eval 'use HTML::Lint';
