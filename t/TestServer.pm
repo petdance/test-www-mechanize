@@ -21,8 +21,8 @@ sub new {
 
     die 'An instance of TestServer has already been started.' if $pid;
 
-    # XXX This should really be a random port.
-    return $class->SUPER::new(13432, @_);
+    # give port some randomness to improve parallel testing
+    return $class->SUPER::new(13432 + $$, @_);
 }
 
 sub run {
