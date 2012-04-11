@@ -10,6 +10,9 @@ NEXT
 [INTERNALS]
 Explicitly requires Test::Simple 0.94 or higher.
 
+Brought over t/TestServer.pm from WWW::Mechanize which fixes a number
+of problems.
+
 
 1.38    Fri Oct 28 10:12:48 CDT 2011
 ------------------------------------
