@@ -9,8 +9,10 @@ use URI::file;
 use Test::WWW::Mechanize;
 
 BEGIN {
-    eval 'use HTML::Lint';
-    plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
+    # Load HTML::Lint here for the imports
+    if ( not eval 'use HTML::Lint;' ) {
+        plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
+    }
     plan tests => 7;
 }
 

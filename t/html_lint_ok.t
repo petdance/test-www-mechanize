@@ -5,16 +5,15 @@ use warnings;
 use Test::Builder::Tester;
 use Test::More;
 
-BEGIN {
-    eval 'use HTML::Lint';
-    plan skip_all => 'HTML::Lint is not installed, cannot test html_lint_ok' if $@;
-    plan tests => 4;
-}
-
+use Test::WWW::Mechanize;
 use URI::file;
 
 BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
+    # Load HTML::Lint here for the imports
+    if ( not eval 'use HTML::Lint;' ) {
+        plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
+    }
+    plan tests => 3;
 }
 
 GOOD_GET: {
