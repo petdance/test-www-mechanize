@@ -6,14 +6,12 @@ use Test::Builder::Tester;
 use Test::More;
 use URI::file;
 
+use Test::WWW::Mechanize;
+
 BEGIN {
     eval 'use HTML::Lint';
     plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
-    plan tests => 8;
-}
-
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
+    plan tests => 7;
 }
 
 CUSTOM_LINTER: {
@@ -63,3 +61,5 @@ GOOD_GET_BAD_HTML: {
     $mech->follow_link_ok( { text => 'Back to bad' }, 'Following link back to bad.html' );
     test_test( 'follow_link_ok complains about bad HTML' );
 }
+
+done_testing();
