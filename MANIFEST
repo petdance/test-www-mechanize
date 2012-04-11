@@ -4,7 +4,7 @@ Makefile.PL
 Mechanize.pm
 README
 
-t/00load.t
+t/00-load.t
 t/autolint.t
 t/bad.html
 t/badlinks.html
