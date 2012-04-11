@@ -837,7 +837,7 @@ sub _tag_walk {
     my $p = HTML::TokeParser->new( \($self->content) );
 
     while ( my $token = $p->get_tag( $tag ) ) {
-        my $tagtext = $p->get_trimmed_text( "/$tag" );
+        my $tagtext = $p->get_trimmed_text();
         return 1 if $match->( $tagtext );
     }
     return;

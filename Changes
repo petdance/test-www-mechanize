@@ -7,6 +7,11 @@ http://code.google.com/p/www-mechanize/issues/list
 
 NEXT
 ------------------------------------
+[FIXES]
+$mech->has_tag() now handles nested tags more sensibly.  This fixes
+Google Code ticket #1.
+
+
 [INTERNALS]
 Explicitly requires Test::Simple 0.94 or higher.
 
