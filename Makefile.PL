@@ -16,7 +16,7 @@ my $parms = {
         'LWP'                       => 6.02,
         'Test::Builder::Tester'     => '1.09',
         'Test::LongString'          => '0.15',
-        'Test::More'                => 0,
+        'Test::Simple'              => '0.94', # subtest() and done_testing()
         'URI::file'                 => 0,
         'WWW::Mechanize'            => '1.68',
     },
