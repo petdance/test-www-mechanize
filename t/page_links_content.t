@@ -1,14 +1,12 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 9;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 use lib 't';
 

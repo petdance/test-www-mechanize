@@ -1,14 +1,13 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+
+use Test::More tests => 5;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 my $mech = Test::WWW::Mechanize->new();
 isa_ok( $mech,'Test::WWW::Mechanize' );
@@ -36,3 +35,5 @@ test_diag( q{        LCSS: "s"} );
 test_diag( q{LCSS context: "Test PageTest PageTest 1 Test 2 Test 3"} );
 $mech->text_contains( 'goodlinks.html', 'Trying to find goodlinks' );
 test_test( 'Handles not finding it' );
+
+done_testing();

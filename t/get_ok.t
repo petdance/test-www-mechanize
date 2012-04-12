@@ -1,4 +1,4 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
@@ -6,17 +6,14 @@ use Test::More;
 use Test::Builder::Tester;
 use URI::file;
 
+use Test::WWW::Mechanize ();
+
 BEGIN {
     if ( gethostbyname( 'blahblahblah.xx-nonexistent.' ) ) {
         plan skip_all => 'Found an A record for the non-existent domain';
     }
+    plan tests => 10;
 }
-
-BEGIN {
-    plan tests => 11;
-    use_ok( 'Test::WWW::Mechanize' );
-}
-
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');

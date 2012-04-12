@@ -1,14 +1,12 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
 
-use Test::More tests => 44;
+use Test::More tests => 43;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 MAIN: {
     my $mech = Test::WWW::Mechanize->new();
@@ -141,6 +139,8 @@ MAIN: {
         );
     }
 }
+
+done_testing();
 
 
 sub add_test_fields {

@@ -1,16 +1,15 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 7;
+
+use Test::More tests => 6;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
-my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
+my $mech = Test::WWW::Mechanize->new();
 isa_ok($mech,'Test::WWW::Mechanize');
 
 my $uri = URI::file->new_abs( 't/goodlinks.html' )->as_string;
@@ -37,3 +36,5 @@ test_diag('bad2.html');
 test_diag('bad3.html');
 $mech->page_links_ok('Checking some page link failures');
 test_test('Handles link not found');
+
+done_testing();

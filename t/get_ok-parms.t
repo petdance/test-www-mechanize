@@ -1,13 +1,12 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 16;
+
+use Test::More tests => 15;
 use Test::Builder::Tester;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize;
 
 my $ua_args;
 
@@ -45,3 +44,5 @@ ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );
 
 $mech->get_ok( $url, { %{$wanted} }, 'Description' );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );
+
+done_testing();

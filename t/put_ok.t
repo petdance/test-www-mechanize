@@ -1,14 +1,12 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More;
+
+use Test::More tests => 7;
 use Test::Builder::Tester;
 
-BEGIN {
-    plan tests => 8;
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 use lib 't';
 use TestServer;
@@ -40,3 +38,5 @@ GOOD_PUT: {
 }
 
 $server->stop;
+
+done_testing();

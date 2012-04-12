@@ -1,13 +1,11 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 3;
 use Test::Builder::Tester;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 use lib 't';
 use TestServer;
@@ -25,3 +23,5 @@ SUBMIT_GOOD_FORM: {
 }
 
 $server->stop;
+
+done_testing();

@@ -1,14 +1,13 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 22;
+
+use Test::More tests => 21;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 my $mech = Test::WWW::Mechanize->new();
 isa_ok( $mech,'Test::WWW::Mechanize' );
@@ -45,3 +44,5 @@ test_diag(q(        LCSS: "go"));
 test_diag(q(LCSS context: "dy>\x{0a}        <h1>Test Page</h1>\x{0a}        <a href="go"));
 $mech->content_contains( 'Mungo', 'Where is Mungo?' );
 test_test( 'Handles not finding it' );
+
+done_testing();
