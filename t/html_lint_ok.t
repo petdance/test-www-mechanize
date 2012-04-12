@@ -1,4 +1,4 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
@@ -33,3 +33,5 @@ GOOD_GET: {
     $mech->html_lint_ok( 'checking HTML' );
     test_test( 'Proper html_lint_ok results' );
 }
+
+done_testing();

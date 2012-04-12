@@ -25,3 +25,5 @@ CONSTRUCTOR_PARMS: {
     $mech->agent( 'ratso/bongo v.43' );
     is( $mech->agent, 'ratso/bongo v.43', 'Can still set the agent' );
 }
+
+done_testing();

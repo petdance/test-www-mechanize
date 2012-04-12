@@ -1,4 +1,4 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
@@ -53,3 +53,5 @@ SKIP: {
     is( ref($ok), '', 'head_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 }
+
+done_testing();

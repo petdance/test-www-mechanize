@@ -1,14 +1,13 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 7;
+
+use Test::More tests => 6;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::WWW::Mechanize ();
 
 FOLLOW_GOOD_LINK: {
     my $mech = Test::WWW::Mechanize->new( autocheck => 0 );

@@ -1,23 +1,24 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 16;
-use Test::Builder::Tester;
-use Data::Dumper; ## no critic, needed for the head() method below
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
+use Test::More tests => 15;
+use Test::Builder::Tester;
+
+use Test::WWW::Mechanize;
 
 my $ua_args;
 
 sub Test::WWW::Mechanize::success { return 1; }
 sub Test::WWW::Mechanize::head {
     my $self = shift;
-    my $url = shift;
+    my $url  = shift;
+
+    die 'Odd number of args sent in' if @_ % 2 != 0;
+
     $ua_args = {@_};
-    print Dumper( \@_ ) if @_ % 2;
+
     return 1;
 }
 
@@ -47,3 +48,5 @@ ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );
 
 $mech->head_ok( $url, { %{$wanted} }, 'Description' );
 ok( eq_hash( $wanted, $ua_args ), 'Passing anonymous array for hash' );
+
+done_testing ();
