@@ -2,16 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 3;
 use Test::Builder::Tester;
+
+use Test::WWW::Mechanize ();
 
 use lib 't';
 use TestServer;
-
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
-
 
 my $server      = TestServer->new;
 my $pid         = $server->background;
@@ -26,3 +23,5 @@ SUBMIT_GOOD_FORM: {
 }
 
 $server->stop;
+
+done_testing();

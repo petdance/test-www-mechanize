@@ -1,16 +1,13 @@
-#!perl -Tw
+#!perl -T
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+
+use Test::More tests => 9;
 use Test::Builder::Tester;
 use URI::file;
 
-BEGIN {
-    use_ok( 'Test::WWW::Mechanize' );
-}
-
-use lib 't';
+use Test::WWW::Mechanize ();
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech,'Test::WWW::Mechanize' );
