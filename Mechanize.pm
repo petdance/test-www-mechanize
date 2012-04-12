@@ -117,6 +117,8 @@ and can simply do
 The C<< $mech->get_ok() >> only counts as one test in the test count.  Both the
 main IO operation and the linting must pass for the entire test to pass.
 
+You can control autolint on the fly with the C<< autolint >> method.
+
 =cut
 
 sub new {
@@ -131,7 +133,7 @@ sub new {
 
     my $self = $class->SUPER::new( %args );
 
-    $self->{autolint} = $autolint;
+    $self->autolint( $autolint );
 
     return $self;
 }
@@ -170,7 +172,7 @@ sub _maybe_lint {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     if ( $ok ) {
-        if ( $self->is_html && $self->{autolint} ) {
+        if ( $self->is_html && $self->autolint ) {
             $ok = $self->_lint_content_ok( $desc );
         }
         else {
@@ -299,7 +301,7 @@ sub submit_form_ok {
     my $desc = shift;
 
     if ( ref $parms ne 'HASH' ) {
-       Carp::croak 'FATAL: parameters must be given as a hashref';
+        Carp::croak 'FATAL: parameters must be given as a hashref';
     }
 
     # return from submit_form() is an HTTP::Response or undef
@@ -488,13 +490,7 @@ sub _lint_content_ok {
         die "Test::WWW::Mechanize can't do linting without HTML::Lint: $@";
     }
 
-    # XXX Combine with the cut'n'paste version in get_ok()
-
-    my $lint = HTML::Lint->new;
-
-    if ( ref $self->{autolint} && $self->{autolint}->isa('HTML::Lint') ) {
-        $lint = $self->{autolint};
-    }
+    my $lint = (ref $self->{autolint} && $self->{autolint}->isa('HTML::Lint')) ? $self->{autolint} : HTML::Lint->new();
 
     $lint->parse( $self->content );
 
@@ -1401,6 +1397,41 @@ sub lacks_uncapped_inputs {
 
     return $ok;
 }
+
+
+=head1 METHODS: MISCELLANEOUS
+
+=head2 $mech->autolint( [$status] )
+
+Without an argument, this method returns a true or false value indicating
+whether autolint is active.
+
+When passed an argument, autolint is turned on or off depending on whether
+the argument is true or false, and the previous autolint status is returned.
+As with the autolint option of C<< new >>, C<< $status >> can be an
+L<< HTML::Lint >> object.
+
+If autolint is currently using an L<< HTML::Lint >> object you provided,
+the return is that object, so you can change and exactly restore
+autolint status:
+
+    my $old_status = $mech->autolint( 0 );
+    ... operations that should not be linted ...
+    $mech->autolint->( $old_status );
+
+=cut
+
+sub autolint {
+    my $self = shift;
+
+    my $ret = $self->{autolint};
+    if ( @_ ) {
+        $self->{autolint} = shift;
+    }
+
+    return $ret;
+}
+
 
 =head2 $mech->grep_inputs( \%properties )
 

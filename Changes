@@ -7,6 +7,11 @@ http://code.google.com/p/www-mechanize/issues/list
 
 NEXT
 ------------------------------------
+[ENHANCEMENTS]
+Added a $mech->autolint() method so you can turn autolinting on and off
+in mid-program.  Thanks, Mike O'Regan.
+
+
 [FIXES]
 $mech->has_tag() now handles nested tags more sensibly.  This fixes
 Google Code ticket #1.
