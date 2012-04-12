@@ -28,7 +28,6 @@ MAIN	t/stuff_inputs.t	/^MAIN: {$/;"	l
 MAXLENGTH	t/stuff_inputs.t	/^    MAXLENGTH: {$/;"	l
 MULTICHAR_FILL	t/stuff_inputs.t	/^    MULTICHAR_FILL: {$/;"	l
 MUTATOR	t/autolint.t	/^    MUTATOR: {$/;"	l
-NEW	t/new.t	/^NEW: {$/;"	l
 OVERWRITE	t/stuff_inputs.t	/^    OVERWRITE: {$/;"	l
 SKIP	t/head_ok.t	/^SKIP: {$/;"	l
 SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
