@@ -43,3 +43,4 @@ t/submit_form_ok.t
 t/table.html
 t/TestServer.pm
 t/text_contains.t
+t/title_is.t
