@@ -1120,7 +1120,7 @@ sub _check_links_status {
                 push( @failures, $url ) unless $mech->status() == $status;
             }
             else {
-                push( @failures, $url ) unless $mech->status() != $status;
+                push( @failures, $url ) if $mech->status() == $status;
             }
             $mech->back();
         }
@@ -1148,10 +1148,10 @@ sub _check_links_content {
         if ( $mech->follow_link( url => $url ) ) {
             my $content=$mech->content();
             if ( $test eq 'like' ) {
-                push( @failures, $url ) unless $content=~/$regex/;
+                push( @failures, $url ) unless $content =~ /$regex/;
             }
             else {
-                push( @failures, $url ) unless $content!~/$regex/;
+                push( @failures, $url ) if $content =~ /$regex/;
             }
             $mech->back();
         }
