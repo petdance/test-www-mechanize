@@ -12,6 +12,8 @@ allow_leading_tabs = 0
 [-Documentation::PodSpelling]
 [-Documentation::RequirePodAtEnd]
 [-Documentation::RequirePodSections]
+[-Documentation::RequirePodLinksIncludeText]
+# I'm OK with not controlling the output of L<>
 
 [-ErrorHandling::RequireCarping]
 
