@@ -1522,7 +1522,10 @@ sub scrape_text_by_attr {
         while ( my $token = $parser->get_tag() ) {
             if ( ref $token->[1] eq 'HASH' ) {
                 if ( exists $token->[1]->{$attr} ) {
-                    my $matched = (ref $value eq 'Regexp') ? $token->[1]->{$attr} =~ $value : $token->[1]->{$attr} eq $value;
+                    my $matched =
+                        (ref $value eq 'Regexp')
+                            ? $token->[1]->{$attr} =~ $value
+                            : $token->[1]->{$attr} eq $value;
                     if ( $matched ) {
                         my $tag = $token->[ 0 ];
                         push @results, $parser->get_trimmed_text( "/$tag" );
