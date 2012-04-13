@@ -70,12 +70,14 @@ sub handle_request {
         else {
             print "HTTP/1.0 404 Not found\r\n";
             print
-            $cgi->header,
-            $cgi->start_html('Not found'),
-            $cgi->h1('Not found'),
-            $cgi->end_html;
+                $cgi->header,
+                $cgi->start_html('Not found'),
+                $cgi->h1('Not found'),
+                $cgi->end_html;
         }
     }
+
+    return;
 }
 
 =head1 METHODS UNIQUE TO TestServer
