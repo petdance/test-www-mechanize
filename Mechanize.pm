@@ -1512,16 +1512,7 @@ sub scrape_text_by_attr {
     my $attr = shift;
     my $value = shift;
 
-    require HTML::TokeParser;
-
-    my $html;
-    if ( @_ ) {
-        $html = shift;
-        assert_nonblank( $html, '$html passed in is a populated scalar' );
-    }
-    elsif ( $self->ct() eq 'text/html' ) {
-        $html = $self->content();
-    }
+    my $html = $self->_get_optional_html( @_ );
 
     my @results;
 
@@ -1561,31 +1552,15 @@ If C<$html> is not provided then the current content is used.
 
 sub scrape_text_by_id {
     my $self = shift;
-    my $id = shift;
-    my $html;
+    my $id   = shift;
 
-    require HTML::TokeParser;
-
-    if ( @_ ) {
-        $html = shift;
-        assert_nonref( $html, '$html passed in is a populated scalar' );
-    }
-    else {
-        if ( $self->ct() eq 'text/html' && defined $self->{content} ) {
-            $html = $self->{ content };
-        }
-    }
+    my $html = $self->_get_optional_html( @_ );
 
     my @results;
 
     if ( defined $html ) {
         my $found = index( $html, "id=\"$id\"" );
         if ( $found >= 0 ) {
-            # quick and dirty hack to try and cut down on the amount of DOM parsing
-            if ( $found >=150 ) {
-                $html = substr( $html, $found-150 );
-            }
-
             my $parser = HTML::TokeParser->new( \$html );
 
             while ( my $token = $parser->get_tag() ) {
@@ -1608,6 +1583,23 @@ sub scrape_text_by_id {
     return @results;
 }
 
+
+sub _get_optional_html {
+    my $self = shift;
+
+    my $html;
+    if ( @_ ) {
+        $html = shift;
+        assert_nonblank( $html, '$html passed in is a populated scalar' );
+    }
+    else {
+        if ( $self->is_html ) {
+            $html = $self->content();
+        }
+    }
+
+    return $html;
+}
 
 
 =head2 $mech->scraped_id_is( $id, $expected [, $msg] )
