@@ -11,6 +11,6 @@ use Test::WWW::Mechanize;
 
 pass( 'Modules loaded' );
 
-diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Perl $], $^X" );
+diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Test::More $Test::More::VERSION, Perl $], $^X" );
 
 done_testing();
