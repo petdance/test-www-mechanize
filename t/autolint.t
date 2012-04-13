@@ -46,7 +46,7 @@ ACCESSOR_MUTATOR: {
         ok( !$mech->autolint(0), '0 returns autolint off' );
         ok( !$mech->autolint(), '0 autolint really off' );
 
-        ok( !$mech->autolint(""), '"" returns autolint off' );
+        ok( !$mech->autolint(''), '"" returns autolint off' );
         ok( !$mech->autolint(), '"" autolint really off' );
 
         ok( !$mech->autolint(1), '1 returns autolint off (prior state)' );
