@@ -1509,9 +1509,7 @@ Andy Lester, C<< <andy at petdance.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-<http://code.google.com/p/www-mechanize/issues/list>.  I will be
-notified, and then you'll automatically be notified of progress on
-your bug as I make changes.
+<https://github.com/petdance/test-www-mechanize>.
 
 =head1 SUPPORT
 
@@ -1525,11 +1523,7 @@ You can also look for information at:
 
 =item * Bug tracker
 
-L<http://code.google.com/p/www-mechanize/issues/list>
-
-Please B<do not use> the old queues for WWW::Mechanize and
-Test::WWW::Mechanize at
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-WWW-Mechanize>
+L<https://github.com/petdance/test-www-mechanize>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
@@ -1563,7 +1557,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2011 Andy Lester.
+Copyright 2004-2012 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
