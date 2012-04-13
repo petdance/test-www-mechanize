@@ -12,7 +12,7 @@ use URI::file ();
 use Test::WWW::Mechanize ();
 
 subtest scrape_text_by_id => sub {
-    plan tests => 7;
+    plan tests => 8;
 
     my $mech = Test::WWW::Mechanize->new( autolint => 0 );
     isa_ok( $mech, 'Test::WWW::Mechanize' );
@@ -57,6 +57,14 @@ subtest scrape_text_by_id => sub {
         $mech->update_html( '<html><head><title></title></head><body><p id="asdf" /></body></html>' );
         is_deeply( [$mech->scrape_text_by_id( 'asdf' )], [''], 'list context' );
         is( $mech->scrape_text_by_id( 'asdf' ), '', 'scalar context' );
+    };
+
+    subtest 'nested tag' => sub {
+        plan tests => 2;
+
+        $mech->update_html( '<html><head><title></title></head><body><p id="asdf">Bob and <b>Bongo!</b></p></body></html>' );
+        is_deeply( [$mech->scrape_text_by_id( 'asdf' )], ['Bob and Bongo!'], 'list context' );
+        is( $mech->scrape_text_by_id( 'asdf' ), 'Bob and Bongo!', 'scalar context' );
     };
 };
 
