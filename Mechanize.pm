@@ -1494,13 +1494,154 @@ sub _grep_hashes {
 }
 
 
+=head2 $mech->scrape_text_by_attr( $attr, $attr [, $html ] )
+
+=head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
+
+Returns an array of strings, each string the text surrounded by an
+element with attribute I<$attr> of value I<$value>.  You can also pass in
+a regular expression.  If nothing is found the return is an empty list.
+In scalar context the return is the first string found.
+
+If passed, I<$html> is scraped instead of the current page's content.
+
+=cut
+
+sub scrape_text_by_attr {
+    my $self = shift;
+    my $attr = shift;
+    my $value = shift;
+
+    require HTML::TokeParser;
+
+    my $html;
+    if ( @_ ) {
+        $html = shift;
+        assert_nonblank( $html, '$html passed in is a populated scalar' );
+    }
+    elsif ( $self->ct() eq 'text/html' ) {
+        $html = $self->content();
+    }
+
+    my @results;
+
+    if ( defined $html ) {
+        my $parser = HTML::TokeParser->new(\$html);
+
+        while ( my $token = $parser->get_tag() ) {
+            if ( ref $token->[1] eq 'HASH' ) {
+                if ( exists $token->[1]->{$attr} ) {
+                    my $matched = (ref $value eq 'Regexp') ? $token->[1]->{$attr} =~ $value : $token->[1]->{$attr} eq $value;
+                    if ( $matched ) {
+                        my $tag = $token->[ 0 ];
+                        push @results, $parser->get_trimmed_text( "/$tag" );
+                        if ( !wantarray ) {
+                            last;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $results[0] if !wantarray;
+    return @results;
+}
+
+
+=head2 scrape_text_by_id( $id [, $html ] )
+
+Finds all elements with the given id attribute and pulls out the text that that element encloses.
+
+In list context, returns a list of all strings found. In scalar context, returns the first one found.
+
+If C<$html> is not provided then the current content is used.
+
+=cut
+
+sub scrape_text_by_id {
+    my $self = shift;
+    my $id = shift;
+    my $html;
+
+    require HTML::TokeParser;
+
+    if ( @_ ) {
+        $html = shift;
+        assert_nonref( $html, '$html passed in is a populated scalar' );
+    }
+    else {
+        if ( $self->ct() eq 'text/html' && defined $self->{content} ) {
+            $html = $self->{ content };
+        }
+    }
+
+    my @results;
+
+    if ( defined $html ) {
+        my $found = index( $html, "id=\"$id\"" );
+        if ( $found >= 0 ) {
+            # quick and dirty hack to try and cut down on the amount of DOM parsing
+            if ( $found >=150 ) {
+                $html = substr( $html, $found-150 );
+            }
+
+            my $parser = HTML::TokeParser->new( \$html );
+
+            while ( my $token = $parser->get_tag() ) {
+                if ( ref $token->[1] eq 'HASH' ) {
+                    my $actual_id = $token->[1]->{id};
+                    $actual_id = '' unless defined $actual_id;
+                    if ( $actual_id eq $id ) {
+                        my $tag = $token->[ 0 ];
+                        push @results, $parser->get_trimmed_text( "/$tag" );
+                        if ( !wantarray ) {
+                            last;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $results[0] if !wantarray;
+    return @results;
+}
+
+
+
+=head2 $mech->scraped_id_is( $id, $expected [, $msg] )
+
+Scrapes the current page for given ID and tests that it matches the expected value.
+
+=cut
+
+sub scraped_id_is {
+    my $self     = shift;
+    my $id       = shift;
+    my $expected = shift;
+    my $msg      = shift;
+
+    if ( not defined $msg ) {
+        my $what = defined( $expected ) ? $expected : '(undef)';
+
+        $msg = qq{scraped id "$id" is "$what"};
+    }
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $got = $self->scrape_text_by_id($id);
+    is( $got, $expected, $msg );
+
+    return;
+}
 
 
 =head1 TODO
 
 Add HTML::Tidy capabilities.
 
-Add a broken image check.
+Other ideas for features are at https://github.com/petdance/test-www-mechanize
 
 =head1 AUTHOR
 

@@ -11,6 +11,15 @@ NEXT
 Added a $mech->autolint() method so you can turn autolinting on and off
 in mid-program.  Thanks, Mike O'Regan.
 
+New functions $mech->scrape_text_by_id() and $mech->scrape_text_by_attr()
+let you extract text from your pages.  Convenience function
+$mech->scraped_id_is() makes it easy to scrape and compare in one
+function.
+
+    <h1 id="pagetitle">My Awesome Page!</h1>
+
+    # Verify that HTML is there with:
+    $mech->scraped_id_is( 'pagetitle', 'My Awesome Page!' );
 
 [FIXES]
 $mech->has_tag() now handles nested tags more sensibly.  This fixes
