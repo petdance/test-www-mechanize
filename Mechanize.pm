@@ -72,7 +72,7 @@ use Carp::Assert::More;
 
 use base 'WWW::Mechanize';
 
-my $Test = Test::Builder->new();
+my $TB = Test::Builder->new();
 
 
 =head1 CONSTRUCTOR
@@ -176,13 +176,13 @@ sub _maybe_lint {
             $ok = $self->_lint_content_ok( $desc );
         }
         else {
-            $Test->ok( $ok, $desc );
+            $TB->ok( $ok, $desc );
         }
     }
     else {
-        $Test->ok( $ok, $desc );
-        $Test->diag( $self->status );
-        $Test->diag( $self->response->message ) if $self->response;
+        $TB->ok( $ok, $desc );
+        $TB->diag( $self->status );
+        $TB->diag( $self->response->message ) if $self->response;
     }
 
     return $ok;
@@ -207,10 +207,10 @@ sub head_ok {
     $self->head( $url, %opts );
     my $ok = $self->success;
 
-    $Test->ok( $ok, $desc );
+    $TB->ok( $ok, $desc );
     if ( !$ok ) {
-        $Test->diag( $self->status );
-        $Test->diag( $self->response->message ) if $self->response;
+        $TB->diag( $self->status );
+        $TB->diag( $self->response->message ) if $self->response;
     }
 
     return $ok;
@@ -259,10 +259,10 @@ sub put_ok {
     $self->put( $url, %opts );
 
     my $ok = $self->success;
-    $Test->ok( $ok, $desc );
+    $TB->ok( $ok, $desc );
     if ( !$ok ) {
-        $Test->diag( $self->status );
-        $Test->diag( $self->response->message ) if $self->response;
+        $TB->diag( $self->status );
+        $TB->diag( $self->response->message ) if $self->response;
     }
 
     return $ok;
@@ -373,7 +373,7 @@ sub click_ok {
 
     my $response = $self->click( $button );
     if ( !$response ) {
-        return $Test->ok( 0, $desc );
+        return $TB->ok( 0, $desc );
     }
 
 
@@ -447,8 +447,8 @@ sub html_lint_ok {
         $ok = $self->_lint_content_ok( $desc );
     }
     else {
-        $ok = $Test->ok( 0, $desc );
-        $Test->diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
+        $ok = $TB->ok( 0, $desc );
+        $TB->diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
     }
 
     return $ok;
@@ -472,14 +472,14 @@ sub _lint_content_ok {
     my $nerrors = @errors;
     my $ok;
     if ( $nerrors ) {
-        $ok = $Test->ok( 0, $desc );
-        $Test->diag( 'HTML::Lint errors for ' . $self->uri );
-        $Test->diag( $_->as_string ) for @errors;
+        $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'HTML::Lint errors for ' . $self->uri );
+        $TB->diag( $_->as_string ) for @errors;
         my $s = $nerrors == 1 ? '' : 's';
-        $Test->diag( "$nerrors error$s on the page" );
+        $TB->diag( "$nerrors error$s on the page" );
     }
     else {
-        $ok = $Test->ok( 1, $desc );
+        $ok = $TB->ok( 1, $desc );
     }
 
     return $ok;
@@ -624,7 +624,7 @@ sub content_contains {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     if ( ref($str) ) {
-        return $Test->ok( 0, 'Test::WWW::Mechanize->content_contains called incorrectly.  It requires a scalar, not a reference.' );
+        return $TB->ok( 0, 'Test::WWW::Mechanize->content_contains called incorrectly.  It requires a scalar, not a reference.' );
     }
     $desc = qq{Content contains "$str"} if !defined($desc);
 
@@ -644,7 +644,7 @@ sub content_lacks {
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( ref($str) ) {
-        return $Test->ok( 0, 'Test::WWW::Mechanize->content_lacks called incorrectly.  It requires a scalar, not a reference.' );
+        return $TB->ok( 0, 'Test::WWW::Mechanize->content_lacks called incorrectly.  It requires a scalar, not a reference.' );
     }
     $desc = qq{Content lacks "$str"} if !defined($desc);
 
@@ -706,7 +706,7 @@ sub text_contains {
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( ref($str) ) {
-        return $Test->ok( 0, 'Test::WWW::Mechanize->text_contains called incorrectly.  It requires a scalar, not a reference.' );
+        return $TB->ok( 0, 'Test::WWW::Mechanize->text_contains called incorrectly.  It requires a scalar, not a reference.' );
     }
 
     return contains_string( $self->text, $str, $desc );
@@ -725,7 +725,7 @@ sub text_lacks {
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     if ( ref($str) ) {
-        return $Test->ok( 0, 'Test::WWW::Mechanize->text_lacks called incorrectly.  It requires a scalar, not a reference.' );
+        return $TB->ok( 0, 'Test::WWW::Mechanize->text_lacks called incorrectly.  It requires a scalar, not a reference.' );
     }
     $desc = qq{Text lacks "$str"} if !defined($desc);
 
@@ -776,7 +776,7 @@ sub has_tag {
 
     my $found = $self->_tag_walk( $tag, sub { $text eq $_[0] } );
 
-    return $Test->ok( $found, $desc );
+    return $TB->ok( $found, $desc );
 }
 
 
@@ -795,7 +795,7 @@ sub has_tag_like {
 
     my $found = $self->_tag_walk( $tag, sub { $_[0] =~ $regex } );
 
-    return $Test->ok( $found, $desc );
+    return $TB->ok( $found, $desc );
 }
 
 
@@ -846,8 +846,8 @@ sub page_links_ok {
     my @failures = $self->_check_links_status( \@urls );
     my $ok = (@failures==0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -868,11 +868,11 @@ sub page_links_content_like {
 
     $desc = qq{All links are like "$regex"} unless defined $desc;
 
-    my $usable_regex=$Test->maybe_regex( $regex );
+    my $usable_regex=$TB->maybe_regex( $regex );
 
     if ( !defined( $usable_regex ) ) {
-        my $ok = $Test->ok( 0, 'page_links_content_like' );
-        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
+        my $ok = $TB->ok( 0, 'page_links_content_like' );
+        $TB->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -882,8 +882,8 @@ sub page_links_content_like {
     my @failures = $self->_check_links_content( \@urls, $regex );
     my $ok = (@failures==0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -904,11 +904,11 @@ sub page_links_content_unlike {
     my $desc = shift;
     $desc = qq{All links are unlike "$regex"} unless defined($desc);
 
-    my $usable_regex=$Test->maybe_regex( $regex );
+    my $usable_regex=$TB->maybe_regex( $regex );
 
     if ( !defined( $usable_regex ) ) {
-        my $ok = $Test->ok( 0, 'page_links_content_unlike' );
-        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
+        my $ok = $TB->ok( 0, 'page_links_content_unlike' );
+        $TB->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -918,8 +918,8 @@ sub page_links_content_unlike {
     my @failures = $self->_check_links_content( \@urls, $regex, 'unlike' );
     my $ok = (@failures==0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -951,8 +951,8 @@ sub links_ok {
     my @failures = $self->_check_links_status( \@urls );
     my $ok = (@failures == 0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -981,8 +981,8 @@ sub link_status_is {
     my @failures = $self->_check_links_status( \@urls, $status );
     my $ok = (@failures == 0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -1011,8 +1011,8 @@ sub link_status_isnt {
     my @failures = $self->_check_links_status( \@urls, $status, 'isnt' );
     my $ok = (@failures == 0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -1037,11 +1037,11 @@ sub link_content_like {
     my $regex = shift;
     my $desc = shift;
 
-    my $usable_regex=$Test->maybe_regex( $regex );
+    my $usable_regex=$TB->maybe_regex( $regex );
 
     if ( !defined( $usable_regex ) ) {
-        my $ok = $Test->ok( 0, 'link_content_like' );
-        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
+        my $ok = $TB->ok( 0, 'link_content_like' );
+        $TB->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -1050,8 +1050,8 @@ sub link_content_like {
     my @failures = $self->_check_links_content( \@urls, $regex );
     my $ok = (@failures == 0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -1075,11 +1075,11 @@ sub link_content_unlike {
     my $regex = shift;
     my $desc = shift;
 
-    my $usable_regex=$Test->maybe_regex( $regex );
+    my $usable_regex=$TB->maybe_regex( $regex );
 
     if ( !defined( $usable_regex ) ) {
-        my $ok = $Test->ok( 0, 'link_content_unlike' );
-        $Test->diag(qq{     "$regex" doesn't look much like a regex to me.});
+        my $ok = $TB->ok( 0, 'link_content_unlike' );
+        $TB->diag(qq{     "$regex" doesn't look much like a regex to me.});
         return $ok;
     }
 
@@ -1088,8 +1088,8 @@ sub link_content_unlike {
     my @failures = $self->_check_links_content( \@urls, $regex, 'unlike' );
     my $ok = (@failures == 0);
 
-    $Test->ok( $ok, $desc );
-    $Test->diag( $_ ) for @failures;
+    $TB->ok( $ok, $desc );
+    $TB->diag( $_ ) for @failures;
 
     return $ok;
 }
@@ -1366,8 +1366,8 @@ sub lacks_uncapped_inputs {
         }
     }
 
-    my $ok = $Test->cmp_ok( scalar @uncapped, '==', 0, $comment );
-    $Test->diag( $_ ) for @uncapped;
+    my $ok = $TB->cmp_ok( scalar @uncapped, '==', 0, $comment );
+    $TB->diag( $_ ) for @uncapped;
 
     return $ok;
 }
