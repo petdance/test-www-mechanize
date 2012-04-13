@@ -55,15 +55,15 @@ test_test( 'Handles finding text in nested table data second tag' );
 
 test_out( 'ok 1 - Page has th tag with "Groups"' );
 $mech->has_tag('th', 'Groups');
-test_test( "Handles finding text in nested table header" );
+test_test( 'Handles finding text in nested table header' );
 
 test_out( 'ok 1 - Page has h3 tag with "Show all users and groups"' );
 $mech->has_tag('h3', 'Show all users and groups');
-test_test( "Handles finding text in h3 in table" );
+test_test( 'Handles finding text in h3 in table' );
 
 test_out( 'ok 1 - Page has p tag with "Its been said:"' );
 $mech->has_tag('p', 'Its been said:');
-test_test( "Checks finding text in sub inline element in p" );
+test_test( 'Checks finding text in sub inline element in p' );
 
 test_out( 'ok 1 - Page has p tag with "Hi"');
 $mech->has_tag( 'p', 'Hi' );
