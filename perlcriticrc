@@ -19,6 +19,8 @@ allow_leading_tabs = 0
 
 [-InputOutput::ProhibitInteractiveTest]
 [-InputOutput::ProhibitBacktickOperators]
+[InputOutput::RequireCheckedSyscalls]
+exclude_functions = print
 
 [-Miscellanea::RequireRcsKeywords]
 
