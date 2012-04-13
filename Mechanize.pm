@@ -307,20 +307,7 @@ sub submit_form_ok {
     # return from submit_form() is an HTTP::Response or undef
     my $response = $self->submit_form( %{$parms} );
 
-    my $ok;
-    my $error;
-    if ( !$response ) {
-        $error = 'No matching form found';
-    }
-    else {
-        if ( $response->is_success ) {
-            $ok = 1;
-        }
-        else {
-            $error = $response->as_string;
-        }
-    }
-
+    my $ok = $response && $response->is_success;
     $ok = $self->_maybe_lint( $ok, $desc );
 
     return $ok;
@@ -365,20 +352,7 @@ sub follow_link_ok {
     # return from follow_link() is an HTTP::Response or undef
     my $response = $self->follow_link( %{$parms} );
 
-    my $ok;
-    my $error;
-    if ( !$response ) {
-        $error = 'No matching link found';
-    }
-    else {
-        if ( $response->is_success ) {
-            $ok = 1;
-        }
-        else {
-            $error = $response->as_string;
-        }
-    }
-
+    my $ok = $response && $response->is_success;
     $ok = $self->_maybe_lint( $ok, $desc );
 
     return $ok;
