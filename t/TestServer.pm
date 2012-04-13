@@ -48,7 +48,7 @@ sub handle_request {
     my $path = $cgi->path_info();
     my $handler = $dispatch_table->{$path};
 
-    if (ref($handler) eq "CODE") {
+    if (ref($handler) eq 'CODE') {
         print "HTTP/1.0 200 OK\r\n";
         $handler->($cgi);
     }
