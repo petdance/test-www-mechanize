@@ -9,9 +9,6 @@ use URI::file;
 use Test::WWW::Mechanize ();
 
 BEGIN {
-    if ( gethostbyname( 'blahblahblah.xx-nonexistent.' ) ) {
-        plan skip_all => 'Found an A record for the non-existent domain';
-    }
     plan tests => 10;
 }
 
@@ -36,14 +33,15 @@ GOOD_GET: {
 }
 
 BAD_GET: {
-    my $badurl = 'http://wango.nonexistent.xx-only-testing/';
+    my $badurl = URI::file->new_abs('t/no-such-file')->as_string;
+    (my $abs_path = $badurl) =~ s{^file://}{};
     $mech->get($badurl);
     ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html});
 
     test_out( 'not ok 1 - Try to get bad URL' );
     test_fail( +3 );
-    test_diag( '500' );
-    test_diag( q{Can't connect to wango.nonexistent.xx-only-testing:80 (Bad hostname)} );
+    test_diag( '404' );
+    test_diag( qq{File `$abs_path' does not exist} );
     my $ok = $mech->get_ok( $badurl, 'Try to get bad URL' );
     test_test( 'Fails to get nonexistent URI and reports failure' );
 
