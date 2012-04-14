@@ -37,7 +37,6 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             repository  => 'https://github.com/petdance/test-www-mechanize',
         }
     };
-    $parms->{LICENSE} = 'perl';
 }
 if ( $ExtUtils::MakeMaker::VERSION ge '6.48' ) {
     $parms->{MIN_PERL_VERSION} = 5.008;
