@@ -1494,7 +1494,7 @@ sub _grep_hashes {
 }
 
 
-=head2 $mech->scrape_text_by_attr( $attr, $attr [, $html ] )
+=head2 $mech->scrape_text_by_attr( $attr, $attr_value [, $html ] )
 
 =head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
 
