@@ -2,15 +2,11 @@
 
 use strict;
 use warnings;
-use Test::More;
+use Test::More tests => 10;
 use Test::Builder::Tester;
-use URI::file;
+use URI::file ();
 
 use Test::WWW::Mechanize ();
-
-BEGIN {
-    plan tests => 10;
-}
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
@@ -36,7 +32,7 @@ BAD_GET: {
     my $badurl = URI::file->new_abs('t/no-such-file')->as_string;
     (my $abs_path = $badurl) =~ s{^file://}{};
     $mech->get($badurl);
-    ok(!$mech->success, q{sanity check: we can't load NONEXISTENT.html});
+    ok(!$mech->success, qq{sanity check: we can't load $badurl});
 
     test_out( 'not ok 1 - Try to get bad URL' );
     test_fail( +3 );
