@@ -1391,7 +1391,7 @@ autolint status:
 
     my $old_status = $mech->autolint( 0 );
     ... operations that should not be linted ...
-    $mech->autolint->( $old_status );
+    $mech->autolint( $old_status );
 
 =cut
 
