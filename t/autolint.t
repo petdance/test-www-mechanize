@@ -73,7 +73,7 @@ FLUFFY_PAGE_HAS_ERRORS: {
     test_err( '#  (10:9) <img src="/foo.gif"> does not have ALT text defined' );
     test_err( '# 2 errors on the page' );
     $mech->get_ok( $uri );
-    test_test( 'blah' );
+    test_test( 'Fluffy page should have fluffy errors' );
 }
 
 CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS: {
@@ -83,10 +83,10 @@ CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS: {
     isa_ok( $mech, 'Test::WWW::Mechanize' );
 
     my $uri = URI::file->new_abs( 't/fluffy.html' )->as_string;
-    $mech->get_ok( $uri );
+    $mech->get_ok( $uri, 'Fluffy page should not have errors' );
 
     # And if we go to another page, the autolint object has been reset.
-    $mech->get_ok( $uri );
+    $mech->get_ok( $uri, 'Second pass at the fluffy page should not have errors, either' );
 }
 
 GOOD_GET_GOOD_HTML: {
