@@ -1,15 +1,32 @@
 # Test-WWW-Mechanize
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+Test::WWW::Mechanize is a subclass of the Perl module L<WWW::Mechanize>
+that incorporates features for web application testing.  For example:
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it get an idea of the modules uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+    use Test::More tests => 5;
+    use Test::WWW::Mechanize;
+
+    my $mech = Test::WWW::Mechanize->new;
+    $mech->get_ok( $page );
+    $mech->base_is( 'http://petdance.com/', 'Proper <BASE HREF>' );
+    $mech->title_is( 'Invoice Status', "Make sure we're on the invoice page" );
+    $mech->text_contains( 'Andy Lester', 'My name somewhere' );
+    $mech->content_like( qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
+
+This is equivalent to:
+
+    use Test::More tests => 5;
+    use WWW::Mechanize;
+
+    my $mech = WWW::Mechanize->new;
+    $mech->get( $page );
+    ok( $mech->success );
+    is( $mech->base, 'http://petdance.com', 'Proper <BASE HREF>' );
+    is( $mech->title, 'Invoice Status', "Make sure we're on the invoice page" );
+    ok( index( $mech->content( format => 'text' ), 'Andy Lester' ) >= 0, 'My name somewhere' );
+    like( $mech->content, qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
+
+but has nicer diagnostics if they fail.
 
 # INSTALLATION
 
