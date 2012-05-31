@@ -1702,7 +1702,7 @@ and Pete Krawczyk for patches.
 
 Copyright 2004-2012 Andy Lester.
 
-This program is free software; you can redistribute it and/or modify it
+This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
 
 =cut
