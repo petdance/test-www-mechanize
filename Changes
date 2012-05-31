@@ -4,14 +4,14 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
-NEXT
+1.42    Thu May 31 11:35:26 CDT 2012
 ------------------------------------
 If you want to use the autolint functionality, you'll have to have
 HTML::Lint 2.20.
 
 [FIXES]
-Custom lint objects don't get reset before they get used, making autolint
-with a custom lint object practically useless.
+Custom lint objects don't get reset before they get used, making
+autolint with a custom lint object practically useless.
 https://github.com/petdance/test-www-mechanize/issues/25
 
 
