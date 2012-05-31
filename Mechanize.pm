@@ -464,7 +464,14 @@ sub _lint_content_ok {
         die "Test::WWW::Mechanize can't do linting without HTML::Lint: $@";
     }
 
-    my $lint = (ref $self->{autolint} && $self->{autolint}->isa('HTML::Lint')) ? $self->{autolint} : HTML::Lint->new();
+    my $lint = $self->{autolint};
+    if ( ref $lint && $lint->isa('HTML::Lint') ) {
+        $lint->newfile;
+        $lint->clear_errors;
+    }
+    else {
+        $lint = HTML::Lint->new();
+    }
 
     $lint->parse( $self->content );
 

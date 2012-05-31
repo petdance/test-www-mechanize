@@ -13,7 +13,7 @@ BEGIN {
     if ( not eval 'use HTML::Lint;' ) {
         plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
     }
-    plan tests => 23;
+    plan tests => 27;
 }
 
 
@@ -60,12 +60,33 @@ ACCESSOR_MUTATOR: {
     }
 }
 
+FLUFFY_PAGE_HAS_ERRORS: {
+    my $mech = Test::WWW::Mechanize->new( autolint => 1 );
+    isa_ok( $mech, 'Test::WWW::Mechanize' );
 
-CUSTOM_LINTER: {
+    my $uri = URI::file->new_abs( 't/fluffy.html' )->as_string;
+
+    test_out( "not ok 1 - GET $uri" );
+    test_fail( +5 );
+    test_err( "# HTML::Lint errors for $uri" );
+    test_err( '#  (10:9) <img src="/foo.gif"> tag has no HEIGHT and WIDTH attributes' );
+    test_err( '#  (10:9) <img src="/foo.gif"> does not have ALT text defined' );
+    test_err( '# 2 errors on the page' );
+    $mech->get_ok( $uri );
+    test_test( 'blah' );
+}
+
+CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS: {
     my $lint = HTML::Lint->new( only_types => HTML::Lint::Error::STRUCTURE );
 
     my $mech = Test::WWW::Mechanize->new( autolint => $lint );
     isa_ok( $mech, 'Test::WWW::Mechanize' );
+
+    my $uri = URI::file->new_abs( 't/fluffy.html' )->as_string;
+    $mech->get_ok( $uri );
+
+    # And if we go to another page, the autolint object has been reset.
+    $mech->get_ok( $uri );
 }
 
 GOOD_GET_GOOD_HTML: {
