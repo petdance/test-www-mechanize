@@ -1,4 +1,4 @@
-Test-WWW-Mechanize
+# Test-WWW-Mechanize
 
 The README is used to introduce the module and provide instructions on
 how to install the module, any machine dependencies it may have (for
@@ -11,7 +11,7 @@ can use it get an idea of the modules uses. It is usually a good idea
 to provide version information here so that people can decide whether
 fixes for the module are worth downloading.
 
-INSTALLATION
+# INSTALLATION
 
 To install this module, run the following commands:
 
@@ -20,12 +20,9 @@ To install this module, run the following commands:
     make test
     make install
 
-
-COPYRIGHT AND LICENCE
-
-Put the correct copyright and licence information here.
+# COPYRIGHT AND LICENSE
 
 Copyright (C) 2004-2011 Andy Lester
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License version 2.0.
