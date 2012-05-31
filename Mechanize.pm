@@ -460,8 +460,9 @@ sub _lint_content_ok {
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
-    if ( not ( eval 'require HTML::Lint' ) ) {
-        die "Test::WWW::Mechanize can't do linting without HTML::Lint: $@";
+    my $module = "HTML::Lint 2.20";
+    if ( not ( eval "use $module; 1;" ) ) {
+        die "Test::WWW::Mechanize can't do linting without $module: $@";
     }
 
     my $lint = $self->{autolint};

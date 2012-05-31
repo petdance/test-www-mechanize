@@ -42,6 +42,11 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.48' ) {
     $parms->{MIN_PERL_VERSION} = 5.008;
 }
 
+my $module = 'HTML::Lint 2.20';
+if ( not eval "use $module; 1;" ) {
+    print "You don't have $module installed, so cannot use autolinting.\n";
+}
+
 WriteMakefile( %{$parms} );
 
 
