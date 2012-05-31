@@ -2,7 +2,7 @@ Changes
 MANIFEST
 Makefile.PL
 Mechanize.pm
-README
+README.md
 
 t/00-load.t
 t/autolint.t
