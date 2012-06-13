@@ -30,16 +30,16 @@ GOOD_HEAD: { # Stop giggling, you!
 }
 
 BAD_HEAD: {
-    my $badurl = URI::file->new_abs('t/no-such-file')->as_string;
-    ( my $abs_path = $badurl ) =~ s{^file://}{};
-    $mech->head($badurl);
+    my $badurl = URI::file->new_abs('t/no-such-file');
+    my $abs_path = $badurl->file;
+    $mech->head( $badurl->as_string );
     ok(!$mech->success, qq{sanity check: we can't load $badurl} );
 
     test_out( 'not ok 1 - Try to HEAD bad URL' );
     test_fail( +3 );
     test_diag( '404' );
     test_diag( qq{File `$abs_path' does not exist} );
-    my $ok = $mech->head_ok( $badurl, 'Try to HEAD bad URL' );
+    my $ok = $mech->head_ok( $badurl->as_string, 'Try to HEAD bad URL' );
     test_test( 'Fails to HEAD nonexistent URI and reports failure' );
 
     is( ref($ok), '', 'head_ok() should only return a scalar' );

@@ -29,16 +29,16 @@ GOOD_GET: {
 }
 
 BAD_GET: {
-    my $badurl = URI::file->new_abs('t/no-such-file')->as_string;
-    (my $abs_path = $badurl) =~ s{^file://}{};
-    $mech->get($badurl);
+    my $badurl = URI::file->new_abs('t/no-such-file');
+    my $abs_path = $badurl->file;
+    $mech->get( $badurl->as_string );
     ok(!$mech->success, qq{sanity check: we can't load $badurl});
 
     test_out( 'not ok 1 - Try to get bad URL' );
     test_fail( +3 );
     test_diag( '404' );
     test_diag( qq{File `$abs_path' does not exist} );
-    my $ok = $mech->get_ok( $badurl, 'Try to get bad URL' );
+    my $ok = $mech->get_ok( $badurl->as_string, 'Try to get bad URL' );
     test_test( 'Fails to get nonexistent URI and reports failure' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );
