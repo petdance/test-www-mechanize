@@ -1686,6 +1686,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Jerry Gay,
 Jonathan "Duke" Leto,
 Philip G. Potter,
 Niko Tyni,

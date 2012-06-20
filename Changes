@@ -4,6 +4,12 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+NEXT
+------------------------------------
+[FIXES]
+Fixed test failures on Win32.  Thanks, Jerry Gay.
+
+
 1.42    Thu May 31 11:35:26 CDT 2012
 ------------------------------------
 If you want to use the autolint functionality, you'll have to have
