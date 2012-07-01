@@ -4,8 +4,10 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
-NEXT
+1.44    Sat Jun 30 20:32:04 CDT 2012
 ------------------------------------
+There is no new functionality in this release.
+
 [FIXES]
 Fixed test failures on Win32.  Thanks, Jerry Gay.
 
