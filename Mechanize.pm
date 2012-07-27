@@ -220,7 +220,9 @@ sub head_ok {
 =head2 $mech->post_ok( $url, [ \%LWP_options ,] $desc )
 
 A wrapper around WWW::Mechanize's post(), with similar options, except
-the second argument needs to be a hash reference, not a hash. Like
+the second argument needs to be a hash reference, not a hash, and if
+you intend to set header, rather than just specify your form content,
+you I<MUST> set your content using the C<Content> key. Like
 well-behaved C<*_ok()> functions, it returns true if the test passed,
 or false if not.
 
@@ -233,7 +235,7 @@ sub post_ok {
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'POST', @_ );
 
-    $self->post( $url, \%opts );
+    $self->post( $url, defined $opts{Content} ? %opts : \%opts );
     my $ok = $self->success;
     $ok = $self->_maybe_lint( $ok, $desc );
 
