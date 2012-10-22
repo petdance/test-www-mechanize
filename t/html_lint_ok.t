@@ -10,7 +10,7 @@ use URI::file;
 
 BEGIN {
     # Load HTML::Lint here for the imports
-    if ( not eval 'use HTML::Lint;' ) {
+    if ( not eval 'use HTML::Lint 2.20; 1;' ) {
         plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
     }
     plan tests => 3;
