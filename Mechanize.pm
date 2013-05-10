@@ -1199,7 +1199,7 @@ Finds all free-text input fields (text, textarea, and password) in the
 current form and fills them to their maximum length in hopes of finding
 application code that can't handle it.  Fields with no maximum length
 and all textarea fields are set to 66000 bytes, which will often be
-enough to overflow the data's eventual recepticle.
+enough to overflow the data's eventual receptacle.
 
 There is no return value.
 
