@@ -65,8 +65,10 @@ results in
 =cut
 
 use WWW::Mechanize ();
+use File::Temp;
 use Test::LongString;
 use Test::Builder ();
+use Scalar::Util;
 use Carp ();
 use Carp::Assert::More;
 
@@ -130,10 +132,12 @@ sub new {
     );
 
     my $autolint = delete $args{autolint};
+    my $browser_command = delete $args{'browser_command'} // 'firefox !!URL!!';
 
     my $self = $class->SUPER::new( %args );
 
     $self->autolint( $autolint );
+    $self->browser_command($browser_command);
 
     return $self;
 }
@@ -1415,6 +1419,21 @@ sub autolint {
 }
 
 
+=head2 $mech->browser_command([browser command line template])
+
+Command line template to use for the inspect_visually() method.
+
+Usage:
+
+   $self->browser_command('firefox -new-window !!URL!!'); ## This is the default.
+
+=cut
+
+sub browser_command{
+  my $self = shift ;
+  @_ ? $self->{browser_command} = shift : $self->{browser_command} ;
+}
+
 =head2 $mech->grep_inputs( \%properties )
 
 grep_inputs() returns an array of all the input controls in the
@@ -1637,6 +1656,46 @@ sub scraped_id_is {
     is( $got, $expected, $msg );
 
     return;
+}
+
+=head2 $mech->inspect_visually()
+
+Launches a browser to visually inspect the current content() of this L<Test::WWW::Mechanize> client.
+See browser_command().
+
+
+Usage:
+
+  $mech->inspect_visually();
+  ## With a specific browser:
+  $mech->inspect_visually({ browser_command => 'google-chrome !!URL!!' });
+
+=cut
+
+sub inspect_visually{
+  my ($self, $opts) = @_;
+  $opts //= {};
+  my $browser_cmd = $opts->{browser_command} // $self->browser_command() // Carp::croak("No browser_command defined in $self");
+
+  my $fh = File::Temp->new( SUFFIX => '.html' , UNLINK => 1 );
+  binmode $fh;
+  print $fh $self->content();
+  close $fh;
+
+  my $fname = $fh->filename();
+
+  my $cmd = $browser_cmd;
+  $cmd =~ s|!!URL!!|file://$fname|;
+
+  if( Scalar::Util::tainted($ENV{PATH}) ){
+    Carp::carp('$ENV{PATH} is tainted. Please set it to something not tainted (like \'/usr/bin/\')');
+    ## We don't do anything.
+    return;
+  }
+
+  system($cmd);
+  ## Leave some time to the browser to load the URL.
+  sleep(4);
 }
 
 
