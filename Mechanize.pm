@@ -1663,8 +1663,12 @@ sub scraped_id_is {
 Launches a browser to visually inspect the current content() of this L<Test::WWW::Mechanize> client.
 See browser_command().
 
+NOTE: You need to have un UNTAINTED version of $ENV{PATH} for this to work in a tainted environment.
+
 
 Usage:
+
+  $ENV{PATH} = '/usr/bin/'; ## If you run in tainted mode
 
   $mech->inspect_visually();
   ## With a specific browser:
