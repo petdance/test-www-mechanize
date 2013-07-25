@@ -1553,7 +1553,7 @@ sub scrape_text_by_attr {
 
 =head2 scrape_text_by_id( $id [, $html ] )
 
-Finds all elements with the given id attribute and pulls out the text that that element encloses.
+Finds all elements with the given ID attribute and pulls out the text that that element encloses.
 
 In list context, returns a list of all strings found. In scalar context, returns the first one found.
 
