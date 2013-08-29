@@ -268,6 +268,52 @@ sub put_ok {
     return $ok;
 }
 
+=head2 $mech->delete_ok( $url, [ \%LWP_options ,] $desc )
+
+A wrapper around WWW::Mechanize's delete(), with similar options, except
+the second argument needs to be a hash reference, not a hash. Like
+well-behaved C<*_ok()> functions, it returns true if the test passed,
+or false if not.
+
+A default description of "DELETE to $url" is used if none if provided.
+
+=cut
+
+sub delete_ok {
+    my $self = shift;
+
+    my ($url,$desc,%opts) = $self->_unpack_args( 'DELETE', @_ );
+
+    if ($self->can('delete')) {
+        $self->delete( $url, %opts );
+    }
+    else {
+        # When version of LWP::UserAgent is older than 6.04.
+        $self->_delete( $url, %opts );
+    }
+    my $ok = $self->success;
+
+    $ok = $self->_maybe_lint( $ok, $desc );
+
+    return $ok;
+}
+
+sub _delete {
+    require URI;
+    require HTTP::Request::Common;
+    my $self = shift;
+    my $uri  = shift;
+
+    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
+    $uri = $self->base
+      ? URI->new_abs( $uri, $self->base )
+      : URI->new($uri);
+
+    my @parameters = ( $uri->as_string, @_ );
+    my @suff = $self->_process_colonic_headers( \@parameters, 1 );
+    return $self->request( HTTP::Request::Common::DELETE(@parameters), @suff );
+}
+
 =head2 $mech->submit_form_ok( \%parms [, $desc] )
 
 Makes a C<submit_form()> call and executes tests on the results.
@@ -1140,7 +1186,7 @@ sub _check_links_status {
     return @failures;
 }
 
-# This actually performs the content check of each url. 
+# This actually performs the content check of each url.
 sub _check_links_content {
     my $self = shift;
     my $urls = shift;
