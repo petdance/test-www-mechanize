@@ -7,7 +7,9 @@
 ACCESSOR	t/autolint.t	/^    ACCESSOR: {$/;"	l
 ACCESSOR_MUTATOR	t/autolint.t	/^ACCESSOR_MUTATOR: {$/;"	l
 BAD	t/lacks_uncapped_inputs.t	/^BAD: {$/;"	l
+BAD_EXISTS	t/headers.t	/^BAD_EXISTS: {$/;"	l
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
+BAD_MATCHES	t/headers.t	/^BAD_MATCHES: {$/;"	l
 CONSTRUCTOR_PARMS	t/new.t	/^CONSTRUCTOR_PARMS: {$/;"	l
 CUSTOM_FILL	t/stuff_inputs.t	/^    CUSTOM_FILL: {$/;"	l
 CUSTOM_LINTER	t/autolint.t	/^CUSTOM_LINTER: {$/;"	l
@@ -15,12 +17,14 @@ EMPTY_FIELDS	t/stuff_inputs.t	/^    EMPTY_FIELDS: {$/;"	l
 FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD	t/lacks_uncapped_inputs.t	/^GOOD: {$/;"	l
+GOOD_EXISTS	t/headers.t	/^GOOD_EXISTS: {$/;"	l
 GOOD_GET	hanger	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET_BAD_HTML	t/autolint.t	/^GOOD_GET_BAD_HTML: {$/;"	l
 GOOD_GET_GOOD_HTML	t/autolint.t	/^GOOD_GET_GOOD_HTML: {$/;"	l
 GOOD_HEAD	t/head_ok.t	/^GOOD_HEAD: { # Stop giggling, you!$/;"	l
+GOOD_MATCHES	t/headers.t	/^GOOD_MATCHES: {$/;"	l
 GOOD_PUT	t/put_ok.t	/^GOOD_PUT: {$/;"	l
 HangServer	hanger	/^package HangServer;$/;"	p
 IGNORE	t/stuff_inputs.t	/^    IGNORE: {$/;"	l
