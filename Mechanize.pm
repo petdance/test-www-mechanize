@@ -1640,6 +1640,51 @@ sub scraped_id_is {
 }
 
 
+=head2 $mech->header_exists( $field, $desc )
+
+Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
+
+=cut
+
+sub header_exists {
+    my $self = shift;
+    my $field = shift;
+    my $desc = shift || qq{Response has $field header};
+
+    my $ok = defined($self->response->header($field));
+
+    $TB->ok( $ok, $desc );
+    if ( !$ok ) {
+        $TB->diag( HTTP::Headers::as_string($self->response) ) if $self->response;
+    }
+
+    return $ok;
+}
+
+=head2 $mech->header_matches( $field, $value, $desc )
+
+Assures that a given response header exists and has the given value.  Value may be a string or a regular expression.
+
+=cut
+
+sub header_matches {
+    my $self = shift;
+    my $field = shift;
+    my $value = shift;
+    my $desc = shift || qq{Response has $field header with value '$value'};
+
+    my $ok = (ref($value) eq 'Regexp')
+       ? scalar $self->response->header($field) =~ $value
+       : scalar $self->response->header($field) eq $value;
+
+    $TB->ok( $ok, $desc );
+    if ( !$ok ) {
+        $TB->diag( $self->response->header($field) ) if $self->response;
+    }
+    return $ok;
+}
+
+
 =head1 TODO
 
 Add HTML::Tidy capabilities.
