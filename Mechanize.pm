@@ -224,6 +224,12 @@ the second argument needs to be a hash reference, not a hash. Like
 well-behaved C<*_ok()> functions, it returns true if the test passed,
 or false if not.
 
+B<NOTE> Due to compatibility reasons it is not possible to pass
+additional LWP_options beyond form data via this method (such as
+Content or Content-Type).  It is recommend that you use WWW::Mechanize's
+post() directly for instances where more granular control of the post
+is needed.
+
 A default description of "POST to $url" is used if none if provided.
 
 =cut
