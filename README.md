@@ -39,7 +39,7 @@ To install this module, run the following commands:
 
 # COPYRIGHT AND LICENSE
 
-Copyright (C) 2004-2014 Andy Lester
+Copyright (C) 2004-2016 Andy Lester
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
