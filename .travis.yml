@@ -13,3 +13,4 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
+  - cpanm HTML::Lint
