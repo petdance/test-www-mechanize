@@ -1,10 +1,11 @@
 Revision history for Test-WWW-Mechanize
 
 WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
-bug tracking.  They are now being tracked via Google Code at
-http://code.google.com/p/www-mechanize/issues/list
+bug tracking.  They are now being tracked via GitHub at
+https://github.com/petdance/test-www-mechanize/issues
 
-NEXT
+
+1.45_01 Sat Jul  9 00:03:42 CDT 2016
 ------------------------------------
 [ENHANCEMENTS]
 Added a delete_ok() method.  Thanks, moznion.
@@ -40,7 +41,6 @@ HTML::Lint 2.20.
 Custom lint objects don't get reset before they get used, making
 autolint with a custom lint object practically useless.
 https://github.com/petdance/test-www-mechanize/issues/25
-
 
 
 1.40    Fri Apr 13 15:14:39 CDT 2012
