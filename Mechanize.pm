@@ -1686,7 +1686,7 @@ sub scraped_id_is {
 }
 
 
-=head2 $mech->header_exists( $field, $desc )
+=head2 $mech->header_exists( $field [, $desc ] )
 
 Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
 
@@ -1707,7 +1707,7 @@ sub header_exists {
     return $ok;
 }
 
-=head2 $mech->header_matches( $field, $value, $desc )
+=head2 $mech->header_matches( $field, $value [, $desc ] )
 
 Assures that a given response header exists and has the given value.  Value may be a string or a regular expression.
 
@@ -1719,9 +1719,10 @@ sub header_matches {
     my $value = shift;
     my $desc = shift || qq{Response has $field header with value '$value'};
 
+    my $actual_value = scalar $self->response->header($field);
     my $ok = (ref($value) eq 'Regexp')
-       ? scalar $self->response->header($field) =~ $value
-       : scalar $self->response->header($field) eq $value;
+       ? defined($actual_value) && ($actual_value =~ $value)
+       : defined($actual_value) && ($actual_value eq $value);
 
     $TB->ok( $ok, $desc );
     if ( !$ok ) {
@@ -1777,6 +1778,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Eric A. Zarko,
 moznion,
 Robert Stone,
 tynovsky,

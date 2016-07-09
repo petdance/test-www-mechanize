@@ -9,6 +9,9 @@ NEXT
 [ENHANCEMENTS]
 Added a delete_ok() method.  Thanks, moznion.
 
+Added header_exists() and header_matches() methods.  Thanks, Eric
+A. Zarko.
+
 
 [FIXES]
 The test server run during the test suite allowed URLs outside of the
