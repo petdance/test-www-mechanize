@@ -6,6 +6,10 @@ http://code.google.com/p/www-mechanize/issues/list
 
 NEXT
 ------------------------------------
+[ENHANCEMENTS]
+Added a delete_ok() method.  Thanks, moznion.
+
+
 [FIXES]
 The test server run during the test suite allowed URLs outside of the
 document tree, which could potentially be a security problem.  This has

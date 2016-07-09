@@ -1155,7 +1155,7 @@ sub _default_links_desc {
     return sprintf( '%d link%s %s', $url_count, $url_count == 1 ? '' : 's', $desc_suffix );
 }
 
-# This actually performs the status check of each url.
+# This actually performs the status check of each URL.
 sub _check_links_status {
     my $self = shift;
     my $urls = shift;
@@ -1186,7 +1186,7 @@ sub _check_links_status {
     return @failures;
 }
 
-# This actually performs the content check of each url.
+# This actually performs the content check of each URL.
 sub _check_links_content {
     my $self = shift;
     my $urls = shift;
@@ -1777,6 +1777,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+moznion,
 Robert Stone,
 tynovsky,
 Jerry Gay,
