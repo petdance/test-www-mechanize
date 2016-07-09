@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.44
+Version 1.45_01
 
 =cut
 
-our $VERSION = '1.44';
+our $VERSION = '1.45_01';
 
 =head1 SYNOPSIS
 
@@ -1686,6 +1686,8 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Robert Stone,
+tynovsky,
 Jerry Gay,
 Jonathan "Duke" Leto,
 Philip G. Potter,
@@ -1702,7 +1704,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2014 Andy Lester.
+Copyright 2004-2016 Andy Lester.
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
