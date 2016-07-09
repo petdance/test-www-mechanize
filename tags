@@ -7,29 +7,32 @@
 ACCESSOR	t/autolint.t	/^    ACCESSOR: {$/;"	l
 ACCESSOR_MUTATOR	t/autolint.t	/^ACCESSOR_MUTATOR: {$/;"	l
 BAD	t/lacks_uncapped_inputs.t	/^BAD: {$/;"	l
+BAD_EXISTS	t/headers.t	/^BAD_EXISTS: {$/;"	l
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
-CONSTRUCTOR_PARMS	t/new.t	/^CONSTRUCTOR_PARMS: {$/;"	l
+BAD_HEAD	t/head_ok.t	/^BAD_HEAD: {$/;"	l
+BAD_MATCHES	t/headers.t	/^BAD_MATCHES: {$/;"	l
 CUSTOM_FILL	t/stuff_inputs.t	/^    CUSTOM_FILL: {$/;"	l
-CUSTOM_LINTER	t/autolint.t	/^CUSTOM_LINTER: {$/;"	l
+CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS	t/autolint.t	/^CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS: {$/;"	l
 EMPTY_FIELDS	t/stuff_inputs.t	/^    EMPTY_FIELDS: {$/;"	l
+FLUFFY_PAGE_HAS_ERRORS	t/autolint.t	/^FLUFFY_PAGE_HAS_ERRORS: {$/;"	l
 FOLLOW_BAD_LINK	t/follow_link_ok.t	/^FOLLOW_BAD_LINK: {$/;"	l
 FOLLOW_GOOD_LINK	t/follow_link_ok.t	/^FOLLOW_GOOD_LINK: {$/;"	l
 GOOD	t/lacks_uncapped_inputs.t	/^GOOD: {$/;"	l
-GOOD_GET	hanger	/^GOOD_GET: {$/;"	l
+GOOD_DELETE	t/delete_ok.t	/^GOOD_DELETE: {$/;"	l
+GOOD_EXISTS	t/headers.t	/^GOOD_EXISTS: {$/;"	l
 GOOD_GET	t/get_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET_BAD_HTML	t/autolint.t	/^GOOD_GET_BAD_HTML: {$/;"	l
 GOOD_GET_GOOD_HTML	t/autolint.t	/^GOOD_GET_GOOD_HTML: {$/;"	l
 GOOD_HEAD	t/head_ok.t	/^GOOD_HEAD: { # Stop giggling, you!$/;"	l
+GOOD_MATCHES	t/headers.t	/^GOOD_MATCHES: {$/;"	l
 GOOD_PUT	t/put_ok.t	/^GOOD_PUT: {$/;"	l
-HangServer	hanger	/^package HangServer;$/;"	p
 IGNORE	t/stuff_inputs.t	/^    IGNORE: {$/;"	l
 MAIN	t/stuff_inputs.t	/^MAIN: {$/;"	l
 MAXLENGTH	t/stuff_inputs.t	/^    MAXLENGTH: {$/;"	l
 MULTICHAR_FILL	t/stuff_inputs.t	/^    MULTICHAR_FILL: {$/;"	l
 MUTATOR	t/autolint.t	/^    MUTATOR: {$/;"	l
 OVERWRITE	t/stuff_inputs.t	/^    OVERWRITE: {$/;"	l
-SKIP	t/head_ok.t	/^SKIP: {$/;"	l
 SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 Test	t/get_ok-parms.t	/^sub Test::WWW::Mechanize::get {$/;"	s
@@ -41,7 +44,9 @@ TestServer	t/TestServer.pm	/^package TestServer;$/;"	p
 _check_links_content	Mechanize.pm	/^sub _check_links_content {$/;"	s
 _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
+_delete	Mechanize.pm	/^sub _delete {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
+_get_optional_html	Mechanize.pm	/^sub _get_optional_html {$/;"	s
 _grep_hashes	Mechanize.pm	/^sub _grep_hashes {$/;"	s
 _lint_content_ok	Mechanize.pm	/^sub _lint_content_ok {$/;"	s
 _maybe_lint	Mechanize.pm	/^sub _maybe_lint {$/;"	s
@@ -59,17 +64,19 @@ content_is	Mechanize.pm	/^sub content_is {$/;"	s
 content_lacks	Mechanize.pm	/^sub content_lacks {$/;"	s
 content_like	Mechanize.pm	/^sub content_like {$/;"	s
 content_unlike	Mechanize.pm	/^sub content_unlike {$/;"	s
+delete_ok	Mechanize.pm	/^sub delete_ok {$/;"	s
 field_checks	t/stuff_inputs.t	/^sub field_checks {$/;"	s
 follow_link_ok	Mechanize.pm	/^sub follow_link_ok {$/;"	s
 followable_links	Mechanize.pm	/^sub followable_links {$/;"	s
 get_ok	Mechanize.pm	/^sub get_ok {$/;"	s
 grep_inputs	Mechanize.pm	/^sub grep_inputs {$/;"	s
 grep_submits	Mechanize.pm	/^sub grep_submits {$/;"	s
-handle_request	hanger	/^sub handle_request {$/;"	s
 handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
 head_ok	Mechanize.pm	/^sub head_ok {$/;"	s
+header_exists	Mechanize.pm	/^sub header_exists {$/;"	s
+header_matches	Mechanize.pm	/^sub header_matches {$/;"	s
 hostname	t/TestServer.pm	/^sub hostname {$/;"	s
 html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
 lacks_uncapped_inputs	Mechanize.pm	/^sub lacks_uncapped_inputs {$/;"	s
@@ -79,16 +86,17 @@ link_status_is	Mechanize.pm	/^sub link_status_is {$/;"	s
 link_status_isnt	Mechanize.pm	/^sub link_status_isnt {$/;"	s
 links_ok	Mechanize.pm	/^sub links_ok {$/;"	s
 new	Mechanize.pm	/^sub new {$/;"	s
-new	hanger	/^sub new {$/;"	s
 new	t/TestServer.pm	/^sub new {$/;"	s
 page_links_content_like	Mechanize.pm	/^sub page_links_content_like {$/;"	s
 page_links_content_unlike	Mechanize.pm	/^sub page_links_content_unlike {$/;"	s
 page_links_ok	Mechanize.pm	/^sub page_links_ok {$/;"	s
 post_ok	Mechanize.pm	/^sub post_ok {$/;"	s
 put_ok	Mechanize.pm	/^sub put_ok {$/;"	s
-root	hanger	/^sub root {$/;"	s
 root	t/TestServer.pm	/^sub root {$/;"	s
 run	t/TestServer.pm	/^sub run {$/;"	s
+scrape_text_by_attr	Mechanize.pm	/^sub scrape_text_by_attr {$/;"	s
+scrape_text_by_id	Mechanize.pm	/^sub scrape_text_by_id {$/;"	s
+scraped_id_is	Mechanize.pm	/^sub scraped_id_is {$/;"	s
 set_dispatch	t/TestServer.pm	/^sub set_dispatch {$/;"	s
 stop	t/TestServer.pm	/^sub stop {$/;"	s
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s

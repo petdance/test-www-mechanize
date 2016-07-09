@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.44
+Version 1.45_01
 
 =cut
 
-our $VERSION = '1.44';
+our $VERSION = '1.45_01';
 
 =head1 SYNOPSIS
 
@@ -1155,7 +1155,7 @@ sub _default_links_desc {
     return sprintf( '%d link%s %s', $url_count, $url_count == 1 ? '' : 's', $desc_suffix );
 }
 
-# This actually performs the status check of each url.
+# This actually performs the status check of each URL.
 sub _check_links_status {
     my $self = shift;
     my $urls = shift;
@@ -1186,7 +1186,7 @@ sub _check_links_status {
     return @failures;
 }
 
-# This actually performs the content check of each url.
+# This actually performs the content check of each URL.
 sub _check_links_content {
     my $self = shift;
     my $urls = shift;
@@ -1686,6 +1686,52 @@ sub scraped_id_is {
 }
 
 
+=head2 $mech->header_exists( $field [, $desc ] )
+
+Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
+
+=cut
+
+sub header_exists {
+    my $self = shift;
+    my $field = shift;
+    my $desc = shift || qq{Response has $field header};
+
+    my $ok = defined($self->response->header($field));
+
+    $TB->ok( $ok, $desc );
+    if ( !$ok ) {
+        $TB->diag( HTTP::Headers::as_string($self->response) ) if $self->response;
+    }
+
+    return $ok;
+}
+
+=head2 $mech->header_matches( $field, $value [, $desc ] )
+
+Assures that a given response header exists and has the given value.  Value may be a string or a regular expression.
+
+=cut
+
+sub header_matches {
+    my $self = shift;
+    my $field = shift;
+    my $value = shift;
+    my $desc = shift || qq{Response has $field header with value '$value'};
+
+    my $actual_value = scalar $self->response->header($field);
+    my $ok = (ref($value) eq 'Regexp')
+       ? defined($actual_value) && ($actual_value =~ $value)
+       : defined($actual_value) && ($actual_value eq $value);
+
+    $TB->ok( $ok, $desc );
+    if ( !$ok ) {
+        $TB->diag( $self->response->header($field) ) if $self->response;
+    }
+    return $ok;
+}
+
+
 =head1 TODO
 
 Add HTML::Tidy capabilities.
@@ -1732,6 +1778,10 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Eric A. Zarko,
+moznion,
+Robert Stone,
+tynovsky,
 Jerry Gay,
 Jonathan "Duke" Leto,
 Philip G. Potter,
@@ -1748,7 +1798,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2012 Andy Lester.
+Copyright 2004-2016 Andy Lester.
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.

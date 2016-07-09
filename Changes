@@ -4,6 +4,25 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via Google Code at
 http://code.google.com/p/www-mechanize/issues/list
 
+NEXT
+------------------------------------
+[ENHANCEMENTS]
+Added a delete_ok() method.  Thanks, moznion.
+
+Added header_exists() and header_matches() methods.  Thanks, Eric
+A. Zarko.
+
+content_contains() now fails if it's called with a regex.  content_like()
+now fails if it's not called with a regex.
+
+
+[FIXES]
+The test server run during the test suite allowed URLs outside of the
+document tree, which could potentially be a security problem.  This has
+been fixed.  Thanks, Tynovsky.
+https://github.com/petdance/test-www-mechanize/issues/33
+
+
 1.44    Sat Jun 30 20:32:04 CDT 2012
 ------------------------------------
 There is no new functionality in this release.
