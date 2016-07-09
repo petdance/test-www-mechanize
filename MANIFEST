@@ -21,6 +21,7 @@ t/goodlinks.html
 t/has_tag.t
 t/head_ok-parms.t
 t/head_ok.t
+t/headers.t
 t/html/form.html
 t/html_lint_ok.t
 t/html/scratch.html
