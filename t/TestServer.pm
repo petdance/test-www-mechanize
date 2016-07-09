@@ -5,6 +5,7 @@ use strict;
 
 use Test::More;
 use HTTP::Server::Simple::CGI;
+use Cwd qw( realpath );
 use base qw( HTTP::Server::Simple::CGI );
 
 my $dispatch_table = {};
@@ -58,21 +59,32 @@ sub handle_request {
             $file .= 'index.html';
         }
         $file =~ s/\s+//g;
-
         my $filename = "t/html/$file";
-        if ( -r $filename ) {
+
+        my ($code, $msg) = (200, 'OK');
+        if ( ! -r $filename ) {
+            ($code, $msg) = (404, 'Not Found');
+        }
+        if (index(realpath($filename), realpath("t/html")) != 0) {
+            # don't expose a file outside server root
+            ($code, $msg) = (403, 'Forbidden');
+        }
+
+        print "HTTP/1.0 $code $msg\r\n";
+
+        if ($code == 200) {
             if (my $response=do { local (@ARGV, $/) = $filename; <> }) {
-                print "HTTP/1.0 200 OK\r\n";
-                print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
-                return;
+                print
+                    "Content-Type: text/html\r\n",
+                    "Content-Length: ", length($response), "\r\n\r\n",
+                    $response;
             }
         }
         else {
-            print "HTTP/1.0 404 Not found\r\n";
             print
                 $cgi->header,
-                $cgi->start_html('Not found'),
-                $cgi->h1('Not found'),
+                $cgi->start_html($msg),
+                $cgi->h1($msg),
                 $cgi->end_html;
         }
     }
