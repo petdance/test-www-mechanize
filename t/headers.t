@@ -35,12 +35,6 @@ BAD_EXISTS: {
     test_out( 'not ok 1 - Try to get a bad header' );
     test_fail( +1 );
     my $ok = $mech->header_exists('Server', 'Try to get a bad header');
-    test_diag( 'Content-Length: ' );
-    test_diag( 'Content-Type: ' );
-    test_diag( 'client-date: ' );
-    test_diag( 'client-peer: ' );
-    test_diag( 'client-response-num: ' );
-    test_diag( 'title: ' );
     test_test( 'Fails to get nonexistent header and reports failure' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );
@@ -69,43 +63,50 @@ BAD_LACKS: {
     ok( !$ok, 'And the result should be false' );
 }
 
-GOOD_MATCHES: {
+GOOD_IS: {
     test_out( 'ok 1 - Content-Type is "text/html"' );
-    my $ok = $mech->header_matches('Content-Type', 'text/html', 'Content-Type is "text/html"');
+    my $ok = $mech->header_is('Content-Type', 'text/html', 'Content-Type is "text/html"');
     test_test( 'Matches existing header and reports success' );
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( $ok, 'And the result should be true' );
 
-    # regex
-    test_out( 'ok 1 - Content-Type matches /^text\\/html$/' );
-    $mech->header_matches('Content-Type', qr/^text\/html$/, 'Content-Type matches /^text\\/html$/');
-    test_test( 'Matches existing header and reports success - regex' );
-
     # default desc
-    test_out( 'ok 1 - Response has Content-Type header with value \'text/html\'' );
-    $mech->header_matches('Content-Type', 'text/html');
+    test_out( 'ok 1 - Response has Content-Type header with value "text/html"' );
+    $mech->header_is('Content-Type', 'text/html');
     test_test( 'Matches existing header and reports success - default desc' );
 }
 
-BAD_MATCHES: {
-    test_out( 'not ok 1 - Try to match a bad header' );
-    test_fail( +1 );
-    my $ok = $mech->header_matches('Server', 'GitHub.com', 'Try to match a bad header');
+BAD_IS: {
+    test_out( 'not ok 1 - Try to match a nonexistent header' );
+    test_fail( +2 );
+    test_diag( 'Header Bongotronic-X does not exist' );
+    my $ok = $mech->header_is('Bongotronic-X', 'GitHub.com', 'Try to match a nonexistent header');
     test_test( 'Fails to match nonexistent header and reports failure' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 
     test_out( 'not ok 1 - Content-Type is "text/plain"' );
-    test_fail( +1 );
-    $mech->header_matches('Content-Type', 'text/plain', 'Content-Type is "text/plain"');
-    test_diag( 'text/html' );
+    test_fail( +3 );
+    test_diag(q(         got: 'text/html'));
+    test_diag(q(    expected: 'text/plain'));
+    $mech->header_is('Content-Type', 'text/plain', 'Content-Type is "text/plain"');
     test_test( 'Fails to match header and reports failure' );
+}
 
+
+GOOD_LIKE: {
+    test_out( 'ok 1 - Content-Type matches /^text\\/html$/' );
+    $mech->header_like('Content-Type', qr/^text\/html$/, 'Content-Type matches /^text\\/html$/');
+    test_test( 'Matches existing header and reports success - regex' );
+}
+
+BAD_LIKE: {
     test_out( 'not ok 1 - Content-Type matches /^text\\/plain$/' );
-    test_fail( +1 );
-    $mech->header_matches('Content-Type', qr/^text\/plain$/, 'Content-Type matches /^text\\/plain$/');
-    test_diag( 'text/html' );
+    test_fail( +3 );
+    test_diag(q(                  'text/html'));
+    test_diag(q(    doesn't match '(?^:^text/plain$)'));
+    $mech->header_like('Content-Type', qr{^text/plain$}, 'Content-Type matches /^text\\/plain$/');
     test_test( 'Fails to match header and reports failure - regex' );
 }
 
