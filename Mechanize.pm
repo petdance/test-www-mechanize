@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.45_01
+Version 1.45_02
 
 =cut
 
-our $VERSION = '1.45_01';
+our $VERSION = '1.45_02';
 
 =head1 SYNOPSIS
 
@@ -1706,6 +1706,26 @@ sub header_exists {
 
     return $ok;
 }
+
+
+=head2 $mech->lacks_header( $field [, $desc ] )
+
+Assures that a given response header does NOT exist.
+
+=cut
+
+sub lacks_header {
+    my $self  = shift;
+    my $field = shift;
+    my $desc  = shift || qq{Response lacks $field header};
+
+    my $ok = !defined($self->response->header($field));
+
+    $TB->ok( $ok, $desc );
+
+    return $ok;
+}
+
 
 =head2 $mech->header_matches( $field, $value [, $desc ] )
 

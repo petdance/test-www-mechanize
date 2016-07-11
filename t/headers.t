@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 19;
+use Test::More tests => 26;
 use Test::Builder::Tester;
 
 use lib 't';
@@ -42,6 +42,28 @@ BAD_EXISTS: {
     test_diag( 'client-response-num: ' );
     test_diag( 'title: ' );
     test_test( 'Fails to get nonexistent header and reports failure' );
+
+    is( ref($ok), '', 'get_ok() should only return a scalar' );
+    ok( !$ok, 'And the result should be false' );
+}
+
+GOOD_LACKS: {
+    test_out( 'ok 1 - Lacks Bongotronic-X' );
+    my $ok = $mech->lacks_header( 'Bongotronic-X', 'Lacks Bongotronic-X' );
+    test_test( 'Gets existing header and reports success' );
+    is( ref($ok), '', 'get_ok() should only return a scalar' );
+    ok( $ok, 'And the result should be true' );
+
+    test_out( 'ok 1 - Response lacks Bongotronic-X header' );
+    $mech->lacks_header( 'Bongotronic-X' );
+    test_test( 'Gives reasonable default to lacks_header' );
+}
+
+BAD_LACKS: {
+    test_out( 'not ok 1 - Hoping Content-Type is missing' );
+    test_fail( +1 );
+    my $ok = $mech->lacks_header( 'Content-Type', 'Hoping Content-Type is missing' );
+    test_test( 'The header we expected to lack is indeed there.' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );

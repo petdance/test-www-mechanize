@@ -5,6 +5,12 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
+1.45_02 Mon Jul 11 15:10:00 CDT 2016
+------------------------------------
+[ENHANCEMENTS]
+Added a lacks_header() method to go with header_exists().
+
+
 1.45_01 Sat Jul  9 00:03:42 CDT 2016
 ------------------------------------
 [ENHANCEMENTS]
