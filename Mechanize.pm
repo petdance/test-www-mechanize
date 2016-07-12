@@ -1682,6 +1682,34 @@ sub scraped_id_is {
 }
 
 
+=head2 $agent->scraped_id_like( $id, $expected_regex [, $msg] )
+
+Scrapes the current page for given id and tests that it matches the expected regex.
+
+=cut
+
+sub scraped_id_like {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self     = shift;
+    my $id       = shift;
+    my $expected = shift;
+    my $msg      = shift;
+
+    my $ok;
+    my $got = $self->scrape_text_by_id($id);
+    if ( defined($got) ) {
+        $ok = $TB->like( $got, $expected, $msg );
+    }
+    else {
+        $ok = $TB->pass( 0, $msg );
+        $TB->diag( "Can't find ID \"$id\" to compare to /$expected/" );
+    }
+
+    return $ok;
+}
+
+
 =head2 $mech->header_exists( $header [, $desc ] )
 
 Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
