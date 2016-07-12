@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::Builder::Tester;
 
-use Test::Builder;
+use Test::More tests => 2;
 
 use URI::file ();
 
@@ -70,7 +70,7 @@ subtest scrape_text_by_id => sub {
 
 
 subtest 'scraped_id_is and scraped_id_like' => sub {
-    plan tests => 4;
+    plan tests => 5;
 
     my $mech = Test::WWW::Mechanize->new( autolint => 0 );
     isa_ok( $mech, 'Test::WWW::Mechanize' );
@@ -91,6 +91,35 @@ subtest 'scraped_id_is and scraped_id_like' => sub {
         $mech->update_html( '<html><head><title></title></head><body><p id="asdf">Bob and <b>Bongo!</b></p></body></html>' );
         $mech->scraped_id_is( 'asdf', 'Bob and Bongo!' );
         $mech->scraped_id_like( 'asdf', qr/Bob.+Bongo/ );
+    };
+
+    subtest 'failures' => sub {
+        plan tests => 6;
+
+        $mech->update_html( '<html><head><title></title></head><body><p id="asdf">Bob and <b>Bongo!</b></p><p id="empty"></p></body></html>' );
+
+        # Test standard successes.
+        $mech->scraped_id_is( 'asdf', 'Bob and Bongo!' );
+        $mech->scraped_id_like( 'asdf', qr/Bob.+Bongo/ );
+
+        # Test failures.
+        test_out( 'not ok 1 - Trying to match nonexistent ID to a string' );
+        test_fail( +2 );
+        test_diag( qq{Can't find ID "nonexistent" to compare to "foo"} );
+        $mech->scraped_id_is( 'nonexistent', 'foo', 'Trying to match nonexistent ID to a string' );
+        test_test( 'Fails when trying to find nonexistent ID' );
+
+        my $regex = qr/Dave/ism;
+        test_out( 'not ok 1 - Trying to match nonexistent ID to a regex' );
+        test_fail( +2 );
+        test_diag( qq{Can't find ID "nonexistent" to match against $regex} );
+        $mech->scraped_id_like( 'nonexistent', $regex, 'Trying to match nonexistent ID to a regex' );
+        test_test( 'Fails when mismatched against existing ID' );
+
+        # Make sure that empty tags don't get seen as non-existent.
+        $mech->scraped_id_is( 'empty', '' );
+        $mech->scraped_id_like( 'empty', qr/^$/ );
+
     };
 };
 

@@ -1671,14 +1671,17 @@ sub scraped_id_is {
     my $expected = shift;
     my $msg      = shift;
 
-    if ( not defined $msg ) {
-        my $what = defined( $expected ) ? $expected : '(undef)';
-
-        $msg = qq{scraped id "$id" is "$what"};
+    my $ok;
+    my $got = $self->scrape_text_by_id( $id );
+    if ( defined( $got ) ) {
+        $ok = $TB->is_eq( $got, $expected, $msg );
+    }
+    else {
+        $ok = $TB->ok( 0, $msg );
+        $TB->diag( qq{Can't find ID "$id" to compare to "$expected"} );
     }
 
-    my $got = $self->scrape_text_by_id($id);
-    return $TB->is_eq( $got, $expected, $msg );
+    return $ok;
 }
 
 
@@ -1689,21 +1692,19 @@ Scrapes the current page for given id and tests that it matches the expected reg
 =cut
 
 sub scraped_id_like {
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-
     my $self     = shift;
     my $id       = shift;
     my $expected = shift;
     my $msg      = shift;
 
     my $ok;
-    my $got = $self->scrape_text_by_id($id);
+    my $got = $self->scrape_text_by_id( $id );
     if ( defined($got) ) {
         $ok = $TB->like( $got, $expected, $msg );
     }
     else {
-        $ok = $TB->pass( 0, $msg );
-        $TB->diag( "Can't find ID \"$id\" to compare to /$expected/" );
+        $ok = $TB->ok( 0, $msg );
+        $TB->diag( qq{Can't find ID "$id" to match against $expected} );
     }
 
     return $ok;
