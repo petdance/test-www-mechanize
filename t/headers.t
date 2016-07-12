@@ -102,11 +102,12 @@ GOOD_LIKE: {
 }
 
 BAD_LIKE: {
+    my $pattern = qr{^text/plain$};
     test_out( 'not ok 1 - Content-Type matches /^text\\/plain$/' );
     test_fail( +3 );
-    test_diag(q(                  'text/html'));
-    test_diag(q(    doesn't match '(?^:^text/plain$)'));
-    $mech->header_like('Content-Type', qr{^text/plain$}, 'Content-Type matches /^text\\/plain$/');
+    test_diag( q(                  'text/html'));
+    test_diag(qq(    doesn't match '$pattern'));
+    $mech->header_like('Content-Type', $pattern, 'Content-Type matches /^text\\/plain$/');
     test_test( 'Fails to match header and reports failure - regex' );
 }
 
