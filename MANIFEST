@@ -39,7 +39,7 @@ t/page_links_ok.t
 t/pod-coverage.t
 t/pod.t
 t/put_ok.t
-t/scrape-text-by-id.t
+t/scrape_text_by_id.t
 t/stuff_inputs.html
 t/stuff_inputs.t
 t/submit_form_ok.t
