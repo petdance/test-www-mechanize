@@ -4,10 +4,17 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
+1.45_03 Tue Jul 12 17:54:00 CDT 2016
 ------------------------------------
 [ENHANCEMENTS]
 Replaced header_matches() method with header_is() and header_like()
 to match the other methods like title_is() and title_like().
+
+The scraped_id_is() method used to assign a description for the test if
+one was not passed.  Now it does not.
+
+scraped_id_is() now gives proper diagnostics if an ID is not found in
+the HTML.
 
 
 1.45_02 Mon Jul 11 15:10:00 CDT 2016
