@@ -105,7 +105,7 @@ subtest 'scraped_id_is and scraped_id_like' => sub {
         # Test failures.
         test_out( 'not ok 1 - Trying to match nonexistent ID to a string' );
         test_fail( +2 );
-        test_diag( qq{Can't find ID "nonexistent" to compare to "foo"} );
+        test_diag( q{Can't find ID "nonexistent" to compare to "foo"} );
         $mech->scraped_id_is( 'nonexistent', 'foo', 'Trying to match nonexistent ID to a string' );
         test_test( 'Fails when trying to find nonexistent ID' );
 
