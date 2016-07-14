@@ -1616,7 +1616,8 @@ sub scrape_text_by_id {
     my @results;
 
     if ( defined $html ) {
-        my $found = index( $html, "id=\"$id\"" );
+        # If the ID doesn't appear anywhere in the text, then there's no point in parsing.
+        my $found = index( $html, $id );
         if ( $found >= 0 ) {
             my $parser = HTML::TokeParser->new( \$html );
 
