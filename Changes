@@ -6,7 +6,9 @@ https://github.com/petdance/test-www-mechanize/issues
 
 ------------------------------------
 [FIXES]
-Fixed an overly-restrictive optimization in scrape_text_by_id().
+Fixed an overly-restrictive optimization in scrape_text_by_id(), plus
+scraped_id_is() and scraped_id_like() which wrap it.
+
 The method checks to make sure that it doesn't bother looking for an ID
 on the page if the ID doesn't exist.  It did this by looking for the text
 
