@@ -2,11 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+
+use Test::More tests => 10;
+
+use Test::WWW::Mechanize;
+
 use Test::Builder::Tester;
 use URI::file;
-
-require_ok( 'Test::WWW::Mechanize' );
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
