@@ -1712,13 +1712,13 @@ sub scraped_id_like {
 }
 
 
-=head2 $mech->header_exists( $header [, $desc ] )
+=head2 $mech->header_exists_ok( $header [, $desc ] )
 
 Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
 
 =cut
 
-sub header_exists {
+sub header_exists_ok {
     my $self = shift;
     my $header = shift;
     my $desc = shift || qq{Response has $header header};
@@ -1727,13 +1727,13 @@ sub header_exists {
 }
 
 
-=head2 $mech->lacks_header( $header [, $desc ] )
+=head2 $mech->lacks_header_ok( $header [, $desc ] )
 
 Assures that a given response header does NOT exist.
 
 =cut
 
-sub lacks_header {
+sub lacks_header_ok {
     my $self   = shift;
     my $header = shift;
     my $desc   = shift || qq{Response lacks $header header};

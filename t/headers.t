@@ -20,21 +20,21 @@ $mech->get_ok( "$server_root/form.html" );
 
 GOOD_EXISTS: {
     test_out( 'ok 1 - Has Content-Type' );
-    my $ok = $mech->header_exists('Content-Type', 'Has Content-Type');
+    my $ok = $mech->header_exists_ok('Content-Type', 'Has Content-Type');
     test_test( 'Gets existing header and reports success' );
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( $ok, 'And the result should be true' );
 
     # default desc
     test_out( 'ok 1 - Response has Content-Type header' );
-    $mech->header_exists('Content-Type');
+    $mech->header_exists_ok('Content-Type');
     test_test( 'Gets existing header and reports success - default desc' );
 }
 
 BAD_EXISTS: {
     test_out( 'not ok 1 - Try to get a bad header' );
     test_fail( +1 );
-    my $ok = $mech->header_exists('Server', 'Try to get a bad header');
+    my $ok = $mech->header_exists_ok('Server', 'Try to get a bad header');
     test_test( 'Fails to get nonexistent header and reports failure' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );
@@ -43,20 +43,20 @@ BAD_EXISTS: {
 
 GOOD_LACKS: {
     test_out( 'ok 1 - Lacks Bongotronic-X' );
-    my $ok = $mech->lacks_header( 'Bongotronic-X', 'Lacks Bongotronic-X' );
+    my $ok = $mech->lacks_header_ok( 'Bongotronic-X', 'Lacks Bongotronic-X' );
     test_test( 'Gets existing header and reports success' );
     is( ref($ok), '', 'get_ok() should only return a scalar' );
     ok( $ok, 'And the result should be true' );
 
     test_out( 'ok 1 - Response lacks Bongotronic-X header' );
-    $mech->lacks_header( 'Bongotronic-X' );
-    test_test( 'Gives reasonable default to lacks_header' );
+    $mech->lacks_header_ok( 'Bongotronic-X' );
+    test_test( 'Gives reasonable default to lacks_header_ok' );
 }
 
 BAD_LACKS: {
     test_out( 'not ok 1 - Hoping Content-Type is missing' );
     test_fail( +1 );
-    my $ok = $mech->lacks_header( 'Content-Type', 'Hoping Content-Type is missing' );
+    my $ok = $mech->lacks_header_ok( 'Content-Type', 'Hoping Content-Type is missing' );
     test_test( 'The header we expected to lack is indeed there.' );
 
     is( ref($ok), '', 'get_ok() should only return a scalar' );

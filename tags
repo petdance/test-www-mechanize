@@ -10,7 +10,9 @@ BAD	t/lacks_uncapped_inputs.t	/^BAD: {$/;"	l
 BAD_EXISTS	t/headers.t	/^BAD_EXISTS: {$/;"	l
 BAD_GET	t/get_ok.t	/^BAD_GET: {$/;"	l
 BAD_HEAD	t/head_ok.t	/^BAD_HEAD: {$/;"	l
-BAD_MATCHES	t/headers.t	/^BAD_MATCHES: {$/;"	l
+BAD_IS	t/headers.t	/^BAD_IS: {$/;"	l
+BAD_LACKS	t/headers.t	/^BAD_LACKS: {$/;"	l
+BAD_LIKE	t/headers.t	/^BAD_LIKE: {$/;"	l
 CUSTOM_FILL	t/stuff_inputs.t	/^    CUSTOM_FILL: {$/;"	l
 CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS	t/autolint.t	/^CUSTOM_LINTER_IGNORES_FLUFFY_ERRORS: {$/;"	l
 EMPTY_FIELDS	t/stuff_inputs.t	/^    EMPTY_FIELDS: {$/;"	l
@@ -25,7 +27,9 @@ GOOD_GET	t/html_lint_ok.t	/^GOOD_GET: {$/;"	l
 GOOD_GET_BAD_HTML	t/autolint.t	/^GOOD_GET_BAD_HTML: {$/;"	l
 GOOD_GET_GOOD_HTML	t/autolint.t	/^GOOD_GET_GOOD_HTML: {$/;"	l
 GOOD_HEAD	t/head_ok.t	/^GOOD_HEAD: { # Stop giggling, you!$/;"	l
-GOOD_MATCHES	t/headers.t	/^GOOD_MATCHES: {$/;"	l
+GOOD_IS	t/headers.t	/^GOOD_IS: {$/;"	l
+GOOD_LACKS	t/headers.t	/^GOOD_LACKS: {$/;"	l
+GOOD_LIKE	t/headers.t	/^GOOD_LIKE: {$/;"	l
 GOOD_PUT	t/put_ok.t	/^GOOD_PUT: {$/;"	l
 IGNORE	t/stuff_inputs.t	/^    IGNORE: {$/;"	l
 MAIN	t/stuff_inputs.t	/^MAIN: {$/;"	l
@@ -75,10 +79,12 @@ handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 has_tag	Mechanize.pm	/^sub has_tag {$/;"	s
 has_tag_like	Mechanize.pm	/^sub has_tag_like {$/;"	s
 head_ok	Mechanize.pm	/^sub head_ok {$/;"	s
-header_exists	Mechanize.pm	/^sub header_exists {$/;"	s
-header_matches	Mechanize.pm	/^sub header_matches {$/;"	s
+header_exists_ok	Mechanize.pm	/^sub header_exists_ok {$/;"	s
+header_is	Mechanize.pm	/^sub header_is {$/;"	s
+header_like	Mechanize.pm	/^sub header_like {$/;"	s
 hostname	t/TestServer.pm	/^sub hostname {$/;"	s
 html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
+lacks_header_ok	Mechanize.pm	/^sub lacks_header_ok {$/;"	s
 lacks_uncapped_inputs	Mechanize.pm	/^sub lacks_uncapped_inputs {$/;"	s
 link_content_like	Mechanize.pm	/^sub link_content_like {$/;"	s
 link_content_unlike	Mechanize.pm	/^sub link_content_unlike {$/;"	s
@@ -97,6 +103,7 @@ run	t/TestServer.pm	/^sub run {$/;"	s
 scrape_text_by_attr	Mechanize.pm	/^sub scrape_text_by_attr {$/;"	s
 scrape_text_by_id	Mechanize.pm	/^sub scrape_text_by_id {$/;"	s
 scraped_id_is	Mechanize.pm	/^sub scraped_id_is {$/;"	s
+scraped_id_like	Mechanize.pm	/^sub scraped_id_like {$/;"	s
 set_dispatch	t/TestServer.pm	/^sub set_dispatch {$/;"	s
 stop	t/TestServer.pm	/^sub stop {$/;"	s
 stuff_inputs	Mechanize.pm	/^sub stuff_inputs {$/;"	s

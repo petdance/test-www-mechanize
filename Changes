@@ -28,6 +28,11 @@ would be seen as not existing.
 This has been fixed by making scrape_text_by_id() search for the string
 "foo" anywhere on the page.
 
+[ENHANCEMENTS]
+Renamed header_exists() to header_exists_ok(), and lacks_header() to
+lacks_header_ok() so it is clear it is an assertion.
+
+
 1.45_03 Tue Jul 12 17:54:00 CDT 2016
 ------------------------------------
 [ENHANCEMENTS]
