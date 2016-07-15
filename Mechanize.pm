@@ -405,7 +405,7 @@ sub follow_link_ok {
 }
 
 
-=head2 click_ok( $button[, $desc] )
+=head2 $mech->click_ok( $button[, $desc] )
 
 Clicks the button named by C<$button>.  An optional C<$desc> can
 be given for the test.
@@ -466,6 +466,84 @@ sub _unpack_args {
     return ($url, $desc, %opts);
 }
 
+
+=head1 METHODS: HEADER CHECKING
+
+=head2 $mech->header_exists_ok( $header [, $desc ] )
+
+Assures that a given response header exists. The actual value of the
+response header is not checked, only that the header exists.
+
+=cut
+
+sub header_exists_ok {
+    my $self = shift;
+    my $header = shift;
+    my $desc = shift || qq{Response has $header header};
+
+    return $TB->ok( defined($self->response->header($header)), $desc );
+}
+
+
+=head2 $mech->lacks_header_ok( $header [, $desc ] )
+
+Assures that a given response header does NOT exist.
+
+=cut
+
+sub lacks_header_ok {
+    my $self   = shift;
+    my $header = shift;
+    my $desc   = shift || qq{Response lacks $header header};
+
+    return $TB->ok( !defined($self->response->header($header)), $desc );
+}
+
+
+=head2 $mech->header_is( $header, $value [, $desc ] )
+
+Assures that a given response header exists and has the given value.
+
+=cut
+
+sub header_is {
+    my $self   = shift;
+    my $header = shift;
+    my $value  = shift;
+    my $desc   = shift || qq{Response has $header header with value "$value"};
+
+    # Force scalar context.
+    my $actual_value = $self->response->header($header);
+
+    my $ok;
+    if ( defined( $actual_value ) ) {
+        $ok = $TB->is_eq( $actual_value, $value, $desc );
+    }
+    else {
+        $ok = $TB->ok( 0, $desc );
+        $TB->diag( "Header $header does not exist" );
+    }
+
+    return $ok;
+}
+
+
+=head2 $mech->header_like( $header, $value [, $desc ] )
+
+Assures that a given response header exists and has the given value.
+
+=cut
+
+sub header_like {
+    my $self   = shift;
+    my $header = shift;
+    my $regex  = shift;
+    my $desc   = shift || qq{Response has $header header that matches regex $regex};
+
+    # Force scalar context.
+    my $actual_value = $self->response->header($header);
+    return $TB->like( $self->response->header($header), $regex, $desc );
+}
 
 
 =head1 METHODS: CONTENT CHECKING
@@ -867,19 +945,6 @@ sub _tag_walk {
     return;
 }
 
-=head2 $mech->followable_links()
-
-Returns a list of links that Mech can follow.  This is only http and
-https links.
-
-=cut
-
-sub followable_links {
-    my $self = shift;
-
-    return $self->find_all_links( url_abs_regex => qr{^(?:https?|file)://} );
-}
-
 =head2 $mech->page_links_ok( [ $desc ] )
 
 Follow all links on the current page and test for HTTP status 200
@@ -1239,6 +1304,293 @@ sub _format_links {
     return @urls;
 }
 
+=head1 METHODS: SCRAPING
+
+=head2 $mech->scrape_text_by_attr( $attr, $attr_value [, $html ] )
+
+=head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
+
+Returns an array of strings, each string the text surrounded by an
+element with attribute I<$attr> of value I<$value>.  You can also pass in
+a regular expression.  If nothing is found the return is an empty list.
+In scalar context the return is the first string found.
+
+If passed, I<$html> is scraped instead of the current page's content.
+
+=cut
+
+sub scrape_text_by_attr {
+    my $self = shift;
+    my $attr = shift;
+    my $value = shift;
+
+    my $html = $self->_get_optional_html( @_ );
+
+    my @results;
+
+    if ( defined $html ) {
+        my $parser = HTML::TokeParser->new(\$html);
+
+        while ( my $token = $parser->get_tag() ) {
+            if ( ref $token->[1] eq 'HASH' ) {
+                if ( exists $token->[1]->{$attr} ) {
+                    my $matched =
+                        (ref $value eq 'Regexp')
+                            ? $token->[1]->{$attr} =~ $value
+                            : $token->[1]->{$attr} eq $value;
+                    if ( $matched ) {
+                        my $tag = $token->[ 0 ];
+                        push @results, $parser->get_trimmed_text( "/$tag" );
+                        if ( !wantarray ) {
+                            last;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $results[0] if !wantarray;
+    return @results;
+}
+
+
+=head2 $mech->scrape_text_by_id( $id [, $html ] )
+
+Finds all elements with the given ID attribute and pulls out the text that that element encloses.
+
+In list context, returns a list of all strings found. In scalar context, returns the first one found.
+
+If C<$html> is not provided then the current content is used.
+
+=cut
+
+sub scrape_text_by_id {
+    my $self = shift;
+    my $id   = shift;
+
+    my $html = $self->_get_optional_html( @_ );
+
+    my @results;
+
+    if ( defined $html ) {
+        # If the ID doesn't appear anywhere in the text, then there's no point in parsing.
+        my $found = index( $html, $id );
+        if ( $found >= 0 ) {
+            my $parser = HTML::TokeParser->new( \$html );
+
+            while ( my $token = $parser->get_tag() ) {
+                if ( ref $token->[1] eq 'HASH' ) {
+                    my $actual_id = $token->[1]->{id};
+                    $actual_id = '' unless defined $actual_id;
+                    if ( $actual_id eq $id ) {
+                        my $tag = $token->[ 0 ];
+                        push @results, $parser->get_trimmed_text( "/$tag" );
+                        if ( !wantarray ) {
+                            last;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $results[0] if !wantarray;
+    return @results;
+}
+
+
+sub _get_optional_html {
+    my $self = shift;
+
+    my $html;
+    if ( @_ ) {
+        $html = shift;
+        assert_nonblank( $html, '$html passed in is a populated scalar' );
+    }
+    else {
+        if ( $self->is_html ) {
+            $html = $self->content();
+        }
+    }
+
+    return $html;
+}
+
+
+=head2 $mech->scraped_id_is( $id, $expected [, $msg] )
+
+Scrapes the current page for given ID and tests that it matches the expected value.
+
+=cut
+
+sub scraped_id_is {
+    my $self     = shift;
+    my $id       = shift;
+    my $expected = shift;
+    my $msg      = shift;
+
+    my $ok;
+    my $got = $self->scrape_text_by_id( $id );
+    if ( defined( $got ) ) {
+        $ok = $TB->is_eq( $got, $expected, $msg );
+    }
+    else {
+        $ok = $TB->ok( 0, $msg );
+        $TB->diag( qq{Can't find ID "$id" to compare to "$expected"} );
+    }
+
+    return $ok;
+}
+
+
+=head2 $mech->scraped_id_like( $id, $expected_regex [, $msg] )
+
+Scrapes the current page for given id and tests that it matches the expected regex.
+
+=cut
+
+sub scraped_id_like {
+    my $self     = shift;
+    my $id       = shift;
+    my $expected = shift;
+    my $msg      = shift;
+
+    my $ok;
+    my $got = $self->scrape_text_by_id( $id );
+    if ( defined($got) ) {
+        $ok = $TB->like( $got, $expected, $msg );
+    }
+    else {
+        $ok = $TB->ok( 0, $msg );
+        $TB->diag( qq{Can't find ID "$id" to match against $expected} );
+    }
+
+    return $ok;
+}
+
+
+=head1 METHODS: MISCELLANEOUS
+
+=head2 $mech->autolint( [$status] )
+
+Without an argument, this method returns a true or false value indicating
+whether autolint is active.
+
+When passed an argument, autolint is turned on or off depending on whether
+the argument is true or false, and the previous autolint status is returned.
+As with the autolint option of C<< new >>, C<< $status >> can be an
+L<< HTML::Lint >> object.
+
+If autolint is currently using an L<< HTML::Lint >> object you provided,
+the return is that object, so you can change and exactly restore
+autolint status:
+
+    my $old_status = $mech->autolint( 0 );
+    ... operations that should not be linted ...
+    $mech->autolint( $old_status );
+
+=cut
+
+sub autolint {
+    my $self = shift;
+
+    my $ret = $self->{autolint};
+    if ( @_ ) {
+        $self->{autolint} = shift;
+    }
+
+    return $ret;
+}
+
+
+=head2 $mech->grep_inputs( \%properties )
+
+grep_inputs() returns an array of all the input controls in the
+current form whose properties match all of the regexes in $properties.
+The controls returned are all descended from HTML::Form::Input.
+
+If $properties is undef or empty then all inputs will be
+returned.
+
+If there is no current page, there is no form on the current
+page, or there are no submit controls in the current form
+then the return will be an empty array.
+
+    # get all text controls whose names begin with "customer"
+    my @customer_text_inputs =
+        $mech->grep_inputs( {
+            type => qr/^(text|textarea)$/,
+            name => qr/^customer/
+        }
+    );
+
+=cut
+
+sub grep_inputs {
+    my $self = shift;
+    my $properties = shift;
+
+    my @found;
+
+    my $form = $self->current_form();
+    if ( $form ) {
+        my @inputs = $form->inputs();
+        @found = _grep_hashes( \@inputs, $properties );
+    }
+
+    return @found;
+}
+
+
+=head2 $mech->grep_submits( \%properties )
+
+grep_submits() does the same thing as grep_inputs() except that
+it only returns controls that are submit controls, ignoring
+other types of input controls like text and checkboxes.
+
+=cut
+
+sub grep_submits {
+    my $self = shift;
+    my $properties = shift || {};
+
+    $properties->{type} = qr/^(?:submit|image)$/;  # submits only
+    my @found = $self->grep_inputs( $properties );
+
+    return @found;
+}
+
+# search an array of hashrefs, returning an array of the incoming
+# hashrefs that match *all* the pattern in $patterns.
+sub _grep_hashes {
+    my $hashes = shift;
+    my $patterns = shift || {};
+
+    my @found;
+
+    if ( ! %{$patterns} ) {
+        # nothing to match on, so return them all
+        @found = @{$hashes};
+    }
+    else {
+        foreach my $hash ( @{$hashes} ) {
+
+            # check every pattern for a match on the current hash
+            my $matches_everything = 1;
+            foreach my $pattern_key ( keys %{$patterns} ) {
+                $matches_everything = 0 unless exists $hash->{$pattern_key} && $hash->{$pattern_key} =~ $patterns->{$pattern_key};
+                last if !$matches_everything;
+            }
+
+            push @found, $hash if $matches_everything;
+        }
+    }
+
+    return @found;
+}
+
+
 =head2 $mech->stuff_inputs( [\%options] )
 
 Finds all free-text input fields (text, textarea, and password) in the
@@ -1377,6 +1729,19 @@ sub stuff_inputs {
 }
 
 
+=head2 $mech->followable_links()
+
+Returns a list of links that Mech can follow.  This is only http and
+https links.
+
+=cut
+
+sub followable_links {
+    my $self = shift;
+
+    return $self->find_all_links( url_abs_regex => qr{^(?:https?|file)://} );
+}
+
 
 =head2 $mech->lacks_uncapped_inputs( [$comment] )
 
@@ -1425,368 +1790,6 @@ sub lacks_uncapped_inputs {
 
     return $ok;
 }
-
-
-=head1 METHODS: MISCELLANEOUS
-
-=head2 $mech->autolint( [$status] )
-
-Without an argument, this method returns a true or false value indicating
-whether autolint is active.
-
-When passed an argument, autolint is turned on or off depending on whether
-the argument is true or false, and the previous autolint status is returned.
-As with the autolint option of C<< new >>, C<< $status >> can be an
-L<< HTML::Lint >> object.
-
-If autolint is currently using an L<< HTML::Lint >> object you provided,
-the return is that object, so you can change and exactly restore
-autolint status:
-
-    my $old_status = $mech->autolint( 0 );
-    ... operations that should not be linted ...
-    $mech->autolint( $old_status );
-
-=cut
-
-sub autolint {
-    my $self = shift;
-
-    my $ret = $self->{autolint};
-    if ( @_ ) {
-        $self->{autolint} = shift;
-    }
-
-    return $ret;
-}
-
-
-=head2 $mech->grep_inputs( \%properties )
-
-grep_inputs() returns an array of all the input controls in the
-current form whose properties match all of the regexes in $properties.
-The controls returned are all descended from HTML::Form::Input.
-
-If $properties is undef or empty then all inputs will be
-returned.
-
-If there is no current page, there is no form on the current
-page, or there are no submit controls in the current form
-then the return will be an empty array.
-
-    # get all text controls whose names begin with "customer"
-    my @customer_text_inputs =
-        $mech->grep_inputs( {
-            type => qr/^(text|textarea)$/,
-            name => qr/^customer/
-        }
-    );
-
-=cut
-
-sub grep_inputs {
-    my $self = shift;
-    my $properties = shift;
-
-    my @found;
-
-    my $form = $self->current_form();
-    if ( $form ) {
-        my @inputs = $form->inputs();
-        @found = _grep_hashes( \@inputs, $properties );
-    }
-
-    return @found;
-}
-
-
-=head2 $mech->grep_submits( \%properties )
-
-grep_submits() does the same thing as grep_inputs() except that
-it only returns controls that are submit controls, ignoring
-other types of input controls like text and checkboxes.
-
-=cut
-
-sub grep_submits {
-    my $self = shift;
-    my $properties = shift || {};
-
-    $properties->{type} = qr/^(?:submit|image)$/;  # submits only
-    my @found = $self->grep_inputs( $properties );
-
-    return @found;
-}
-
-# search an array of hashrefs, returning an array of the incoming
-# hashrefs that match *all* the pattern in $patterns.
-sub _grep_hashes {
-    my $hashes = shift;
-    my $patterns = shift || {};
-
-    my @found;
-
-    if ( ! %{$patterns} ) {
-        # nothing to match on, so return them all
-        @found = @{$hashes};
-    }
-    else {
-        foreach my $hash ( @{$hashes} ) {
-
-            # check every pattern for a match on the current hash
-            my $matches_everything = 1;
-            foreach my $pattern_key ( keys %{$patterns} ) {
-                $matches_everything = 0 unless exists $hash->{$pattern_key} && $hash->{$pattern_key} =~ $patterns->{$pattern_key};
-                last if !$matches_everything;
-            }
-
-            push @found, $hash if $matches_everything;
-        }
-    }
-
-    return @found;
-}
-
-
-=head2 $mech->scrape_text_by_attr( $attr, $attr_value [, $html ] )
-
-=head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
-
-Returns an array of strings, each string the text surrounded by an
-element with attribute I<$attr> of value I<$value>.  You can also pass in
-a regular expression.  If nothing is found the return is an empty list.
-In scalar context the return is the first string found.
-
-If passed, I<$html> is scraped instead of the current page's content.
-
-=cut
-
-sub scrape_text_by_attr {
-    my $self = shift;
-    my $attr = shift;
-    my $value = shift;
-
-    my $html = $self->_get_optional_html( @_ );
-
-    my @results;
-
-    if ( defined $html ) {
-        my $parser = HTML::TokeParser->new(\$html);
-
-        while ( my $token = $parser->get_tag() ) {
-            if ( ref $token->[1] eq 'HASH' ) {
-                if ( exists $token->[1]->{$attr} ) {
-                    my $matched =
-                        (ref $value eq 'Regexp')
-                            ? $token->[1]->{$attr} =~ $value
-                            : $token->[1]->{$attr} eq $value;
-                    if ( $matched ) {
-                        my $tag = $token->[ 0 ];
-                        push @results, $parser->get_trimmed_text( "/$tag" );
-                        if ( !wantarray ) {
-                            last;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return $results[0] if !wantarray;
-    return @results;
-}
-
-
-=head2 scrape_text_by_id( $id [, $html ] )
-
-Finds all elements with the given ID attribute and pulls out the text that that element encloses.
-
-In list context, returns a list of all strings found. In scalar context, returns the first one found.
-
-If C<$html> is not provided then the current content is used.
-
-=cut
-
-sub scrape_text_by_id {
-    my $self = shift;
-    my $id   = shift;
-
-    my $html = $self->_get_optional_html( @_ );
-
-    my @results;
-
-    if ( defined $html ) {
-        # If the ID doesn't appear anywhere in the text, then there's no point in parsing.
-        my $found = index( $html, $id );
-        if ( $found >= 0 ) {
-            my $parser = HTML::TokeParser->new( \$html );
-
-            while ( my $token = $parser->get_tag() ) {
-                if ( ref $token->[1] eq 'HASH' ) {
-                    my $actual_id = $token->[1]->{id};
-                    $actual_id = '' unless defined $actual_id;
-                    if ( $actual_id eq $id ) {
-                        my $tag = $token->[ 0 ];
-                        push @results, $parser->get_trimmed_text( "/$tag" );
-                        if ( !wantarray ) {
-                            last;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return $results[0] if !wantarray;
-    return @results;
-}
-
-
-sub _get_optional_html {
-    my $self = shift;
-
-    my $html;
-    if ( @_ ) {
-        $html = shift;
-        assert_nonblank( $html, '$html passed in is a populated scalar' );
-    }
-    else {
-        if ( $self->is_html ) {
-            $html = $self->content();
-        }
-    }
-
-    return $html;
-}
-
-
-=head2 $mech->scraped_id_is( $id, $expected [, $msg] )
-
-Scrapes the current page for given ID and tests that it matches the expected value.
-
-=cut
-
-sub scraped_id_is {
-    my $self     = shift;
-    my $id       = shift;
-    my $expected = shift;
-    my $msg      = shift;
-
-    my $ok;
-    my $got = $self->scrape_text_by_id( $id );
-    if ( defined( $got ) ) {
-        $ok = $TB->is_eq( $got, $expected, $msg );
-    }
-    else {
-        $ok = $TB->ok( 0, $msg );
-        $TB->diag( qq{Can't find ID "$id" to compare to "$expected"} );
-    }
-
-    return $ok;
-}
-
-
-=head2 $agent->scraped_id_like( $id, $expected_regex [, $msg] )
-
-Scrapes the current page for given id and tests that it matches the expected regex.
-
-=cut
-
-sub scraped_id_like {
-    my $self     = shift;
-    my $id       = shift;
-    my $expected = shift;
-    my $msg      = shift;
-
-    my $ok;
-    my $got = $self->scrape_text_by_id( $id );
-    if ( defined($got) ) {
-        $ok = $TB->like( $got, $expected, $msg );
-    }
-    else {
-        $ok = $TB->ok( 0, $msg );
-        $TB->diag( qq{Can't find ID "$id" to match against $expected} );
-    }
-
-    return $ok;
-}
-
-
-=head2 $mech->header_exists_ok( $header [, $desc ] )
-
-Assures that a given response header exists. The actual value of the response header is not checked, only that the header exists.
-
-=cut
-
-sub header_exists_ok {
-    my $self = shift;
-    my $header = shift;
-    my $desc = shift || qq{Response has $header header};
-
-    return $TB->ok( defined($self->response->header($header)), $desc );
-}
-
-
-=head2 $mech->lacks_header_ok( $header [, $desc ] )
-
-Assures that a given response header does NOT exist.
-
-=cut
-
-sub lacks_header_ok {
-    my $self   = shift;
-    my $header = shift;
-    my $desc   = shift || qq{Response lacks $header header};
-
-    return $TB->ok( !defined($self->response->header($header)), $desc );
-}
-
-
-=head2 $mech->header_is( $header, $value [, $desc ] )
-
-Assures that a given response header exists and has the given value.
-
-=cut
-
-sub header_is {
-    my $self   = shift;
-    my $header = shift;
-    my $value  = shift;
-    my $desc   = shift || qq{Response has $header header with value "$value"};
-
-    # Force scalar context.
-    my $actual_value = $self->response->header($header);
-
-    my $ok;
-    if ( defined( $actual_value ) ) {
-        $ok = $TB->is_eq( $actual_value, $value, $desc );
-    }
-    else {
-        $ok = $TB->ok( 0, $desc );
-        $TB->diag( "Header $header does not exist" );
-    }
-
-    return $ok;
-}
-
-
-=head2 $mech->header_like( $header, $value [, $desc ] )
-
-Assures that a given response header exists and has the given value.
-
-=cut
-
-sub header_like {
-    my $self   = shift;
-    my $header = shift;
-    my $regex  = shift;
-    my $desc   = shift || qq{Response has $header header that matches regex $regex};
-
-    # Force scalar context.
-    my $actual_value = $self->response->header($header);
-    return $TB->like( $self->response->header($header), $regex, $desc );
-}
-
 
 =head1 TODO
 
