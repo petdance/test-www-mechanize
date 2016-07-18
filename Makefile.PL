@@ -10,6 +10,7 @@ my $parms = {
     PL_FILES            => {},
     PREREQ_PM => {
         'Carp::Assert::More'        => 0,
+        'File::Temp'                => 0.22,
         'HTML::TreeBuilder'         => 0,
         'HTTP::Server::Simple'      => '0.42',
         'HTTP::Server::Simple::CGI' => 0,
@@ -17,6 +18,7 @@ my $parms = {
         'Test::Builder::Tester'     => '1.09',
         'Test::LongString'          => '0.15',
         'Test::More'                => '0.96', # subtest() and done_testing()
+        'Scalar::Util'              => 1.23,
         'URI::file'                 => 0,
         'WWW::Mechanize'            => '1.68',
     },
