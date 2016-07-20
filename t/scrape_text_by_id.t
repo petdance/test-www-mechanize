@@ -5,7 +5,7 @@ use warnings;
 
 use Test::Builder::Tester;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use URI::file ();
 
@@ -122,6 +122,75 @@ subtest 'scraped_id_is and scraped_id_like' => sub {
 
     };
 };
+
+
+# Previous versions would miss a search for id="foo" if it was not
+# exactly id="foo".  Here we test for variants.
+subtest 'scrape_text_by_id optimization' => sub {
+    plan tests => 6;
+
+    _find_the_chips( <<'HTML', 'Double-quoted ID' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p id="fish">chips</p>also not chips</body></html>
+HTML
+
+    _find_the_chips( <<'HTML', 'Single-quoted ID' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p id='fish'>chips</p>also not chips</body></html>
+HTML
+
+    _find_the_chips( <<'HTML', 'Unquoted ID' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p id=fish>chips</p>also not chips</body></html>
+HTML
+
+    _find_the_chips( <<'HTML', 'Abnormal spacing' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p id = fish >chips</p>also not chips</body></html>
+HTML
+
+    _find_the_chips( <<'HTML', 'Unquoted broken across lines' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p id
+            =
+            fish >chips</p>also not chips</body></html>
+HTML
+
+    _find_the_chips( <<'HTML', 'Quoted broken across lines' );
+        <html>
+            <head><title>Bongo</title></head>
+            <body>not chips<p
+            id
+            =
+            "fish"
+            >
+            chips
+            </p>
+            also not chips</body></html>
+HTML
+};
+
+sub _find_the_chips {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $html = shift;
+    my $msg  = shift or die;
+
+    return subtest "_find_the_chips( $msg )" => sub {
+        plan tests => 2;
+
+        my $mech = Test::WWW::Mechanize->new( autolint => 0 );
+        isa_ok( $mech, 'Test::WWW::Mechanize' );
+        $mech->update_html( $html );
+        $mech->scraped_id_is( 'fish', 'chips' );
+    };
+}
+
 
 done_testing();
 
