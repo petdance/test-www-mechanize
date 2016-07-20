@@ -4,6 +4,8 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
+
+1.45_04 Wed Jul 20 15:17:41 CDT 2016
 ------------------------------------
 [FIXES]
 Fixed an overly-restrictive optimization in scrape_text_by_id(), plus
@@ -22,6 +24,10 @@ tags like
     <p id = "foo">
     <p id=
         "foo">
+    <p id
+    =
+            "foo"
+                    >
 
 would be seen as not existing.
 
