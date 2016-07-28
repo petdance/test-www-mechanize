@@ -1,6 +1,11 @@
 # Test-WWW-Mechanize
 
-[![Build Status](https://travis-ci.org/petdance/test-www-mechanize.svg?branch=dev)](https://travis-ci.org/petdance/test-www-mechanize)
+* Travis: [![Build Status](https://travis-ci.org/petdance/test-www-mechanize.svg?branch=dev)](https://travis-ci.org/petdance/test-www-mechanize)
+* cpantesters.org:
+[summary](http://www.cpantesters.org/distro/T/Test-WWW-Mechanize.html) and
+[dev FAILs](http://www.cpantesters.org/distro/T/Test-WWW-Mechanize.html?grade=3&perlmat=2&patches=2&oncpan=2&distmat=3&perlver=ALL&osname=ALL&version=1.44)
+
+----
 
 Test::WWW::Mechanize is a subclass of the Perl module WWW::Mechanize
 that incorporates features for web application testing.  For example:
