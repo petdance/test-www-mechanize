@@ -64,13 +64,14 @@ results in
 
 =cut
 
+use HTML::TokeParser ();
 use WWW::Mechanize ();
 use Test::LongString;
 use Test::Builder ();
 use Carp ();
 use Carp::Assert::More;
 
-use base 'WWW::Mechanize';
+use parent 'WWW::Mechanize';
 
 my $TB = Test::Builder->new();
 

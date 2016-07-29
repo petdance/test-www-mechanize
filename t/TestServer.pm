@@ -6,7 +6,7 @@ use strict;
 use Test::More;
 use HTTP::Server::Simple::CGI;
 use Cwd qw( realpath );
-use base qw( HTTP::Server::Simple::CGI );
+use parent qw( HTTP::Server::Simple::CGI );
 
 my $dispatch_table = {};
 
