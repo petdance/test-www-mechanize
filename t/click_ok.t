@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 6;
 use Test::Builder::Tester;
 
 use Test::WWW::Mechanize ();
@@ -20,6 +20,14 @@ SUBMIT_GOOD_FORM: {
 
     $mech->get_ok( "$server_root/form.html" );
     $mech->click_ok( 'big_button', 'Submit First Form' );
+}
+
+SUBMIT_GOOD_FORM_WITH_COORDINATES: {
+    my $mech = Test::WWW::Mechanize->new();
+    isa_ok( $mech,'Test::WWW::Mechanize' );
+
+    $mech->get_ok( "$server_root/form.html" );
+    $mech->click_ok( ['big_button',360,80], 'Submit First Form with coordinates' );
 }
 
 $server->stop;

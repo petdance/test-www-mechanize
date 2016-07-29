@@ -361,7 +361,7 @@ sub follow_link_ok {
 
 =head2 click_ok( $button[, $desc] )
 
-Clicks the button named by C<$button>.  An optional C<$desc> can
+Clicks the button named by C<$button>. Alternatively C<$button> can contain an Array-ref with Button-name and x and y coordinates of said button. An optional C<$desc> can
 be given for the test.
 
 =cut
@@ -370,12 +370,18 @@ sub click_ok {
     my $self   = shift;
     my $button = shift;
     my $desc   = shift;
+    
+    my $response;    
+    if ( ref($button) eq 'ARRAY' ) {
+        $response = $self->click ( $button->[0],$button->[1],$button->[2] );
+    }
+    else {
+        $response = $self->click ( $button );
+    }
 
-    my $response = $self->click( $button );
     if ( !$response ) {
         return $TB->ok( 0, $desc );
     }
-
 
     my $ok = $response->is_success;
 
