@@ -5,9 +5,29 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-1.45_04 Wed Jul 20 15:17:41 CDT 2016
+1.46
 ------------------------------------
+[ENHANCEMENTS]
+Added header_exists_ok(), lacks_header(), header_is() and header_like()
+methods.  Thanks to Eric A. Zarko for the original patches.
+
+The scraped_id_is() method used to assign a description for the test if
+one was not passed.  Now it does not.
+
+scraped_id_is() now gives proper diagnostics if an ID is not found in
+the HTML.
+
+Added a delete_ok() method.  Thanks, moznion.
+
+content_contains() now fails if it's called with a regex.  content_like()
+now fails if it's not called with a regex.
+
 [FIXES]
+The test server run during the test suite allowed URLs outside of the
+document tree, which could potentially be a security problem.  This has
+been fixed.  Thanks, Tynovsky.
+https://github.com/petdance/test-www-mechanize/issues/33
+
 Fixed an overly-restrictive optimization in scrape_text_by_id(), plus
 scraped_id_is() and scraped_id_like() which wrap it.
 
@@ -29,52 +49,8 @@ tags like
             "foo"
                     >
 
-would be seen as not existing.
-
-This has been fixed by making scrape_text_by_id() search for the string
-"foo" anywhere on the page.
-
-[ENHANCEMENTS]
-Renamed header_exists() to header_exists_ok(), and lacks_header() to
-lacks_header_ok() so it is clear it is an assertion.
-
-
-1.45_03 Tue Jul 12 17:54:00 CDT 2016
-------------------------------------
-[ENHANCEMENTS]
-Replaced header_matches() method with header_is() and header_like()
-to match the other methods like title_is() and title_like().
-
-The scraped_id_is() method used to assign a description for the test if
-one was not passed.  Now it does not.
-
-scraped_id_is() now gives proper diagnostics if an ID is not found in
-the HTML.
-
-
-1.45_02 Mon Jul 11 15:10:00 CDT 2016
-------------------------------------
-[ENHANCEMENTS]
-Added a lacks_header() method to go with header_exists().
-
-
-1.45_01 Sat Jul  9 00:03:42 CDT 2016
-------------------------------------
-[ENHANCEMENTS]
-Added a delete_ok() method.  Thanks, moznion.
-
-Added header_exists() and header_matches() methods.  Thanks, Eric
-A. Zarko.
-
-content_contains() now fails if it's called with a regex.  content_like()
-now fails if it's not called with a regex.
-
-
-[FIXES]
-The test server run during the test suite allowed URLs outside of the
-document tree, which could potentially be a security problem.  This has
-been fixed.  Thanks, Tynovsky.
-https://github.com/petdance/test-www-mechanize/issues/33
+would be seen as not existing.  This has been fixed by making
+scrape_text_by_id() search for the string "foo" anywhere on the page.
 
 
 1.44    Sat Jun 30 20:32:04 CDT 2012
