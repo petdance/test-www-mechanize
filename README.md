@@ -10,7 +10,6 @@
 Test::WWW::Mechanize is a subclass of the Perl module WWW::Mechanize
 that incorporates features for web application testing.  For example:
 
-    use Test::More tests => 5;
     use Test::WWW::Mechanize;
 
     my $mech = Test::WWW::Mechanize->new;
@@ -19,10 +18,11 @@ that incorporates features for web application testing.  For example:
     $mech->title_is( 'Invoice Status', "Make sure we're on the invoice page" );
     $mech->text_contains( 'Andy Lester', 'My name somewhere' );
     $mech->content_like( qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
+    $mech->header_is( 'Cache-Control', 'private', 'Caching is turned off' );
+    $mech->lacks_header_ok( 'X-Foo', 'Does not have the X-Foo header' );
 
 This is equivalent to:
 
-    use Test::More tests => 5;
     use WWW::Mechanize;
 
     my $mech = WWW::Mechanize->new;
@@ -32,6 +32,8 @@ This is equivalent to:
     is( $mech->title, 'Invoice Status', "Make sure we're on the invoice page" );
     ok( index( $mech->content( format => 'text' ), 'Andy Lester' ) >= 0, 'My name somewhere' );
     like( $mech->content, qr/(cpan|perl)\.org/, 'Link to perl.org or CPAN' );
+    is( $mech->response->header( 'Cache-Control' ), 'private', 'Caching is turned off' );
+    ok( !defined $mech->response->header( 'X-Foo' ), 'Does not have the X-Foo header' );
 
 but has nicer diagnostics if they fail.
 
