@@ -600,6 +600,7 @@ sub _lint_content_ok {
     }
 
     $lint->parse( $self->content );
+    $lint->eof();
 
     my @errors = $lint->errors;
     my $nerrors = @errors;

@@ -4,6 +4,12 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
+NEXT
+------------------------------------
+[FIXES]
+The linting method html_lint_ok() was not calling the HTML::Lint API
+correctly, so may have missed some HTML errors at the end of a page.
+This also applies to get, post, etc if you have the autolint argument on.
 
 1.46
 ------------------------------------
