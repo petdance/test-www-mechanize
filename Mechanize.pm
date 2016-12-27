@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.46
+Version 1.47_01
 
 =cut
 
-our $VERSION = '1.46';
+our $VERSION = '1.47_01';
 
 =head1 SYNOPSIS
 
@@ -1752,10 +1752,10 @@ text input fields that lack the C<maxlength> attribute, and that each
 C<maxlength> value is a positive integer.  The test fails if the current
 form has such a field, and succeeds otherwise.
 
-Returns an array containing all text input fields in the current
-form that do not specify a maximum input length.  Fields for which
-the concept of input length is irrelevant, and controls that HTML
-does not allow to be capped (e.g. textarea) are ignored.
+Checks that all text input fields in the current form specify a maximum
+input length.  Fields for which the concept of input length is irrelevant,
+and controls that HTML does not allow to be capped (e.g. textarea)
+are ignored.
 
 The inputs in the returned array are descended from HTML::Form::Input.
 
