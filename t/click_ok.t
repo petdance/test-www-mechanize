@@ -15,7 +15,10 @@ my $pid         = $server->background;
 my $server_root = $server->root;
 
 SUBMIT_GOOD_FORM: {
-    my $mech = Test::WWW::Mechanize->new();
+    my $mech = do {
+                   local @ENV{qw[ http_proxy HTTP_PROXY ]};
+                   Test::WWW::Mechanize->new();
+                  };
     isa_ok( $mech,'Test::WWW::Mechanize' );
 
     $mech->get_ok( "$server_root/form.html" );
