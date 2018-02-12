@@ -647,7 +647,7 @@ sub title_is {
 
 Tells if the title of the page matches the given regex.
 
-    $mech->title_like( qr/Invoices for (.+)/
+    $mech->title_like( qr/Invoices for (.+)/ );
 
 =cut
 
@@ -665,7 +665,7 @@ sub title_like {
 
 Tells if the title of the page matches the given regex.
 
-    $mech->title_unlike( qr/Invoices for (.+)/
+    $mech->title_unlike( qr/Invoices for (.+)/ );
 
 =cut
 
