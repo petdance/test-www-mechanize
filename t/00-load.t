@@ -13,4 +13,16 @@ pass( 'Modules loaded' );
 
 diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Test::More $Test::More::VERSION, Perl $], $^X" );
 
+for my $module ( qw( HTML::Lint HTML::Tidy ) ) {
+    my $rc = eval "use $module; 1;";
+    if ( $rc ) {
+        no strict 'refs';
+        my $version = ${"${module}::VERSION"};
+        diag( "Found $module $version" );
+    }
+    else {
+        diag( "No $module found." );
+    }
+}
+
 done_testing();

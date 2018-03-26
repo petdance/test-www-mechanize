@@ -5,6 +5,12 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
+NEXT
+------------------------------------
+Adding autotidy functionality.  You must have HTML::Tidy5 1.00 installed
+to use it.
+
+
 1.48 Thu Dec 29 22:45:29 CST 2016
 ------------------------------------
 [FIXES]

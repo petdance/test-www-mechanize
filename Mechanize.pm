@@ -90,6 +90,8 @@ called. You can also pass in an HTML::Lint object like this:
     my $lint = HTML::Lint->new( only_types => HTML::Lint::Error::STRUCTURE );
     my $mech = Test::WWW::Mechanize->new( autolint => $lint );
 
+The same is also possible with C<< autotidy => 1 >> to use HTML::Tidy5.
+
 =over
 
 =item * get_ok()
@@ -118,7 +120,8 @@ and can simply do
 The C<< $mech->get_ok() >> only counts as one test in the test count.  Both the
 main IO operation and the linting must pass for the entire test to pass.
 
-You can control autolint on the fly with the C<< autolint >> method.
+You can control autolint and autotidy on the fly with the C<autolint>
+and C<autotidy> methods.
 
 =cut
 
@@ -131,10 +134,12 @@ sub new {
     );
 
     my $autolint = delete $args{autolint};
+    my $autotidy = delete $args{autotidy};
 
     my $self = $class->SUPER::new( %args );
 
     $self->autolint( $autolint );
+    $self->autotidy( $autotidy );
 
     return $self;
 }
@@ -160,12 +165,12 @@ sub get_ok {
     $self->get( $url, %opts );
     my $ok = $self->success;
 
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
 
-sub _maybe_lint {
+sub _post_load_validation {
     my $self = shift;
     my $ok   = shift;
     my $desc = shift;
@@ -173,10 +178,33 @@ sub _maybe_lint {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     if ( $ok ) {
-        if ( $self->is_html && $self->autolint ) {
-            $ok = $self->_lint_content_ok( $desc );
+        my $emitted_ok = 0;
+        if ( $self->is_html ) {
+            if ( $self->autolint && $self->autotidy ) {
+                my $msg = 'autolint & autotidy';
+                $msg .= ": $desc" if defined $desc;
+                $TB->subtest(
+                    $desc,
+                    sub {
+                        $self->_lint_content_ok();
+                        $self->_tidy_content_ok();
+                    }
+                );
+                ++$emitted_ok;
+            }
+            else {
+                if ( $self->autolint ) {
+                    $ok = $self->_lint_content_ok( $desc );
+                    ++$emitted_ok;
+                }
+                elsif ( $self->autotidy ) {
+                    $ok = $self->_tidy_content_ok( $desc );
+                    ++$emitted_ok;
+                }
+            }
         }
-        else {
+
+        if ( !$emitted_ok ) {
             $TB->ok( $ok, $desc );
         }
     }
@@ -242,7 +270,7 @@ sub post_ok {
 
     $self->post( $url, \%opts );
     my $ok = $self->success;
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
@@ -300,7 +328,7 @@ sub delete_ok {
     }
     my $ok = $self->success;
 
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
@@ -361,7 +389,7 @@ sub submit_form_ok {
     my $response = $self->submit_form( %{$parms} );
 
     my $ok = $response && $response->is_success;
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
@@ -406,7 +434,7 @@ sub follow_link_ok {
     my $response = $self->follow_link( %{$parms} );
 
     my $ok = $response && $response->is_success;
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
@@ -432,7 +460,7 @@ sub click_ok {
 
     my $ok = $response->is_success;
 
-    $ok = $self->_maybe_lint( $ok, $desc );
+    $ok = $self->_post_load_validation( $ok, $desc );
 
     return $ok;
 }
@@ -557,8 +585,9 @@ sub header_like {
 
 =head2 $mech->html_lint_ok( [$desc] )
 
-Checks the validity of the HTML on the current page.  If the page is not
-HTML, then it fails.  The URI is automatically appended to the I<$desc>.
+Checks the validity of the HTML on the current page using the HTML::Lint
+module.  If the page is not HTML, then it fails.  The URI is automatically
+appended to the I<$desc>.
 
 Note that HTML::Lint must be installed for this to work.  Otherwise,
 it will blow up.
@@ -585,11 +614,12 @@ sub html_lint_ok {
     return $ok;
 }
 
+
 sub _lint_content_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     my $self = shift;
     my $desc = shift;
-
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     my $module = "HTML::Lint 2.20";
     if ( not ( eval "use $module; 1;" ) ) {
@@ -624,6 +654,79 @@ sub _lint_content_ok {
 
     return $ok;
 }
+
+
+=head2 $mech->html_tidy_ok( [$desc] )
+
+Checks the validity of the HTML on the current page using the HTML::Tidy
+module.  If the page is not HTML, then it fails.  The URI is automatically
+appended to the I<$desc>.
+
+Note that HTML::tidy must be installed for this to work.  Otherwise,
+it will blow up.
+
+=cut
+
+sub html_tidy_ok {
+    my $self = shift;
+    my $desc = shift;
+
+    my $uri = $self->uri;
+    $desc = $desc ? "$desc ($uri)" : $uri;
+
+    my $ok;
+
+    if ( $self->is_html ) {
+        $ok = $self->_lint_content_ok( $desc );
+    }
+    else {
+        $ok = $TB->ok( 0, $desc );
+        $TB->diag( q{This page doesn't appear to be HTML, or didn't get the proper text/html content type returned.} );
+    }
+
+    return $ok;
+}
+
+
+sub _tidy_content_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my $desc = shift;
+
+    my $module = 'HTML::Tidy5 1.00';
+
+    if ( not ( eval "use $module; 1;" ) ) {
+        die "Test::WWW::Mechanize can't do tidying without $module: $@";
+    }
+
+    my $tidy = $self->{autotidy};
+    if ( ref $tidy && $tidy->isa('HTML::Tidy5') ) {
+        $tidy->clear_messages();
+    }
+    else {
+        $tidy = HTML::Tidy5->new();
+    }
+
+    $tidy->parse( '', $self->content );
+
+    my @messages = $tidy->messages;
+    my $nmessages = @messages;
+    my $ok;
+    if ( $nmessages ) {
+        $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'HTML::Tidy5 messages for ' . $self->uri );
+        $TB->diag( $_->as_string ) for @messages;
+        my $s = $nmessages == 1 ? '' : 's';
+        $TB->diag( "$nmessages message$s on the page" );
+    }
+    else {
+        $ok = $TB->ok( 1, $desc );
+    }
+
+    return $ok;
+}
+
 
 =head2 $mech->title_is( $str [, $desc ] )
 
@@ -1512,6 +1615,38 @@ sub autolint {
 }
 
 
+=head2 $mech->autotidy( [$status] )
+
+Without an argument, this method returns a true or false value indicating
+whether autotidy is active.
+
+When passed an argument, autotidy is turned on or off depending on whether
+the argument is true or false, and the previous autotidy status is returned.
+As with the autotidy option of C<< new >>, C<< $status >> can be an
+L<< HTML::Tidy5 >> object.
+
+If autotidy is currently using an L<< HTML::Tidy5 >> object you provided,
+the return is that object, so you can change and exactly restore
+autotidy status:
+
+    my $old_status = $mech->autotidy( 0 );
+    ... operations that should not be tidied ...
+    $mech->autotidy( $old_status );
+
+=cut
+
+sub autotidy {
+    my $self = shift;
+
+    my $ret = $self->{autotidy};
+    if ( @_ ) {
+        $self->{autotidy} = shift;
+    }
+
+    return $ret;
+}
+
+
 =head2 $mech->grep_inputs( \%properties )
 
 grep_inputs() returns an array of all the input controls in the
@@ -1865,7 +2000,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2016 Andy Lester.
+Copyright 2004-2018 Andy Lester.
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.

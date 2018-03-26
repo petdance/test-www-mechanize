@@ -6,6 +6,7 @@ README.md
 
 t/00-load.t
 t/autolint.t
+t/autotidy.t
 t/bad.html
 t/badlinks.html
 t/click_ok.t

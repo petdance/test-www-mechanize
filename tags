@@ -5,6 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ACCESSOR	t/autolint.t	/^    ACCESSOR: {$/;"	l
+ACCESSOR	t/autotidy.t	/^    ACCESSOR: {$/;"	l
 ACCESSOR_MUTATOR	t/autolint.t	/^ACCESSOR_MUTATOR: {$/;"	l
 BAD	t/lacks_uncapped_inputs.t	/^BAD: {$/;"	l
 BAD_EXISTS	t/headers.t	/^BAD_EXISTS: {$/;"	l
@@ -36,6 +37,7 @@ MAIN	t/stuff_inputs.t	/^MAIN: {$/;"	l
 MAXLENGTH	t/stuff_inputs.t	/^    MAXLENGTH: {$/;"	l
 MULTICHAR_FILL	t/stuff_inputs.t	/^    MULTICHAR_FILL: {$/;"	l
 MUTATOR	t/autolint.t	/^    MUTATOR: {$/;"	l
+MUTATOR	t/autotidy.t	/^    MUTATOR: {$/;"	l
 OVERWRITE	t/stuff_inputs.t	/^    OVERWRITE: {$/;"	l
 SUBMIT_GOOD_FORM	t/click_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
 SUBMIT_GOOD_FORM	t/submit_form_ok.t	/^SUBMIT_GOOD_FORM: {$/;"	l
@@ -49,15 +51,18 @@ _check_links_content	Mechanize.pm	/^sub _check_links_content {$/;"	s
 _check_links_status	Mechanize.pm	/^sub _check_links_status {$/;"	s
 _default_links_desc	Mechanize.pm	/^sub _default_links_desc {$/;"	s
 _delete	Mechanize.pm	/^sub _delete {$/;"	s
+_find_the_chips	t/scrape_text_by_id.t	/^sub _find_the_chips {$/;"	s
 _format_links	Mechanize.pm	/^sub _format_links {$/;"	s
 _get_optional_html	Mechanize.pm	/^sub _get_optional_html {$/;"	s
 _grep_hashes	Mechanize.pm	/^sub _grep_hashes {$/;"	s
 _lint_content_ok	Mechanize.pm	/^sub _lint_content_ok {$/;"	s
-_maybe_lint	Mechanize.pm	/^sub _maybe_lint {$/;"	s
+_post_load_validation	Mechanize.pm	/^sub _post_load_validation {$/;"	s
 _tag_walk	Mechanize.pm	/^sub _tag_walk {$/;"	s
+_tidy_content_ok	Mechanize.pm	/^sub _tidy_content_ok {$/;"	s
 _unpack_args	Mechanize.pm	/^sub _unpack_args {$/;"	s
 add_test_fields	t/stuff_inputs.t	/^sub add_test_fields {$/;"	s
 autolint	Mechanize.pm	/^sub autolint {$/;"	s
+autotidy	Mechanize.pm	/^sub autotidy {$/;"	s
 background	t/TestServer.pm	/^sub background {$/;"	s
 base_is	Mechanize.pm	/^sub base_is {$/;"	s
 base_like	Mechanize.pm	/^sub base_like {$/;"	s
@@ -84,6 +89,7 @@ header_is	Mechanize.pm	/^sub header_is {$/;"	s
 header_like	Mechanize.pm	/^sub header_like {$/;"	s
 hostname	t/TestServer.pm	/^sub hostname {$/;"	s
 html_lint_ok	Mechanize.pm	/^sub html_lint_ok {$/;"	s
+html_tidy_ok	Mechanize.pm	/^sub html_tidy_ok {$/;"	s
 lacks_header_ok	Mechanize.pm	/^sub lacks_header_ok {$/;"	s
 lacks_uncapped_inputs	Mechanize.pm	/^sub lacks_uncapped_inputs {$/;"	s
 link_content_like	Mechanize.pm	/^sub link_content_like {$/;"	s
