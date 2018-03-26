@@ -5,13 +5,17 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-NEXT
+1.49_01 Mon Mar 26 10:58:51 CDT 2018
 ------------------------------------
-Adding autotidy functionality.  You must have HTML::Tidy5 1.00 installed
-to use it.
+[ENHANCEMENTS]
+Adding autotidy functionality. autotidy lets you validate every page that
+Mech gets using the HTML::Tidy5 module, just like the autolint feature
+does with the HTML::Lint module. HTML::Tidy5 is a much more complete
+HTML checking tool, and validates HTML5 which HTML::Lint does not. You
+must have HTML::Tidy5 1.00 installed to use autotidy.
 
 
-1.48 Thu Dec 29 22:45:29 CST 2016
+1.48    Thu Dec 29 22:45:29 CST 2016
 ------------------------------------
 [FIXES]
 The linting method html_lint_ok() was not calling the HTML::Lint API

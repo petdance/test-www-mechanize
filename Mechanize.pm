@@ -9,11 +9,11 @@ Test::WWW::Mechanize - Testing-specific WWW::Mechanize subclass
 
 =head1 VERSION
 
-Version 1.48
+Version 1.49_01
 
 =cut
 
-our $VERSION = '1.48';
+our $VERSION = '1.49_01';
 
 =head1 SYNOPSIS
 

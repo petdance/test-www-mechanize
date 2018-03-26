@@ -37,6 +37,27 @@ This is equivalent to:
 
 but has nicer diagnostics if they fail.
 
+Test::WWW::Mechanize also has functionality to automatically validate every page it goes to.
+
+    use Test::WWW::Mechanize;
+
+    my $mech = Test::WWW::Mechanize->new( autotidy => 1 );
+    $mech->get_ok( $url );
+
+which can give errors like this:
+
+    not ok 1 - GET $url
+    #   Failed test '$url'
+    #   at foo.pl line 7.
+    # HTML::Tidy5 messages for $url
+    # (11:1) Warning: missing </b> before </body>
+    # (7:18) Warning: <a> escaping malformed URI reference
+    # (7:18) Warning: <a> illegal characters found in URI
+    # (11:1) Warning: trimming empty <b>
+
+The autotidy feature requires the HTML::Tidy5 module.  The similar,
+but less robust, autolint feature requires the HTML::Lint module.
+
 # INSTALLATION
 
 To install this module, run the following commands:
@@ -48,7 +69,7 @@ To install this module, run the following commands:
 
 # COPYRIGHT AND LICENSE
 
-Copyright (C) 2004-2016 Andy Lester
+Copyright (C) 2004-2018 Andy Lester
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
