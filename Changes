@@ -11,6 +11,8 @@ NEXT
 The html_tidy_ok() method was the same as html_lint_ok().  It now checks
 correctly with Tidy5.
 
+Remove unnecessary dependency on HTML::TreeBuilder.  Thanks, Kent Fredric.
+
 
 1.49_01 Mon Mar 26 10:58:51 CDT 2018
 ------------------------------------
