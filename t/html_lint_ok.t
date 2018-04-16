@@ -10,8 +10,9 @@ use URI::file;
 
 BEGIN {
     # Load HTML::Lint here for the imports
-    if ( not eval 'use HTML::Lint 2.20; 1;' ) {
-        plan skip_all => 'HTML::Lint is not installed, cannot test autolint' if $@;
+    my $module = 'HTML::Lint 2.20';
+    if ( not eval "use $module; 1;" ) {
+        plan skip_all => "$module is not installed, cannot test html_lint_ok" if $@;
     }
     plan tests => 3;
 }
@@ -35,3 +36,4 @@ GOOD_GET: {
 }
 
 done_testing();
+exit 0;

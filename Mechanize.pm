@@ -677,7 +677,7 @@ sub html_tidy_ok {
     my $ok;
 
     if ( $self->is_html ) {
-        $ok = $self->_lint_content_ok( $desc );
+        $ok = $self->_tidy_content_ok( $desc );
     }
     else {
         $ok = $TB->ok( 0, $desc );
