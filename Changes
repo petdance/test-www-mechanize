@@ -5,11 +5,10 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-NEXT
+1.50    Mon Apr 16 15:16:59 CDT 2018
 ------------------------------------
 [FIXES]
-The html_tidy_ok() method was the same as html_lint_ok().  It now checks
-correctly with Tidy5.
+Added html_tidy_ok() methods, analogous to html_lint_ok().
 
 Remove unnecessary dependency on HTML::TreeBuilder.  Thanks, Kent Fredric.
 
