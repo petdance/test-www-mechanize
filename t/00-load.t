@@ -13,7 +13,7 @@ pass( 'Modules loaded' );
 
 diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Test::More $Test::More::VERSION, Perl $], $^X" );
 
-for my $module ( qw( HTML::Lint HTML::Tidy ) ) {
+for my $module ( qw( HTML::Lint HTML::Tidy5 ) ) {
     my $rc = eval "use $module; 1;";
     if ( $rc ) {
         no strict 'refs';
