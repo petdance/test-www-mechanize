@@ -11,7 +11,7 @@ use URI::file;
 BEGIN {
     my $module = 'HTML::Tidy5 1.00';
     if ( not eval "use $module; 1;" ) {
-        plan skip_all => "$module is not installed, cannot test html_tidy_ok" if $@;
+        plan skip_all => "Optional $module is not installed, cannot test html_tidy_ok" if $@;
     }
     plan tests => 3;
 }

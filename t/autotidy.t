@@ -13,7 +13,7 @@ BEGIN {
 
     # Load HTML::Lint here for the imports
     if ( not eval "use $module; 1;" ) {
-        plan skip_all => "$module is not installed, cannot test autotidy.";
+        plan skip_all => "Optional $module is not installed, cannot test autotidy.";
     }
     plan tests => 5;
 }
