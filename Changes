@@ -5,6 +5,13 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
+NEXT
+------------------------------------
+[FIXES]
+Clarified warnings to make it clear that certain modules are
+optional. Thanks, Matthew Chae.
+
+
 1.50    Mon Apr 16 15:16:59 CDT 2018
 ------------------------------------
 [FIXES]
