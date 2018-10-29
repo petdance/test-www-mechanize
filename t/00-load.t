@@ -18,10 +18,10 @@ for my $module ( qw( HTML::Lint HTML::Tidy5 ) ) {
     if ( $rc ) {
         no strict 'refs';
         my $version = ${"${module}::VERSION"};
-        diag( "Found $module $version" );
+        diag( "Found optional $module $version" );
     }
     else {
-        diag( "No $module found." );
+        diag( "Optional $module not found. Install it to use additional features." );
     }
 }
 
