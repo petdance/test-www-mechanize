@@ -29,6 +29,8 @@ t/html/form.html
 t/html_lint_ok.t
 t/html_tidy_ok.t
 t/html/scratch.html
+t/id_exists.t
+t/id_exists.html
 t/lacks_uncapped_inputs-bad.html
 t/lacks_uncapped_inputs-good.html
 t/lacks_uncapped_inputs.t

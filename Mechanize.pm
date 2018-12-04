@@ -1614,6 +1614,139 @@ sub scraped_id_like {
 }
 
 
+=head2 id_exists( $id [, $html] )
+
+Returns TRUE/FALSE if the given ID exists in the given HTML, or if none
+is provided, then the current page.
+
+=cut
+
+sub id_exists {
+    my $self = shift;
+    my $id = shift;
+
+    my $html;
+    if ( @_ ) {
+        $html = shift;
+        assert_nonref( $html, '$html passed in is a populated scalar' );
+    }
+    else {
+        if ( $self->ct() eq 'text/html' && defined $self->{content} ) {
+            $html = $self->{ content };
+        }
+    }
+
+    assert_nonblank( $html, 'We have HTML to look at' );
+
+    my $found = index( $html, " id=\"$id\"" );
+    if ( $found < 0 ) {
+        $found = index( $html, " id='$id'" );
+    }
+    return $found >= 0;
+}
+
+=head2 $agent->id_exists_ok( $id [, $msg] )
+
+Verifies there is an HTML element with ID C<$id> in the page.
+
+=cut
+
+sub id_exists_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my $id   = shift;
+    my $msg  = shift || ('ID "' . ($id || '') . '" should exist');
+
+    my $exists = $self->id_exists( $id, $self->content() );
+
+    return $TB->ok( $exists, $msg );
+}
+
+=head2 $agent->ids_exist_ok( \@ids [, $msg] )
+
+Verifies an HTML element exists with each ID in C<\@ids>.
+
+=cut
+
+sub ids_exist_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my $ids  = shift;
+    my $msg  = shift;
+
+    assert_arrayref( $ids );
+
+    my $subtest_name = 'ids_exist_ok( [' . join( ', ', @{$ids} ) . ']';
+    $subtest_name .= ", $msg" if defined $msg;
+    $subtest_name .= ' )';
+
+    return $TB->subtest(
+        $subtest_name,
+        sub {
+            $TB->plan( tests => scalar @{$ids} );
+
+            foreach my $id ( @$ids ) {
+                $self->id_exists_ok( $id );
+            }
+        }
+    );
+}
+
+=head2 $agent->lacks_id_ok( $id [, $msg] )
+
+Verifies there is NOT an HTML element with ID C<$id> in the page.
+
+=cut
+
+sub lacks_id_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my $id   = shift;
+    my $msg  = shift || ('ID "' . ($id || '') . '" should not exist');
+
+    assert_nonblank( $id );
+
+    my $exists = $self->id_exists( $id, $self->content() );
+
+    return $TB->ok( !$exists, $msg );
+}
+
+
+=head2 $agent->lacks_ids_ok( \@ids [, $msg] )
+
+Verifies there are no HTML elements with any of the ids given in C<\@ids>.
+
+=cut
+
+sub lacks_ids_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my $ids = shift;
+    my $msg = shift;
+
+    assert_arrayref( $ids );
+
+    my $subtest_name = 'lacks_id_ok( [' . join( ', ', @{$ids} ) . ']';
+    $subtest_name .= ", $msg" if defined $msg;
+    $subtest_name .= ' )';
+
+    return $TB->subtest(
+        $subtest_name,
+        sub {
+            $TB->plan( tests => scalar @{$ids} );
+
+            foreach my $id ( @$ids ) {
+                $self->lacks_id_ok( $id, "ID '" . ($id // '') . "' should not exist" );
+            }
+        }
+    );
+}
+
+
 =head2 $mech->button_exists( $button )
 
 Returns a boolean saying whether the submit C<$button> exists. Does not

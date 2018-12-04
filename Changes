@@ -11,10 +11,13 @@ NEXT
 click_ok() method can now take a button with X/Y coordinates.
 Thanks to GitHub user @marderh.  (GH #45)
 
-Added the ability to modify the HTML that the C<html_tidy_ok()> validates.
+Added the ability to modify the HTML that the html_tidy_ok() validates.
 See the C<content_for_validation> method. (GH #61)
 
-Add C<button_exists()>, C<button_exists_ok()> and C<lacks_button_ok()>
+Add a set of methods for existence of IDs: id_exists, id_exists_ok,
+ids_exist_ok, lacks_id_ok and lacks_ids_ok. (GH #48)
+
+Add button_exists(), button_exists_ok() and lacks_button_ok()
 methods.  (GH #50)
 
 [FIXES]
