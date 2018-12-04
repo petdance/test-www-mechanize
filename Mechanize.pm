@@ -442,8 +442,17 @@ sub follow_link_ok {
 
 =head2 $mech->click_ok( $button[, $desc] )
 
-Clicks the button named by C<$button>.  An optional C<$desc> can
-be given for the test.
+=head2 $mech->click_ok( \@button-and-coordinates [, $desc ] )
+
+Clicks the button named by C<$button>.  An optional C<$desc> can be
+given for the test.
+
+    $mech->click_ok( 'continue', 'Clicking the "Continue" button' );
+
+Alternatively the first argument can be an arrayref with three elements:
+The name of the button and the X and Y coordinates of the button.
+
+    $mech->click_ok( [ 'continue', 12, 47 ], 'Clicking the "Continue" button' );
 
 =cut
 
@@ -452,11 +461,17 @@ sub click_ok {
     my $button = shift;
     my $desc   = shift;
 
-    my $response = $self->click( $button );
+    my $response;
+    if ( ref($button) eq 'ARRAY' ) {
+        $response = $self->click( $button->[0], $button->[1], $button->[2] );
+    }
+    else {
+        $response = $self->click( $button );
+    }
+
     if ( !$response ) {
         return $TB->ok( 0, $desc );
     }
-
 
     my $ok = $response->is_success;
 
@@ -1980,10 +1995,11 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+@marderh,
 Eric A. Zarko,
-moznion,
+@moznion,
 Robert Stone,
-tynovsky,
+@tynovsky,
 Jerry Gay,
 Jonathan "Duke" Leto,
 Philip G. Potter,

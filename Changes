@@ -7,6 +7,10 @@ https://github.com/petdance/test-www-mechanize/issues
 
 NEXT
 ------------------------------------
+[ENHANCEMENTS]
+click_ok() method can now take a button with X/Y coordinates.
+Thanks to GitHub user @marderh.  (GH #45)
+
 [FIXES]
 Clarified warnings to make it clear that certain modules are
 optional. Thanks, Matthew Chae.
