@@ -14,6 +14,9 @@ Thanks to GitHub user @marderh.  (GH #45)
 Added the ability to modify the HTML that the C<html_tidy_ok()> validates.
 See the C<content_for_validation> method. (GH #61)
 
+Add C<button_exists()>, C<button_exists_ok()> and C<lacks_button_ok()>
+methods.  (GH #50)
+
 [FIXES]
 Clarified warnings to make it clear that certain modules are
 optional. Thanks, Matthew Chae.

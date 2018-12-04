@@ -1614,6 +1614,60 @@ sub scraped_id_like {
 }
 
 
+=head2 $mech->button_exists( $button )
+
+Returns a boolean saying whether the submit C<$button> exists. Does not
+do a test. For that you want C<button_exists_ok> or C<lacks_button_ok>.
+
+=cut
+
+sub button_exists {
+    my $self   = shift;
+    my $button = shift;
+
+    my $input = $self->grep_inputs( {
+        type => qr/^submit$/,
+        name => qr/^$button$/
+    } );
+
+    return !!$input;
+}
+
+
+=head2 $mech->button_exists_ok( $button [, $msg] )
+
+Asserts that the button exists on the page.
+
+=cut
+
+sub button_exists_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self   = shift;
+    my $button = shift;
+    my $msg    = shift;
+
+    return $TB->ok( $self->button_exists( $button ), $msg );
+}
+
+
+=head2 $mech->lacks_button_ok( $button [, $msg] )
+
+Asserts that the button exists on the page.
+
+=cut
+
+sub lacks_button_ok {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self   = shift;
+    my $button = shift;
+    my $msg    = shift;
+
+    return $TB->ok( !$self->button_exists( $button ), $msg );
+}
+
+
 =head1 METHODS: MISCELLANEOUS
 
 =head2 $mech->autolint( [$status] )

@@ -9,6 +9,7 @@ t/autolint.t
 t/autotidy.t
 t/bad.html
 t/badlinks.html
+t/button_exists.t
 t/click_ok.t
 t/content_contains.t
 t/content_lacks.t
