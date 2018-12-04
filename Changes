@@ -11,6 +11,9 @@ NEXT
 click_ok() method can now take a button with X/Y coordinates.
 Thanks to GitHub user @marderh.  (GH #45)
 
+Added the ability to modify the HTML that the C<html_tidy_ok()> validates.
+See the C<content_for_validation> method. (GH #61)
+
 [FIXES]
 Clarified warnings to make it clear that certain modules are
 optional. Thanks, Matthew Chae.

@@ -723,7 +723,7 @@ sub _tidy_content_ok {
         $tidy = HTML::Tidy5->new();
     }
 
-    $tidy->parse( '', $self->content );
+    $tidy->parse( '', $self->content_for_tidy );
 
     my @messages = $tidy->messages;
     my $nmessages = @messages;
@@ -740,6 +740,24 @@ sub _tidy_content_ok {
     }
 
     return $ok;
+}
+
+
+=head2 $mech->content_for_tidy()
+
+This method is called by C<html_tidy_ok()> to get the content that should
+be validated by HTML::Tidy5. By default, this is just C<content()>,
+but subclasses can override it to modify the content before validation.
+
+This method should not change any state in the Mech object.  Specifically,
+it should not actually modify any of the actual content.
+
+=cut
+
+sub content_for_tidy {
+    my $self = shift;
+
+    return $self->content;
 }
 
 
