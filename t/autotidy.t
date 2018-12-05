@@ -127,24 +127,22 @@ subtest 'Get bad HTML' => sub {
 
     # Test via get_ok
     test_out( "not ok 1 - GET $uri" );
-    test_fail( +7 );
+    test_fail( +6 );
     test_err( "# HTML::Tidy5 messages for $uri" );
     test_err( '# (1:1) Warning: missing <!DOCTYPE> declaration' );
     test_err( '# (8:33) Warning: discarding unexpected </b>' );
     test_err( '# (8:9) Warning: missing </a>' );
-    #test_err( '# (7:9) Warning: <a> proprietary attribute "hrex"' );
     test_err( '# 3 messages on the page' );
     $mech->get_ok( $uri, "GET $uri" );
     test_test( 'get_ok complains about bad HTML' );
 
     # Test via follow_link_ok
     test_out( 'not ok 1 - Following link back to bad.html' );
-    test_fail( +7 );
+    test_fail( +6 );
     test_err( "# HTML::Tidy5 messages for $uri" );
     test_err( '# (1:1) Warning: missing <!DOCTYPE> declaration' );
     test_err( '# (8:33) Warning: discarding unexpected </b>' );
     test_err( '# (8:9) Warning: missing </a>' );
-    #test_err( '# (7:9) Warning: <a> proprietary attribute "hrex"' );
     test_err( '# 3 messages on the page' );
     $mech->follow_link_ok( { text => 'Back to bad' }, 'Following link back to bad.html' );
     test_test( 'follow_link_ok complains about bad HTML' );
