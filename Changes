@@ -4,7 +4,7 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
-1.52
+1.52    Wed Dec  5 10:00:56 CST 2018
 ------------------------------------
 [ENHANCEMENTS]
 click_ok() method can now take a button with X/Y coordinates.
@@ -13,8 +13,8 @@ Thanks to GitHub user @marderh.  (GH #45)
 Added the ability to modify the HTML that the html_tidy_ok() validates.
 See the content_for_validation() method. (GH #61)
 
-Add a set of methods for existence of IDs: id_exists, id_exists_ok,
-ids_exist_ok, lacks_id_ok and lacks_ids_ok. (GH #48)
+Add a set of methods for existence of IDs: id_exists(), id_exists_ok(),
+ids_exist_ok(), lacks_id_ok() and lacks_ids_ok(). (GH #48)
 
 Add button_exists(), button_exists_ok() and lacks_button_ok()
 methods.  (GH #50)
