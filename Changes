@@ -4,6 +4,12 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
+NEXT
+------------------------------------
+[FIXES]
+Fixed the minimum version of Carp::Assert::More in Makefile.PL.
+
+
 1.52    Wed Dec  5 10:00:56 CST 2018
 ------------------------------------
 [ENHANCEMENTS]
