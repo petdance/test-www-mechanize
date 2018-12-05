@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 
+use Test::More tests => 23;
 use Test::Builder::Tester;
-use Test::More tests => 21;
 
 use Test::WWW::Mechanize ();
 
@@ -47,6 +47,10 @@ test_fail( +1 );
 $mech->lacks_id_ok( 'name' );
 test_test( 'Proper lacks_id_ok results for ID that is there' );
 
-# XXX We shoudl test ids_exist_ok and lacks_ids_ok, too.
+
+# Now go get a new page and do tests again.
+$mech->update_html( '<html><body><p id="boring">Very boring page</p></body></html' );
+$mech->id_exists_ok( 'boring' );
+$mech->lacks_ids_ok( [@valid_ids, @invalid_ids] );
 
 exit 0

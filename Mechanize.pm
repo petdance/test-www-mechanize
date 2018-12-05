@@ -144,6 +144,20 @@ sub new {
     return $self;
 }
 
+
+# Override WWW::Mechanize->_reset_page() to handle Test::WWW::Mechanize-specific data.
+sub _reset_page {
+    my $self = shift;
+
+    # Parent object stuff
+    $self->SUPER::_reset_page( @_ );
+
+    $self->{ids} = undef;
+
+    return;
+}
+
+
 =head1 METHODS: HTTP VERBS
 
 =head2 $mech->get_ok($url, [ \%LWP_options ,] $desc)
@@ -1619,6 +1633,9 @@ sub scraped_id_like {
 Returns TRUE/FALSE if the given ID exists in the given HTML, or if none
 is provided, then the current page.
 
+The Mech object caches the IDs so that it doesn't bother reparsing every
+time it's asked about an ID.
+
 =cut
 
 sub id_exists {
@@ -1626,13 +1643,28 @@ sub id_exists {
     my $id   = shift;
 
     assert_is( $self->ct, 'text/html', 'Can only call id_exists on HTML pages' );
-    my $html = $self->{ content };
 
-    my $found = index( $html, " id=\"$id\"" );
-    if ( $found < 0 ) {
-        $found = index( $html, " id='$id'" );
+    if ( !$self->{ids} ) {
+        my $ids = $self->{ids} = {};
+        my $p = HTML::Parser->new(
+            handlers => {
+                start => [
+                    sub {
+                        my $attr = shift;
+
+                        if ( my $id = $attr->{id} ) {
+                            $ids->{$id} = 1;
+                        }
+                    },
+                    'attr'
+                ],
+            },
+        );
+        $p->parse( $self->content );
+        $p->eof;
     }
-    return $found >= 0;
+
+    return $self->{ids}->{$id};
 }
 
 

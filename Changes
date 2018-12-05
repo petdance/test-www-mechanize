@@ -4,8 +4,7 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
-
-1.51_01 Tue Dec  4 12:31:41 CST 2018
+1.52
 ------------------------------------
 [ENHANCEMENTS]
 click_ok() method can now take a button with X/Y coordinates.
