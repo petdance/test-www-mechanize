@@ -1614,7 +1614,7 @@ sub scraped_id_like {
 }
 
 
-=head2 id_exists( $id [, $html] )
+=head2 id_exists( $id )
 
 Returns TRUE/FALSE if the given ID exists in the given HTML, or if none
 is provided, then the current page.
@@ -1623,20 +1623,10 @@ is provided, then the current page.
 
 sub id_exists {
     my $self = shift;
-    my $id = shift;
+    my $id   = shift;
 
-    my $html;
-    if ( @_ ) {
-        $html = shift;
-        assert_nonref( $html, '$html passed in is a populated scalar' );
-    }
-    else {
-        if ( $self->ct() eq 'text/html' && defined $self->{content} ) {
-            $html = $self->{ content };
-        }
-    }
-
-    assert_nonblank( $html, 'We have HTML to look at' );
+    assert_is( $self->ct, 'text/html', 'Can only call id_exists on HTML pages' );
+    my $html = $self->{ content };
 
     my $found = index( $html, " id=\"$id\"" );
     if ( $found < 0 ) {
@@ -1644,6 +1634,7 @@ sub id_exists {
     }
     return $found >= 0;
 }
+
 
 =head2 $agent->id_exists_ok( $id [, $msg] )
 
@@ -1658,10 +1649,11 @@ sub id_exists_ok {
     my $id   = shift;
     my $msg  = shift || ('ID "' . ($id || '') . '" should exist');
 
-    my $exists = $self->id_exists( $id, $self->content() );
+    my $exists = $self->id_exists( $id );
 
     return $TB->ok( $exists, $msg );
 }
+
 
 =head2 $agent->ids_exist_ok( \@ids [, $msg] )
 
@@ -1709,7 +1701,7 @@ sub lacks_id_ok {
 
     assert_nonblank( $id );
 
-    my $exists = $self->id_exists( $id, $self->content() );
+    my $exists = $self->id_exists( $id );
 
     return $TB->ok( !$exists, $msg );
 }
