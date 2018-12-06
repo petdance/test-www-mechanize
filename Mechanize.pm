@@ -1754,7 +1754,7 @@ sub lacks_ids_ok {
 
     assert_arrayref( $ids );
 
-    my $subtest_name = 'lacks_id_ok( [' . join( ', ', @{$ids} ) . ']';
+    my $subtest_name = 'lacks_ids_ok( [' . join( ', ', @{$ids} ) . ']';
     $subtest_name .= ", $msg" if defined $msg;
     $subtest_name .= ' )';
 

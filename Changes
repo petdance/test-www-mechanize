@@ -7,6 +7,8 @@ https://github.com/petdance/test-www-mechanize/issues
 NEXT
 ------------------------------------
 [FIXES]
+Fixed the subtest name inside of C<lacks_ids_ok>.
+
 Fixed the minimum version of Carp::Assert::More in Makefile.PL.
 
 
