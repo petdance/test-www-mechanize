@@ -2207,10 +2207,6 @@ You can also look for information at:
 
 L<https://github.com/petdance/test-www-mechanize>
 
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Test-WWW-Mechanize>
-
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/Test-WWW-Mechanize>
