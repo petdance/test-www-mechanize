@@ -978,7 +978,7 @@ Tells if the text form of the page's content contains I<$str>.
 
 When your page contains HTML which is difficult, unimportant, or
 unlikely to match over time as designers alter markup, use
-C<text_contains> instead of L</content_contains>.
+C<text_contains> instead of C<content_contains>.
 
  # <b>Hi, <i><a href="some/path">User</a></i>!</b>
  $mech->content_contains('Hi, User'); # Fails.
