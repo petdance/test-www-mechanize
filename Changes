@@ -10,6 +10,7 @@ NEXT
 Use ok() instead of cmp_ok() inside of lacks_uncapped_inputs().
 This output makes more sense.
 
+lacks_uncapped_inputs() now has a a default message if one isn't supplied.
 
 [FIXES]
 Fixed the subtest name inside of C<lacks_ids_ok>.

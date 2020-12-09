@@ -2152,6 +2152,8 @@ sub lacks_uncapped_inputs {
     my $self    = shift;
     my $comment = shift;
 
+    $comment = 'All text inputs should have maxlength attributes' unless defined($comment);
+
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
     my @uncapped;
