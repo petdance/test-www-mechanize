@@ -4,7 +4,8 @@ WWW::Mechanize and Test::WWW::Mechanize do not use rt.cpan.org for
 bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
-NEXT
+
+1.54    Tue Dec  8 23:25:06 CST 2020
 ------------------------------------
 [ENHANCEMENTS]
 Use ok() instead of cmp_ok() inside of lacks_uncapped_inputs().
