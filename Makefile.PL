@@ -34,7 +34,7 @@ if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VER
 if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
     $parms->{META_MERGE} = {
         resources => {
-            license     => 'http://www.opensource.org/licenses/artistic-license-2.0',
+            license     => 'https://opensource.org/licenses/artistic-license-2.0',
             homepage    => 'https://github.com/petdance/test-www-mechanize',
             bugtracker  => 'https://github.com/petdance/test-www-mechanize/issues',
             repository  => 'https://github.com/petdance/test-www-mechanize',
