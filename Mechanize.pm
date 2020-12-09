@@ -2172,7 +2172,7 @@ sub lacks_uncapped_inputs {
         }
     }
 
-    my $ok = $TB->cmp_ok( scalar @uncapped, '==', 0, $comment );
+    my $ok = $TB->ok( @uncapped == 0, $comment );
     $TB->diag( $_ ) for @uncapped;
 
     return $ok;
