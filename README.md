@@ -1,9 +1,9 @@
 # Test-WWW-Mechanize
 
-* Travis: [![Build Status](https://travis-ci.org/petdance/test-www-mechanize.svg?branch=dev)](https://travis-ci.org/petdance/test-www-mechanize)
+* Build status: [![Build Status](https://github.com/petdance/test-www-mechanize/workflows/testsuite/badge.svg?branch=dev)](https://github.com/petdance/test-www-mechanize/actions?query=workflow%3Atestsuite+branch%3Adev)
 * cpantesters.org:
 [summary](http://www.cpantesters.org/distro/T/Test-WWW-Mechanize.html) and
-[dev FAILs](http://www.cpantesters.org/distro/T/Test-WWW-Mechanize.html?grade=3&perlmat=2&patches=2&oncpan=2&distmat=3&perlver=ALL&osname=ALL&version=1.44)
+[dev FAILures](http://www.cpantesters.org/distro/T/Test-WWW-Mechanize.html?grade=3&perlmat=2&patches=2&oncpan=2&distmat=3&perlver=ALL&osname=ALL&version=1.44)
 
 ----
 
