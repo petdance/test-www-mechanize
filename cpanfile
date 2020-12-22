@@ -15,7 +15,7 @@ on 'test' => sub {
     requires 'HTTP::Server::Simple::CGI' => 0;
     requires 'Test::Builder::Tester'     => '1.09';
     requires 'Test::LongString'          => '0.15';
-    requires 'Test::More'                => '0.96'; # subtest() and done_testing()
+    requires 'Test::More'                => '1.001002'; # subtest() and done_testing()
     requires 'URI::file'                 => 0;
 };
 
