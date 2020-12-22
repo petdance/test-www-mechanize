@@ -1764,7 +1764,8 @@ sub lacks_ids_ok {
             $TB->plan( tests => scalar @{$ids} );
 
             foreach my $id ( @$ids ) {
-                $self->lacks_id_ok( $id, "ID '" . ($id // '') . "' should not exist" );
+                my $id_disp = defined($id) ? $id : '<undef>';
+                $self->lacks_id_ok( $id, "ID '$id_disp' should not exist" );
             }
         }
     );
