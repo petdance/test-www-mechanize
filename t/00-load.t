@@ -7,11 +7,16 @@ use Test::More tests => 1;
 
 use LWP;
 use WWW::Mechanize;
+use Test::Builder::Tester;
 use Test::WWW::Mechanize;
 
 pass( 'Modules loaded' );
 
-diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION, with WWW::Mechanize $WWW::Mechanize::VERSION, LWP $LWP::VERSION, Test::More $Test::More::VERSION, Perl $], $^X" );
+diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION undef Perl $], $^X" );
+diag( "LWP $LWP::VERSION" );
+diag( "WWW::Mechanize $WWW::Mechanize::VERSION" );
+diag( "Test::More $Test::More::VERSION" );
+diag( "Test::Builder::Tester $Test::Builder::Tester::VERSION" );
 
 for my $module ( qw( HTML::Lint HTML::Tidy5 ) ) {
     my $rc = eval "use $module; 1;";
