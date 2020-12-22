@@ -45,6 +45,7 @@ jobs:
 
     strategy:
       matrix:
+        fail-fast: false    # Just for now while I'm debugging this file.
         perl-version:
           - "latest"
           - "5.32"
