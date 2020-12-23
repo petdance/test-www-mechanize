@@ -44,8 +44,8 @@ jobs:
       PERL_CARTON_PATH: $GITHUB_WORKSPACE/local
 
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         perl-version:
           - "latest"
           - "5.32"

@@ -37,11 +37,19 @@ test_test( 'Finds the contains - default desc' );
 
 # test failure
 test_out( 'not ok 1 - Where is Mungo?' );
-test_fail(+5);
-test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
-test_diag(q(  can't find: "Mungo") );
-test_diag(q(        LCSS: "go"));
-test_diag(q(LCSS context: "dy>\x{0a}        <h1>Test Page</h1>\x{0a}        <a href="go"));
+test_fail(+13);
+if ( $^O eq 'MSWin32' ) {
+    test_diag(q(    searched: "<html>\x{0d}\x{0a}    <head>\x{0d}\x{0a}        <title>Test Page</titl"...) );
+    test_diag(q(  can't find: "Mungo") );
+    test_diag(q(        LCSS: "go"));
+    test_diag(q(LCSS context: ">\x{0d}\x{0a}        <h1>Test Page</h1>\x{0d}\x{0a}        <a href="go"));
+}
+else {
+    test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
+    test_diag(q(  can't find: "Mungo") );
+    test_diag(q(        LCSS: "go"));
+    test_diag(q(LCSS context: "dy>\x{0a}        <h1>Test Page</h1>\x{0a}        <a href="go"));
+}
 $mech->content_contains( 'Mungo', 'Where is Mungo?' );
 test_test( 'Handles not finding it' );
 

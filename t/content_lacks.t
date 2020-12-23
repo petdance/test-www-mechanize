@@ -26,10 +26,17 @@ $mech->content_lacks( 'Mungo eats cheese');
 test_test( 'Finds the lacks - default desc' );
 
 test_out( q{not ok 1 - Shouldn't say it's a test page} );
-test_fail(+4);
-test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
-test_diag(q(   and found: "Test Page") );
-test_diag(q( at position: 33 (line 3 column 16)) );
+test_fail(+11);
+if ( $^O eq 'MSWin32' ) {
+    test_diag(q(    searched: "<html>\x{0d}\x{0a}    <head>\x{0d}\x{0a}        <title>Test Page</titl"...) );
+    test_diag(q(   and found: "Test Page") );
+    test_diag(q( at position: 35 (line 3 column 16)) );
+}
+else {
+    test_diag(q(    searched: "<html>\x{0a}    <head>\x{0a}        <title>Test Page</title>"...) );
+    test_diag(q(   and found: "Test Page") );
+    test_diag(q( at position: 33 (line 3 column 16)) );
+}
 $mech->content_lacks( 'Test Page', q{Shouldn't say it's a test page} );
 test_test( 'Handles not finding it' );
 
