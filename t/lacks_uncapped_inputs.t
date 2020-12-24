@@ -26,10 +26,12 @@ BAD: {
     $mech->get_ok( $uri ) or die;
 
     test_out( 'not ok 1 - This should have three errors found' );
-    test_fail( +4 );
+    test_fail( +6 );
     test_diag( q{foo has no maxlength attribute} );
     test_diag( q{quux has an invalid maxlength attribute of "dogs"} );
     test_diag( q{crunchy has an invalid maxlength attribute of "-1"} );
+    test_diag( q{bingo has an invalid maxlength attribute of ""} );
+    test_diag( q{bongo has an invalid maxlength attribute of "  "} );
     $mech->lacks_uncapped_inputs( 'This should have three errors found' );
     test_test( 'Detect uncapped' );
 }

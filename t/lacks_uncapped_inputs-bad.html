@@ -4,12 +4,14 @@
     </head>
     <body>
         <form name="testform">
-            <input name="foo" type="text" size="12"> <!-- this is one bad one with a missin maxlength -->
+            <input name="foo" type="text" size="12"> <!-- this is one bad one with a missing maxlength -->
             <input name="bar" type="radio">
             <input name="bat" type="text" disabled> <!-- no maxlength, but disabled so it's OK -->
             <input name="baz" type="text" maxlength=" 14 "> <!-- spaces shouldn't be a problem -->
             <input name="quux" type="text" size="12" maxlength="dogs"> <!-- not an integer -->
             <input name="crunchy" type="text" size="12" maxlength="-1"> <!-- negative -->
+            <input name="bingo" type="text" maxlength=""> <!-- blank -->
+            <input name="bongo" type="text" maxlength="  "> <!-- all blanks -->
         </form>
     </body>
 </html>
