@@ -1440,7 +1440,7 @@ sub _check_links_content {
     return @failures;
 }
 
-# Create an array of urls to match for mech to follow.
+# Create a list of urls to match for mech to follow.
 sub _format_links {
     my $links = shift;
 
@@ -1468,7 +1468,7 @@ sub _format_links {
 
 =head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
 
-Returns an array of strings, each string the text surrounded by an
+Returns a list of strings, each string the text surrounded by an
 element with attribute I<$attr> of value I<$value>.  You can also pass in
 a regular expression.  If nothing is found the return is an empty list.
 In scalar context the return is the first string found.
@@ -1894,7 +1894,7 @@ sub autotidy {
 
 =head2 $mech->grep_inputs( \%properties )
 
-grep_inputs() returns an array of all the input controls in the
+grep_inputs() returns a list of all the input controls in the
 current form whose properties match all of the regexes in $properties.
 The controls returned are all descended from HTML::Form::Input.
 
@@ -1903,7 +1903,7 @@ returned.
 
 If there is no current page, there is no form on the current
 page, or there are no submit controls in the current form
-then the return will be an empty array.
+then the return will be an empty list.
 
     # get all text controls whose names begin with "customer"
     my @customer_text_inputs =
@@ -1949,7 +1949,7 @@ sub grep_submits {
     return @found;
 }
 
-# search an array of hashrefs, returning an array of the incoming
+# search an array of hashrefs, returning a list of the incoming
 # hashrefs that match *all* the pattern in $patterns.
 sub _grep_hashes {
     my $hashes = shift;
@@ -2142,8 +2142,6 @@ Checks that all text input fields in the current form specify a maximum
 input length.  Fields for which the concept of input length is irrelevant,
 and controls that HTML does not allow to be capped (e.g. textarea)
 are ignored.
-
-The inputs in the returned array are descended from HTML::Form::Input.
 
 The return is true if the test succeeded, false otherwise.
 
