@@ -1440,7 +1440,7 @@ sub _check_links_content {
     return @failures;
 }
 
-# Create an array of urls to match for mech to follow.
+# Return a list of URLs to match for Mech to follow.
 sub _format_links {
     my $links = shift;
 
@@ -1468,7 +1468,7 @@ sub _format_links {
 
 =head2 $mech->scrape_text_by_attr( $attr, $attr_regex [, $html ] )
 
-Returns an array of strings, each string the text surrounded by an
+Returns a list of strings, each string the text surrounded by an
 element with attribute I<$attr> of value I<$value>.  You can also pass in
 a regular expression.  If nothing is found the return is an empty list.
 In scalar context the return is the first string found.
@@ -1894,18 +1894,18 @@ sub autotidy {
 
 =head2 $mech->grep_inputs( \%properties )
 
-grep_inputs() returns an array of all the input controls in the
-current form whose properties match all of the regexes in $properties.
+Returns a list of all the input controls in the
+current form whose properties match all of the regexes in C<$properties>.
 The controls returned are all descended from HTML::Form::Input.
 
-If $properties is undef or empty then all inputs will be
+If C<$properties> is undef or empty then all inputs will be
 returned.
 
 If there is no current page, there is no form on the current
 page, or there are no submit controls in the current form
-then the return will be an empty array.
+then the return will be an empty list.
 
-    # get all text controls whose names begin with "customer"
+    # Get all text controls whose names begin with "customer".
     my @customer_text_inputs =
         $mech->grep_inputs( {
             type => qr/^(text|textarea)$/,
@@ -1949,7 +1949,7 @@ sub grep_submits {
     return @found;
 }
 
-# search an array of hashrefs, returning an array of the incoming
+# Search an array of hashrefs, returning a list of the incoming
 # hashrefs that match *all* the pattern in $patterns.
 sub _grep_hashes {
     my $hashes = shift;
@@ -1958,13 +1958,13 @@ sub _grep_hashes {
     my @found;
 
     if ( ! %{$patterns} ) {
-        # nothing to match on, so return them all
+        # Nothing to match on, so return them all.
         @found = @{$hashes};
     }
     else {
         foreach my $hash ( @{$hashes} ) {
 
-            # check every pattern for a match on the current hash
+            # Check every pattern for a match on the current hash.
             my $matches_everything = 1;
             foreach my $pattern_key ( keys %{$patterns} ) {
                 $matches_everything = 0 unless exists $hash->{$pattern_key} && $hash->{$pattern_key} =~ $patterns->{$pattern_key};
@@ -2142,8 +2142,6 @@ Checks that all text input fields in the current form specify a maximum
 input length.  Fields for which the concept of input length is irrelevant,
 and controls that HTML does not allow to be capped (e.g. textarea)
 are ignored.
-
-The inputs in the returned array are descended from HTML::Form::Input.
 
 The return is true if the test succeeded, false otherwise.
 
