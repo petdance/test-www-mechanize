@@ -10,8 +10,15 @@ NEXT
 [FIXES]
 Removed some code that only runs on Perl 5.10+.
 
+Add check_all_images_ok(). (GH #17)
+
 [DOCUMENTATION]
 Fixed some incorrect docs. Thanks, Daniel Böhmer.
+
+[INTERNALS]
+Require Perl 5.10.
+
+Explicitly requires HTTP::Message 6.29 or higher.
 
 
 1.54    Tue Dec  8 23:25:06 CST 2020
