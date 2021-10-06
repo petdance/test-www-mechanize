@@ -2,6 +2,7 @@ package Test::WWW::Mechanize;
 
 use strict;
 use warnings;
+use feature 'state';
 
 =head1 NAME
 
@@ -2175,6 +2176,67 @@ sub lacks_uncapped_inputs {
 
     my $ok = $TB->ok( @uncapped == 0, $comment );
     $TB->diag( $_ ) for @uncapped;
+
+    return $ok;
+}
+
+=head2 $mech->check_all_images_ok( [%criterium ], [$comment] )
+
+Executes a test to make sure all images in the page can be downloaded. It
+does this by running C<HEAD> requests on them. The current page content stays the same.
+
+The test fails if any image cannot be found, but reports all of the ones that were not found.
+
+For a definition of I<all images>, see L<< C<images>in WWW::Mechanize|WWW::Mechanize/$mech->images >>.
+
+The optional C<%criterium> argument can be passed in before the C<$comment> and will be used to define
+which images should be considered. This is useful to filter out specific paths.
+
+    $mech->check_all_images_ok( url_regex => qr{^/}, 'All absolute images should exist');
+    $mech->check_all_images_ok( url_regex => qr{\.(?:gif|jpg)$}, 'All gif and jpg images should exist');
+    $mech->check_all_images_ok(
+        url_regex => qr{^((?!\Qhttps://googleads.g.doubleclick.net/\E).)*$},
+        'All images should exist, but Ignore the ones from Doubleclick'
+    );
+
+For a full list of possible arguments see L<< C<find_all_images>in WWW::Mechanize|WWW::Mechanize/$mech->find_all_images >>.
+
+The return is true if the test succeeded, false otherwise.
+
+=cut
+
+sub check_all_images_ok {
+    my $self = shift;
+    my @args = @_;
+
+    my $comment;
+    if ( @args % 2 ) {
+        $comment = pop @args;
+    }
+
+    $comment = 'All images in the page should exist' unless defined($comment);
+
+    require HTTP::Request::Common;
+
+    # cache images we've already checked between calls
+    state $head_cache;
+
+    my @not_ok;
+    foreach my $img ( map { $_->URI } $self->find_all_images(@args) ) {
+        my $abs = $img->abs;
+        if ( !$head_cache->{$abs}++ ) {
+
+    # WWW::Mechanize->_make_request makes a raw LWP::UserAgent request that does
+    # not show up in our history and does not mess with our current content.
+            my $res = $self->_make_request( HTTP::Request::Common::HEAD($abs) );
+            if ( not $res->is_success ) {
+                push( @not_ok, $img . ' returned code ' . $res->code );
+            }
+        }
+    }
+
+    my $ok = $TB->ok( @not_ok == 0, $comment );
+    $TB->diag($_) for @not_ok;
 
     return $ok;
 }

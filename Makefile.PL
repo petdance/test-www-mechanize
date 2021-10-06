@@ -13,6 +13,7 @@ my $parms = {
         'Carp'                      => 0,
         'Carp::Assert::More'        => '1.16',
         'HTML::Form'                => 0,
+        'HTTP::Message'             => '6.29',
         'HTTP::Server::Simple'      => '0.42',
         'HTTP::Server::Simple::CGI' => 0,
         'HTML::TokeParser'          => 0,
@@ -23,6 +24,7 @@ my $parms = {
         'URI::file'                 => 0,
         'WWW::Mechanize'            => '1.68',
     },
+    MIN_PERL_VERSION    => 5.010,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Test-WWW-Mechanize-*' },
 };
@@ -40,9 +42,6 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             repository  => 'git@github.com:petdance/test-www-mechanize.git',
         }
     };
-}
-if ( $ExtUtils::MakeMaker::VERSION ge '6.48' ) {
-    $parms->{MIN_PERL_VERSION} = 5.008;
 }
 
 my $module = 'HTML::Lint 2.20';
