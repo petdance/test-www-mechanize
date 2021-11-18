@@ -66,10 +66,22 @@ results in
 
 use HTML::TokeParser ();
 use WWW::Mechanize ();
-use Test::LongString;
+use Test::LongString qw(
+    contains_string
+    is_string
+    lacks_string
+    like_string
+    unlike_string
+);
 use Test::Builder ();
 use Carp ();
-use Carp::Assert::More;
+use Carp::Assert::More qw(
+    assert_arrayref
+    assert_in
+    assert_is
+    assert_isa
+    assert_nonblank
+);
 
 use parent 'WWW::Mechanize';
 
