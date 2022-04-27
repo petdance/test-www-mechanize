@@ -5,8 +5,10 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-NEXT
+1.56    Tue Apr 26 22:14:12 CDT 2022
 ------------------------------------
+This version of Test::WWW::Mechanize requires Perl 5.10.
+
 [FIXES]
 Removed some code that only runs on Perl 5.10+.
 
