@@ -2,7 +2,7 @@ package Test::WWW::Mechanize;
 
 use strict;
 use warnings;
-use feature 'state';
+use 5.010;
 
 =head1 NAME
 
@@ -2230,16 +2230,14 @@ sub check_all_images_ok {
 
     require HTTP::Request::Common;
 
-    # cache images we've already checked between calls
-    state $head_cache;
-
     my @not_ok;
     foreach my $img ( map { $_->URI } $self->find_all_images(@args) ) {
         my $abs = $img->abs;
-        if ( !$head_cache->{$abs}++ ) {
 
-    # WWW::Mechanize->_make_request makes a raw LWP::UserAgent request that does
-    # not show up in our history and does not mess with our current content.
+        state $head_cache; # Cache images we've already checked between calls.
+        if ( !$head_cache->{$abs}++ ) {
+            # WWW::Mechanize->_make_request makes a raw LWP::UserAgent request that does
+            # not show up in our history and does not mess with our current content.
             my $res = $self->_make_request( HTTP::Request::Common::HEAD($abs) );
             if ( not $res->is_success ) {
                 push( @not_ok, $img . ' returned code ' . $res->code );
@@ -2295,6 +2293,7 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize>
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to
+Julien Fiegehenn,
 @marderh,
 Eric A. Zarko,
 @moznion,
@@ -2316,7 +2315,7 @@ and Pete Krawczyk for patches.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004-2020 Andy Lester.
+Copyright 2004-2022 Andy Lester.
 
 This library is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License version 2.0.
