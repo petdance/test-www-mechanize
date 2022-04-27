@@ -67,6 +67,6 @@ test_test( 'Checks finding text in sub inline element in p' );
 
 test_out( 'ok 1 - Page has p tag with "Hi"');
 $mech->has_tag( 'p', 'Hi' );
-test_test( "Finding text in sub inline element in p" );
+test_test( 'Finding text in sub inline element in p' );
 
 done_testing();
