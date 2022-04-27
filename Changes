@@ -10,7 +10,9 @@ NEXT
 [FIXES]
 Removed some code that only runs on Perl 5.10+.
 
-Add check_all_images_ok(). (GH #17)
+Add check_all_images_ok(). (GH #17)  Thanks, Julien Fiegehenn.
+This is the first version of this function, and its functionality may
+change in the near future.
 
 [DOCUMENTATION]
 Fixed some incorrect docs. Thanks, Daniel Böhmer.
@@ -495,4 +497,3 @@ Sorichetti.
 0.01    Mon Jun 28 16:38:45 CDT 2004
 ------------------------------------
 First version, released on an unsuspecting world.
-
