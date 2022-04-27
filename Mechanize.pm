@@ -1641,7 +1641,7 @@ sub scraped_id_like {
 }
 
 
-=head2 id_exists( $id )
+=head2 $mech->id_exists( $id )
 
 Returns TRUE/FALSE if the given ID exists in the given HTML, or if none
 is provided, then the current page.
