@@ -5,7 +5,7 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-1.58
+1.58    Fri Apr 29 11:09:54 CDT 2022
 ------------------------------------
 [ENHANCEMENTS]
 Failed get_ok, post_ok, head_ok, put_ok, delete_ok calls now show the URL
