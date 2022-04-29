@@ -25,12 +25,15 @@ FOLLOW_BAD_LINK: {
     isa_ok( $mech, 'Test::WWW::Mechanize' );
 
     my $uri = URI::file->new_abs( 't/badlinks.html' );
+    my $bad_uri = $uri->as_string;
+
     my $path = $uri->file;
-    $path =~ s{\Qbadlinks.html}{bad1.html};
+    s{\Qbadlinks.html}{bad1.html} for ( $path, $bad_uri );
 
     $mech->get_ok( $uri->as_string );
     test_out('not ok 1 - Go after bad link');
-    test_fail(+3);
+    test_fail(+4);
+    test_diag( $bad_uri );
     test_diag( 404 ); # XXX Who is printing this 404, and should it be?
     test_diag( qq{File `$path' does not exist} );
     $mech->follow_link_ok( {n=>2}, 'Go after bad link' );

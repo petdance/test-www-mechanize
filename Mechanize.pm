@@ -233,16 +233,25 @@ sub _post_load_validation {
 
         if ( !$emitted_ok ) {
             $TB->ok( $ok, $desc );
+            if ( !$ok ) {
+                # Only show the URL and not the response message, because the
+                # problem is with the lint/tidy, not the fetching of the URL.
+                my $url = $self->_diag_url();
+                $TB->diag( $url ) if $url;
+            }
         }
     }
     else {
         $TB->ok( $ok, $desc );
+        my $url = $self->_diag_url();
+        $TB->diag( $url ) if $url;
         $TB->diag( $self->status );
         $TB->diag( $self->response->message ) if $self->response;
     }
 
     return $ok;
 }
+
 
 =head2 $mech->head_ok($url, [ \%LWP_options ,] $desc)
 
@@ -265,6 +274,8 @@ sub head_ok {
 
     $TB->ok( $ok, $desc );
     if ( !$ok ) {
+        my $url = $self->_diag_url();
+        $TB->diag( $url ) if $url;
         $TB->diag( $self->status );
         $TB->diag( $self->response->message ) if $self->response;
     }
@@ -323,6 +334,8 @@ sub put_ok {
     my $ok = $self->success;
     $TB->ok( $ok, $desc );
     if ( !$ok ) {
+        my $url = $self->_diag_url();
+        $TB->diag( $url ) if $url;
         $TB->diag( $self->status );
         $TB->diag( $self->response->message ) if $self->response;
     }
@@ -2250,6 +2263,16 @@ sub check_all_images_ok {
 
     return $ok;
 }
+
+
+sub _diag_url {
+    my $self = shift;
+
+    my $uri = $self->uri;
+
+    return $uri ? $uri->as_string : 'Unable to determine URL';
+}
+
 
 =head1 TODO
 
