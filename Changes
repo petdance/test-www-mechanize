@@ -5,14 +5,26 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
+1.58
+------------------------------------
+[ENHANCEMENTS]
+Failed get_ok, post_ok, head_ok, put_ok, delete_ok calls now show the URL
+as a diagnostic if there's a problem accessing the URL.  This apply to
+functions like submit_form_ok() and follow_link_ok() that are wrappers
+around these methods.
+
+
 1.56    Tue Apr 26 22:14:12 CDT 2022
 ------------------------------------
 This version of Test::WWW::Mechanize requires Perl 5.10.
 
-[FIXES]
+[ENHANCEMENTS]
 Add check_all_images_ok(). (GH #17)  Thanks, Julien Fiegehenn.
 This is the first version of this function, and its functionality may
 change in the near future.
+
+[FIXES]
+Removed some code that only runs on Perl 5.10+.
 
 [DOCUMENTATION]
 Fixed some incorrect docs. Thanks, Daniel Böhmer.

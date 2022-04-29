@@ -35,7 +35,8 @@ BAD_GET: {
     ok(!$mech->success, qq{sanity check: we can't load $badurl});
 
     test_out( 'not ok 1 - Try to get bad URL' );
-    test_fail( +3 );
+    test_fail( +4 );
+    test_diag( $badurl );
     test_diag( '404' );
     test_diag( qq{File `$abs_path' does not exist} );
     my $ok = $mech->get_ok( $badurl->as_string, 'Try to get bad URL' );
