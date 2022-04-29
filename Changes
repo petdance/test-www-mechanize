@@ -10,8 +10,6 @@ https://github.com/petdance/test-www-mechanize/issues
 This version of Test::WWW::Mechanize requires Perl 5.10.
 
 [FIXES]
-Removed some code that only runs on Perl 5.10+.
-
 Add check_all_images_ok(). (GH #17)  Thanks, Julien Fiegehenn.
 This is the first version of this function, and its functionality may
 change in the near future.
