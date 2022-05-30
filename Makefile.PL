@@ -39,7 +39,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             license     => 'https://opensource.org/licenses/artistic-license-2.0',
             homepage    => 'https://github.com/petdance/test-www-mechanize',
             bugtracker  => 'https://github.com/petdance/test-www-mechanize/issues',
-            repository  => 'git@github.com:petdance/test-www-mechanize.git',
+            repository  => 'https://github.com/petdance/test-www-mechanize',
         }
     };
 }
