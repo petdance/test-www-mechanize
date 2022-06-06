@@ -5,7 +5,21 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
-1.58    Fri Apr 29 11:09:54 CDT 2022
+NEXT
+------------------------------------
+[ENHANCMENTS]
+Added default test messages for button_exists_ok and lacks_button_ok
+methods.  Thanks, Daniel Böhmer (GH#70)
+
+[FIXES]
+Disable proxies in some of the tests that look at a local test server.
+(GH#55, GH#74)
+
+[DOCUMENTATION]
+Clarified some wording.  Thanks, Daniel Böhmer (GH#70)
+
+
+1.58    Fri Apr 29 11:23:39 CDT 2022
 ------------------------------------
 [ENHANCEMENTS]
 Failed get_ok, post_ok, head_ok, put_ok, delete_ok calls now show the URL
@@ -22,9 +36,6 @@ This version of Test::WWW::Mechanize requires Perl 5.10.
 Add check_all_images_ok(). (GH #17)  Thanks, Julien Fiegehenn.
 This is the first version of this function, and its functionality may
 change in the near future.
-
-[FIXES]
-Removed some code that only runs on Perl 5.10+.
 
 [DOCUMENTATION]
 Fixed some incorrect docs. Thanks, Daniel Böhmer.

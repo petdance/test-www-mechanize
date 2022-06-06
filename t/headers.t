@@ -14,7 +14,10 @@ my $server_root = $server->root;
 
 use Test::WWW::Mechanize ();
 
-my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
+my $mech = do {
+    local @ENV{qw( http_proxy HTTP_PROXY )};
+    Test::WWW::Mechanize->new( autocheck => 0 );
+};
 isa_ok($mech,'Test::WWW::Mechanize');
 $mech->get_ok( "$server_root/form.html" );
 

@@ -15,10 +15,12 @@ my $server      = TestServer->new;
 my $pid         = $server->background;
 my $server_root = $server->root;
 
-my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
-isa_ok($mech,'Test::WWW::Mechanize');
-
 GOOD_DELETE: {
+    local @ENV{qw( http_proxy HTTP_PROXY )};
+
+    my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
+    isa_ok($mech,'Test::WWW::Mechanize');
+
     my $scratch = "$server_root/scratch.html";
 
     $mech->delete_ok($scratch);

@@ -67,13 +67,7 @@ results in
 
 use HTML::TokeParser ();
 use WWW::Mechanize ();
-use Test::LongString qw(
-    contains_string
-    is_string
-    lacks_string
-    like_string
-    unlike_string
-);
+use Test::LongString;
 use Test::Builder ();
 use Carp ();
 use Carp::Assert::More qw(
@@ -1800,7 +1794,7 @@ sub lacks_ids_ok {
 
 =head2 $mech->button_exists( $button )
 
-Returns a boolean saying whether the submit C<$button> exists. Does not
+Returns a boolean saying whether a submit button with the name C<$button> exists. Does not
 do a test. For that you want C<button_exists_ok> or C<lacks_button_ok>.
 
 =cut
@@ -1829,7 +1823,7 @@ sub button_exists_ok {
 
     my $self   = shift;
     my $button = shift;
-    my $msg    = shift;
+    my $msg    = shift || qq{Button named "$button" exists};
 
     return $TB->ok( $self->button_exists( $button ), $msg );
 }
@@ -1837,7 +1831,7 @@ sub button_exists_ok {
 
 =head2 $mech->lacks_button_ok( $button [, $msg] )
 
-Asserts that the button exists on the page.
+Asserts that no button named C<$button> exists on the page.
 
 =cut
 
@@ -1846,7 +1840,7 @@ sub lacks_button_ok {
 
     my $self   = shift;
     my $button = shift;
-    my $msg    = shift;
+    my $msg    = shift || qq{No button named "$button" exists};
 
     return $TB->ok( !$self->button_exists( $button ), $msg );
 }
