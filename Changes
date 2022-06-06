@@ -11,6 +11,10 @@ NEXT
 Added default test messages for button_exists_ok and lacks_button_ok
 methods.  Thanks, Daniel Böhmer (GH#70)
 
+[FIXES]
+Disable proxies in some of the tests that look at a local test server.
+(GH#55, GH#74)
+
 [DOCUMENTATION]
 Clarified some wording.  Thanks, Daniel Böhmer (GH#70)
 
