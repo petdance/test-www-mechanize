@@ -5,6 +5,16 @@ bug tracking.  They are now being tracked via GitHub at
 https://github.com/petdance/test-www-mechanize/issues
 
 
+NEXT
+------------------------------------
+[ENHANCMENTS]
+Added default test messages for button_exists_ok and lacks_button_ok
+methods.  Thanks, Daniel Böhmer (GH#70)
+
+[DOCUMENTATION]
+Clarified some wording.  Thanks, Daniel Böhmer (GH#70)
+
+
 1.58    Fri Apr 29 11:23:39 CDT 2022
 ------------------------------------
 [ENHANCEMENTS]
