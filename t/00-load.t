@@ -12,7 +12,7 @@ use Test::WWW::Mechanize;
 
 pass( 'Modules loaded' );
 
-diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION undef Perl $], $^X" );
+diag( "Testing Test::WWW::Mechanize $Test::WWW::Mechanize::VERSION on Perl $], $^X" );
 diag( "LWP $LWP::VERSION" );
 diag( "WWW::Mechanize $WWW::Mechanize::VERSION" );
 diag( "Test::More $Test::More::VERSION" );
