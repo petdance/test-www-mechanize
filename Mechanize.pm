@@ -67,13 +67,7 @@ results in
 
 use HTML::TokeParser ();
 use WWW::Mechanize ();
-use Test::LongString qw(
-    contains_string
-    is_string
-    lacks_string
-    like_string
-    unlike_string
-);
+use Test::LongString;
 use Test::Builder ();
 use Carp ();
 use Carp::Assert::More qw(
