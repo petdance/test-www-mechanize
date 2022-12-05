@@ -43,6 +43,7 @@ t/page_links_content.t
 t/page_links_ok.t
 t/pod-coverage.t
 t/pod.t
+t/post_ok.t
 t/put_ok.t
 t/scrape_text_by_id.t
 t/stuff_inputs.html

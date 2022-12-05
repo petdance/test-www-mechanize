@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Test::Builder::Tester;
 use URI::file ();
 
@@ -10,6 +10,7 @@ use Test::WWW::Mechanize ();
 
 my $mech = Test::WWW::Mechanize->new( autocheck => 0 );
 isa_ok($mech,'Test::WWW::Mechanize');
+
 
 GOOD_GET: {
     my $goodlinks = URI::file->new_abs( 't/goodlinks.html' )->as_string;
@@ -46,4 +47,16 @@ BAD_GET: {
     ok( !$ok, 'And the result should be false' );
 }
 
+
+UNDEF_URL: {
+    test_out( 'not ok 1 - Passing undef for a URL' );
+    test_fail( +2 );
+    test_diag( 'URL cannot be undef.' );
+    my $ok = $mech->get_ok( undef, 'Passing undef for a URL' );
+    test_test( 'Undef URLs' );
+}
+
+
 done_testing();
+
+exit 0;

@@ -183,6 +183,12 @@ sub get_ok {
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'GET', @_ );
 
+    if ( !defined($url) ) {
+        my $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'URL cannot be undef.' );
+        return $ok;
+    }
+
     $self->get( $url, %opts );
     my $ok = $self->success;
 
@@ -263,6 +269,12 @@ sub head_ok {
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'HEAD', @_ );
 
+    if ( !defined($url) ) {
+        my $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'URL cannot be undef.' );
+        return $ok;
+    }
+
     $self->head( $url, %opts );
     my $ok = $self->success;
 
@@ -300,6 +312,12 @@ sub post_ok {
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'POST', @_ );
 
+    if ( !defined($url) ) {
+        my $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'URL cannot be undef.' );
+        return $ok;
+    }
+
     $self->post( $url, \%opts );
     my $ok = $self->success;
     $ok = $self->_post_load_validation( $ok, $desc );
@@ -322,6 +340,13 @@ sub put_ok {
     my $self = shift;
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'PUT', @_ );
+
+    if ( !defined($url) ) {
+        my $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'URL cannot be undef.' );
+        return $ok;
+    }
+
     $opts{content} = '' if !exists $opts{content};
     $self->put( $url, %opts );
 
@@ -352,6 +377,12 @@ sub delete_ok {
     my $self = shift;
 
     my ($url,$desc,%opts) = $self->_unpack_args( 'DELETE', @_ );
+
+    if ( !defined($url) ) {
+        my $ok = $TB->ok( 0, $desc );
+        $TB->diag( 'URL cannot be undef.' );
+        return $ok;
+    }
 
     if ($self->can('delete')) {
         $self->delete( $url, %opts );

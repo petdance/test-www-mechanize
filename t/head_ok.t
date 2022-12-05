@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 use Test::WWW::Mechanize;
 
@@ -48,5 +48,15 @@ BAD_HEAD: {
     is( ref($ok), '', 'head_ok() should only return a scalar' );
     ok( !$ok, 'And the result should be false' );
 }
+
+
+UNDEF_URL: {
+    test_out( 'not ok 1 - Passing undef for a URL' );
+    test_fail( +2 );
+    test_diag( 'URL cannot be undef.' );
+    my $ok = $mech->head_ok( undef, 'Passing undef for a URL' );
+    test_test( 'Undef URLs' );
+}
+
 
 done_testing();

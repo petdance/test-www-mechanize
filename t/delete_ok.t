@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Builder::Tester;
 
 use Test::WWW::Mechanize ();
@@ -48,6 +48,22 @@ GOOD_DELETE: {
     *Test::WWW::Mechanize::can = *UNIVERSAL::can{CODE};
 }
 
+
+UNDEF_URL: {
+    my $mech = Test::WWW::Mechanize->new();
+
+    test_out( 'not ok 1 - Passing undef for a URL' );
+    test_fail( +2 );
+    test_diag( 'URL cannot be undef.' );
+    my $ok = $mech->delete_ok( undef, 'Passing undef for a URL' );
+    test_test( 'Undef URLs' );
+}
+
+
+
 $server->stop;
 
 done_testing();
+
+
+exit 0;
