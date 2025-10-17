@@ -62,7 +62,7 @@ jobs:
           - "5.10"
 
     container:
-      image: perl:${{ matrix.perl-version }}
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
 
     steps:
       - uses: actions/checkout@v2
