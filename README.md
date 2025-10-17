@@ -1,3 +1,7 @@
+[![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic_2.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
+[![CPAN Version](https://img.shields.io/cpan/v/Test-WWW-Mechanize)](https://metacpan.org/dist/Test-WWW-Mechanize)
+[![kwalitee](https://cpants.cpanauthors.org/dist/Test-WWW-Mechanize.svg)](https://cpants.cpanauthors.org/dist/Test-WWW-Mechanize)
+
 # Test-WWW-Mechanize
 
 * Build status: [![Build Status](https://github.com/petdance/test-www-mechanize/workflows/testsuite/badge.svg?branch=dev)](https://github.com/petdance/test-www-mechanize/actions?query=workflow%3Atestsuite+branch%3Adev)
